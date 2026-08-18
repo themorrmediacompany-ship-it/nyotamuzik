@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="description" content="NYOTA Frequency Machine NFM-01: a playable web instrument built on the five Nyota energies.">
+<title>NYOTA | Frequency Machine NFM-01</title>
+<link rel="canonical" href="https://nyotamuzik.com/Frequency.dc.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NYOTA">
+<meta property="og:title" content="NYOTA | Frequency Machine NFM-01">
+<meta property="og:description" content="Five energies. One instrument. Play the Nyota Frequency Machine.">
+<meta property="og:image" content="https://nyotamuzik.com/assets/icon-social.png">
+<link rel="icon" type="image/png" href="assets/icon-social.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; background: #030302; color: #f7f2e8; overflow: hidden; -webkit-user-select: none; user-select: none; }
+a { color: #d4a437; text-decoration: none; }
+a:hover { color: #e8c56a; }
+button { font-family: inherit; }
+button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164,55,.8); outline-offset: 3px; }
+@keyframes nfmFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes nfmBlink { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01s !important; } }
+</style>
+</helmet>
+<div style="position:fixed;inset:0;background:radial-gradient(ellipse 90% 80% at 50% 30%, #0a0908, #030302 75%);display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif">
+
+<sc-if value="{{ inBoot }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;animation:nfmFade 1s ease both;z-index:50">
+    <img src="assets/logo-gold.png" alt="Nyota" style="width:min(120px,30vw);opacity:.9"></img>
+    <div style="font-family:Cinzel,serif;font-size:clamp(20px,3.4vw,30px);letter-spacing:.44em;margin-top:18px">NYOTA</div>
+    <div style="font-size:10px;letter-spacing:.5em;color:rgba(247,242,232,.5)">FREQUENCY MACHINE</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.3em;color:rgba(212,164,55,.7)">NFM-01</div>
+    <sc-if value="{{ bootIdle }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ initialize }}" style="margin-top:30px;padding:15px 46px;border-radius:4px;border:1px solid rgba(212,164,55,.5);background:linear-gradient(180deg,#181510,#0c0a07);color:#e8c56a;font-size:11px;letter-spacing:.4em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 8px 24px rgba(0,0,0,.6);transition:all .4s ease" style-hover="border-color:#d4a437;box-shadow:0 0 26px rgba(212,164,55,.2)" style-active="transform:translateY(1px)">INITIALIZE</button>
+    </sc-if>
+    <sc-if value="{{ bootBusy }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:30px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.34em;color:#d4a437;animation:nfmBlink 1.1s ease-in-out infinite">{{ bootText }}</div>
+    </sc-if>
+  </div>
+</sc-if>
+
+<sc-if value="{{ inMachine }}" hint-placeholder-val="{{ false }}">
+<div style="width:min(1380px,calc(100vw - 16px));height:min(860px,calc(100dvh - 16px));display:flex;flex-direction:column;background:linear-gradient(165deg,#12100d,#0a0908 55%,#0d0b09);border:1px solid rgba(255,255,255,.07);border-radius:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06), inset 0 -2px 6px rgba(0,0,0,.7), 0 40px 90px rgba(0,0,0,.8);overflow-y:auto;overflow-x:hidden;animation:nfmFade .8s ease both">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 18px;border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(0,0,0,.25))">
+    <a href="Nyota.dc.html" style="display:flex;align-items:baseline;gap:10px;color:#f7f2e8" title="Back to nyotamuzik.com">
+      <span style="font-family:Cinzel,serif;font-size:16px;letter-spacing:.34em;color:#f7f2e8">NYOTA</span>
+      <span style="font-size:8px;letter-spacing:.4em;color:rgba(247,242,232,.45)">FREQUENCY MACHINE</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;color:rgba(212,164,55,.6)">NFM-01</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button onClick="{{ patchPrev }}" aria-label="Previous patch" style="width:26px;height:26px;border-radius:3px;border:1px solid rgba(255,255,255,.12);background:#0c0a08;color:rgba(247,242,232,.6);cursor:pointer;font-size:10px" style-active="transform:translateY(1px)">◂</button>
+      <div style="min-width:150px;text-align:center;padding:5px 12px;border-radius:3px;border:1px solid rgba(255,255,255,.08);background:#060504;font-family:'IBM Plex Mono',monospace">
+        <div style="font-size:8px;letter-spacing:.3em;color:rgba(212,164,55,.65)">PATCH {{ patchNum }}</div>
+        <div style="font-size:11px;letter-spacing:.18em;color:#e8c56a">{{ patchName }}</div>
+      </div>
+      <button onClick="{{ patchNext }}" aria-label="Next patch" style="width:26px;height:26px;border-radius:3px;border:1px solid rgba(255,255,255,.12);background:#0c0a08;color:rgba(247,242,232,.6);cursor:pointer;font-size:10px" style-active="transform:translateY(1px)">▸</button>
+    </div>
+    <div tabIndex="0" onPointerDown="{{ bpmDrag }}" onWheel="{{ bpmWheel }}" onKeyDown="{{ bpmKey }}" role="slider" aria-label="Tempo" aria-valuenow="{{ bpm }}" style="text-align:right;padding:5px 14px;border-radius:3px;border:1px solid rgba(255,255,255,.08);background:#060504;cursor:ns-resize;touch-action:none">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:19px;letter-spacing:.08em;color:#f3e2b3;text-shadow:0 0 10px rgba(212,164,55,.4)">{{ bpmDisp }}</div>
+      <div style="font-size:7px;letter-spacing:.4em;color:rgba(247,242,232,.4);text-align:center">BPM · DRAG</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:0;flex:1;min-height:fit-content">
+    <div style="display:{{ secSound }};flex-direction:column;gap:5px;padding:12px 10px;border-right:1px solid rgba(255,255,255,.06);width:118px;flex-shrink:0">
+      <div style="font-size:7px;letter-spacing:.4em;color:rgba(247,242,232,.35);padding:0 4px 4px">ENGINE</div>
+      <sc-for list="{{ engines }}" as="e" hint-placeholder-count="5">
+        <button onClick="{{ e.pick }}" aria-pressed="{{ e.on }}" style="display:flex;align-items:center;gap:8px;padding:8px;border-radius:4px;border:1px solid {{ e.border }};background:{{ e.bg }};cursor:pointer;transition:all .3s ease;text-align:left" style-hover="border-color:rgba(212,164,55,.5)" style-active="transform:translateY(1px)">
+          <img ref="{{ e.setSigil }}" alt="" style="width:20px;height:20px;object-fit:contain;filter:{{ e.sigFilter }};transition:filter .4s ease"></img>
+          <span style="flex:1;font-size:8px;letter-spacing:.22em;color:{{ e.color }}">{{ e.name }}</span>
+          <span ref="{{ e.ledRef }}" style="width:5px;height:5px;border-radius:50%;background:{{ e.led }};box-shadow:{{ e.ledGlow }}"></span>
+        </button>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;gap:5px">
+        <button onClick="{{ evolve }}" style="flex:1;padding:9px 4px;border-radius:4px;border:1px solid rgba(212,164,55,.4);background:linear-gradient(180deg,#161310,#0b0906);color:#e8c56a;font-size:8px;letter-spacing:.24em;cursor:pointer" style-active="transform:translateY(1px)" title="Musically safe randomization">EVOLVE</button>
+        <button onClick="{{ mutate }}" style="flex:1;padding:9px 4px;border-radius:4px;border:1px solid rgba(255,255,255,.12);background:#0c0a08;color:rgba(247,242,232,.6);font-size:8px;letter-spacing:.24em;cursor:pointer" style-active="transform:translateY(1px)" title="Mutate 25%">MUTATE</button>
+      </div>
+    </div>
+
+    <div style="display:{{ secSound }};flex-direction:column;flex:1.2;min-width:0;padding:12px;gap:8px">
+      <div style="position:relative;flex:1;min-height:120px;border-radius:6px;border:1px solid rgba(212,164,55,.18);background:#040302;box-shadow:inset 0 0 40px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.04);overflow:hidden">
+        <canvas ref="{{ oledRef }}" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+        <div style="position:absolute;top:8px;left:12px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.3em;color:{{ selAccent }}">{{ selName }}</div>
+        <div style="position:absolute;top:8px;right:12px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;color:rgba(212,164,55,.6)">{{ oledInfo }}</div>
+        <div style="position:absolute;bottom:8px;left:12px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;color:rgba(247,242,232,.4)">{{ oledParam }}</div>
+        <div style="position:absolute;bottom:8px;right:12px;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.24em;color:rgba(247,242,232,.35)">BAR {{ barDisp }}</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <span style="font-size:7px;letter-spacing:.34em;color:rgba(247,242,232,.35)">WAVE</span>
+        <sc-for list="{{ waveOpts }}" as="w" hint-placeholder-count="0">
+          <button onClick="{{ w.pick }}" aria-pressed="{{ w.on }}" style="padding:6px 9px;border-radius:3px;border:1px solid {{ w.border }};background:{{ w.bg }};color:{{ w.color }};font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;cursor:pointer;transition:all .3s ease" style-active="transform:translateY(1px)">{{ w.name }}</button>
+        </sc-for>
+        <div style="flex:1"></div>
+        <span style="font-size:7px;letter-spacing:.34em;color:rgba(247,242,232,.35)">LFO→</span>
+        <sc-for list="{{ destOpts }}" as="w" hint-placeholder-count="0">
+          <button onClick="{{ w.pick }}" aria-pressed="{{ w.on }}" style="padding:6px 8px;border-radius:3px;border:1px solid {{ w.border }};background:{{ w.bg }};color:{{ w.color }};font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;cursor:pointer;transition:all .3s ease" style-active="transform:translateY(1px)">{{ w.name }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:{{ secSound }};flex-direction:column;padding:12px 14px;border-left:1px solid rgba(255,255,255,.06);width:min(420px,34vw);flex-shrink:0;gap:2px;overflow-y:auto">
+      <sc-for list="{{ knobGroups }}" as="grp" hint-placeholder-count="0">
+        <div style="font-size:7px;letter-spacing:.4em;color:rgba(247,242,232,.35);padding:6px 2px 6px;border-top:1px solid rgba(255,255,255,.05)">{{ grp.title }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px 14px;padding-bottom:8px">
+          <sc-for list="{{ grp.knobs }}" as="k" hint-placeholder-count="0">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;width:{{ k.w }}">
+              <div tabIndex="0" role="slider" aria-label="{{ k.label }}" aria-valuenow="{{ k.pct }}" onPointerDown="{{ k.down }}" onDoubleClick="{{ k.reset }}" onWheel="{{ k.wheel }}" onKeyDown="{{ k.key }}" style="position:relative;width:{{ k.d }};height:{{ k.d }};border-radius:50%;cursor:ns-resize;touch-action:none;background:{{ k.arc }}">
+                <div style="position:absolute;inset:5px;border-radius:50%;background:radial-gradient(circle at 36% 28%, #24211c, #0d0b09 70%);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 1px rgba(255,255,255,.12), inset 0 -4px 8px rgba(0,0,0,.7), 0 5px 12px rgba(0,0,0,.6)"></div>
+                <div style="position:absolute;inset:5px;border-radius:50%;transform:rotate({{ k.rot }}deg)">
+                  <div style="position:absolute;left:50%;top:8%;width:2px;height:26%;margin-left:-1px;border-radius:2px;background:{{ k.ind }};box-shadow:0 0 6px {{ k.ind }}"></div>
+                </div>
+              </div>
+              <div style="font-size:7px;letter-spacing:.24em;color:rgba(247,242,232,.5);text-align:center;white-space:nowrap">{{ k.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:{{ secSeq }};flex-direction:column;gap:7px;padding:10px 18px;border-top:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(255,255,255,.015))">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:7px;letter-spacing:.4em;color:rgba(247,242,232,.35)">SEQUENCE · {{ selName }}</span>
+      <div style="flex:1"></div>
+      <span style="font-size:7px;letter-spacing:.3em;color:rgba(247,242,232,.35)">LENGTH</span>
+      <sc-for list="{{ lenOpts }}" as="l" hint-placeholder-count="0">
+        <button onClick="{{ l.pick }}" aria-pressed="{{ l.on }}" style="padding:4px 8px;border-radius:3px;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.color }};font-family:'IBM Plex Mono',monospace;font-size:8px;cursor:pointer" style-active="transform:translateY(1px)">{{ l.name }}</button>
+      </sc-for>
+    </div>
+    <sc-for list="{{ seqRows }}" as="row" hint-placeholder-count="1">
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="width:44px;font-size:7px;letter-spacing:.2em;color:rgba(247,242,232,.45);font-family:'IBM Plex Mono',monospace">{{ row.label }}</span>
+        <div style="display:flex;gap:4px;flex:1">
+          <sc-for list="{{ row.steps }}" as="s" hint-placeholder-count="16">
+            <button onClick="{{ s.tap }}" aria-label="{{ s.aria }}" aria-pressed="{{ s.on }}" style="flex:1;height:26px;min-width:0;border-radius:3px;border:1px solid {{ s.border }};background:{{ s.bg }};box-shadow:{{ s.glow }};cursor:pointer;margin-right:{{ s.gap }};transition:background .15s ease, box-shadow .15s ease;padding:0" style-active="transform:translateY(1px)"></button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:{{ secBottom }};gap:0;border-top:1px solid rgba(255,255,255,.06)">
+    <div style="display:{{ secPlay }};flex-direction:column;gap:6px;padding:12px 16px;flex:1">
+      <div style="font-size:7px;letter-spacing:.4em;color:rgba(247,242,232,.35)">PERFORM</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;flex:1">
+        <sc-for list="{{ pads }}" as="p" hint-placeholder-count="8">
+          <button onPointerDown="{{ p.hit }}" aria-label="{{ p.aria }}" style="position:relative;min-height:44px;border-radius:5px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(180deg,#191613,#0d0b09);box-shadow:inset 0 1px 0 rgba(255,255,255,.07), inset 0 -3px 6px rgba(0,0,0,.6), 0 4px 10px rgba(0,0,0,.5);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:box-shadow .1s ease" style-active="transform:translateY(2px);box-shadow:inset 0 2px 8px rgba(0,0,0,.8), 0 0 18px rgba(212,164,55,.25)">
+            <span ref="{{ p.ledRef }}" style="font-size:8px;letter-spacing:.24em;color:rgba(247,242,232,.6)">{{ p.label }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:7px;color:rgba(212,164,55,.45)">{{ p.keyLabel }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:{{ secPlay }};flex-direction:column;gap:6px;padding:12px 10px;border-left:1px solid rgba(255,255,255,.06);width:min(300px,30vw);flex-shrink:0">
+      <div style="display:flex;justify-content:space-between;font-size:7px;letter-spacing:.34em;color:rgba(247,242,232,.35)"><span>ENERGY FIELD</span><span style="color:rgba(184,167,217,.6)">SKY</span></div>
+      <div ref="{{ xyRef }}" onPointerDown="{{ xyDown }}" role="application" aria-label="Energy field, drag to balance the five energies" style="position:relative;flex:1;min-height:120px;border-radius:6px;border:1px solid rgba(212,164,55,.16);background:radial-gradient(ellipse 70% 70% at 50% 50%, #0a0806, #040302),repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 20%);cursor:crosshair;touch-action:none;overflow:hidden">
+        <span style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:7px;letter-spacing:.3em;color:rgba(140,98,57,.7)">DARK</span>
+        <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:7px;letter-spacing:.3em;color:rgba(212,164,55,.7)">LIGHT</span>
+        <span style="position:absolute;left:50%;bottom:6px;transform:translateX(-50%);font-size:7px;letter-spacing:.3em;color:rgba(83,199,192,.6)">GROUND</span>
+        <div ref="{{ xyDotRef }}" style="position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:radial-gradient(circle at 36% 30%, #f3e2b3, #c79a2e 60%, #6f5416);box-shadow:0 0 18px rgba(212,164,55,.7), 0 3px 8px rgba(0,0,0,.7);left:55%;top:50%;pointer-events:none"></div>
+      </div>
+    </div>
+    <div style="display:{{ secMix }};gap:8px;padding:12px 16px;border-left:1px solid rgba(255,255,255,.06);flex-shrink:0">
+      <sc-for list="{{ mixCh }}" as="c" hint-placeholder-count="6">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:5px;width:40px">
+          <span ref="{{ c.meterRef }}" style="width:4px;height:10px;border-radius:2px;background:rgba(212,164,55,.15)"></span>
+          <div onPointerDown="{{ c.down }}" tabIndex="0" role="slider" aria-label="{{ c.aria }}" aria-valuenow="{{ c.pct }}" onKeyDown="{{ c.key }}" style="position:relative;width:24px;flex:1;min-height:80px;border-radius:3px;background:linear-gradient(180deg,#060504,#0d0b09);border:1px solid rgba(255,255,255,.07);box-shadow:inset 0 2px 6px rgba(0,0,0,.8);cursor:ns-resize;touch-action:none">
+            <div style="position:absolute;left:50%;top:6%;bottom:6%;width:2px;margin-left:-1px;background:rgba(255,255,255,.06)"></div>
+            <div style="position:absolute;left:50%;bottom:calc(6% + {{ c.pos }}%);width:22px;height:12px;margin-left:-11px;border-radius:2px;background:linear-gradient(180deg,#2a2721,#12100c);border:1px solid rgba(255,255,255,.14);box-shadow:0 3px 7px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.12);pointer-events:none"><div style="margin:5px 3px 0;height:1px;background:{{ c.accent }}"></div></div>
+          </div>
+          <button onClick="{{ c.muteTap }}" aria-label="Mute {{ c.label }}" style="width:16px;height:12px;border-radius:2px;border:1px solid rgba(255,255,255,.12);background:{{ c.muteBg }};cursor:pointer;padding:0" title="Mute"></button>
+          <span style="font-size:7px;letter-spacing:.16em;color:{{ c.labColor }};font-family:'IBM Plex Mono',monospace">{{ c.label }}</span>
+        </div>
+      </sc-for>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding-left:8px;border-left:1px solid rgba(255,255,255,.05)">
+        <div tabIndex="0" role="slider" aria-label="Eclipse master effect" aria-valuenow="{{ eclPct }}" onPointerDown="{{ eclDown }}" onDoubleClick="{{ eclReset }}" onWheel="{{ eclWheel }}" onKeyDown="{{ eclKey }}" style="position:relative;width:78px;height:78px;border-radius:50%;cursor:ns-resize;touch-action:none;background:{{ eclArc }}">
+          <div style="position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle at 36% 28%, #26221c, #0a0806 72%);border:1px solid rgba(212,164,55,.25);box-shadow:inset 0 1px 1px rgba(255,255,255,.12), inset 0 -6px 12px rgba(0,0,0,.8), 0 8px 18px rgba(0,0,0,.7)"></div>
+          <div style="position:absolute;inset:6px;border-radius:50%;transform:rotate({{ eclRot }}deg)"><div style="position:absolute;left:50%;top:9%;width:3px;height:24%;margin-left:-1.5px;border-radius:2px;background:#e8c56a;box-shadow:0 0 8px rgba(212,164,55,.8)"></div></div>
+        </div>
+        <span style="font-size:7px;letter-spacing:.34em;color:#e8c56a">ECLIPSE</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;padding:9px 18px calc(9px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.35))">
+    <button onClick="{{ playTap }}" aria-label="{{ playAria }}" style="width:52px;height:34px;border-radius:4px;border:1px solid {{ playBorder }};background:{{ playBg }};color:{{ playColor }};font-size:12px;cursor:pointer;box-shadow:{{ playGlow }};transition:all .3s ease" style-active="transform:translateY(1px)">{{ playIcon }}</button>
+    <button onClick="{{ stopTap }}" aria-label="Stop" style="width:40px;height:34px;border-radius:4px;border:1px solid rgba(255,255,255,.12);background:#0c0a08;color:rgba(247,242,232,.6);font-size:10px;cursor:pointer" style-active="transform:translateY(1px)">■</button>
+    <button onClick="{{ tapTempo }}" style="padding:9px 12px;border-radius:4px;border:1px solid rgba(255,255,255,.12);background:#0c0a08;color:rgba(247,242,232,.55);font-size:8px;letter-spacing:.3em;cursor:pointer" style-active="transform:translateY(1px)">TAP</button>
+    <div style="display:flex;align-items:center;gap:7px">
+      <span style="font-size:7px;letter-spacing:.3em;color:rgba(247,242,232,.35)">SWING</span>
+      <div tabIndex="0" role="slider" aria-label="Swing" aria-valuenow="{{ swingPct }}" onPointerDown="{{ swingDown }}" onDoubleClick="{{ swingReset }}" onWheel="{{ swingWheel }}" onKeyDown="{{ swingKey }}" style="position:relative;width:34px;height:34px;border-radius:50%;cursor:ns-resize;touch-action:none;background:{{ swingArc }}">
+        <div style="position:absolute;inset:4px;border-radius:50%;background:radial-gradient(circle at 36% 28%, #221f1a, #0c0a08 70%);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 1px 1px rgba(255,255,255,.1), 0 4px 9px rgba(0,0,0,.6)"></div>
+        <div style="position:absolute;inset:4px;border-radius:50%;transform:rotate({{ swingRot }}deg)"><div style="position:absolute;left:50%;top:10%;width:2px;height:26%;margin-left:-1px;background:#d4a437"></div></div>
+      </div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,242,232,.55);min-width:28px">{{ swingDisp }}</span>
+    </div>
+    <div style="flex:1"></div>
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;gap:4px">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="0">
+          <button onClick="{{ t.pick }}" aria-pressed="{{ t.on }}" style="padding:8px 10px;border-radius:3px;border:1px solid {{ t.border }};background:{{ t.bg }};color:{{ t.color }};font-size:8px;letter-spacing:.22em;cursor:pointer">{{ t.name }}</button>
+        </sc-for>
+      </div>
+    </sc-if>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.2em;color:{{ hintColor }};max-width:300px;text-align:right">{{ hintText }}</div>
+  </div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;100%&quot;}}">
+class Component extends DCLogic {
+  state = { phase: 'boot', bootText: 'POWERING ON', sel: 'rhythm', playing: false, playStep: -1, bpm: 124, swing: 0.54, eclipse: 0, tab: 'PLAY', narrow: false, patch: { num: '001', name: 'FIRST LIGHT', i: 0 }, drag: null, tick: 0 };
+  ACCENTS = { solar: '#d4a437', lunar: '#b8a7d9', rhythm: '#53c7c0', ancestor: '#a97c4a', eclipse: '#d4b76a' };
+  componentDidMount() {
+    this._pads = {}; this._leds = {}; this._meters = {};
+    import('./nfm-engine.js').then(m => { this._mod = m; });
+    this._onR = () => this.setState({ narrow: innerWidth <= 900 });
+    this._onR(); addEventListener('resize', this._onR);
+    this._onKey = e => this.keyPerform(e);
+    addEventListener('keydown', this._onKey);
+  }
+  componentWillUnmount() {
+    removeEventListener('resize', this._onR); removeEventListener('keydown', this._onKey);
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._nfm) this._nfm.stop();
+  }
+  async initialize() {
+    this.setState({ phase: 'booting', bootText: 'POWERING ON' });
+    if (!this._mod) this._mod = await import('./nfm-engine.js');
+    this._nfm = this._mod.createNFM();
+    await this._nfm.boot();
+    this._nfm.onStep((s) => { this._step = s; this.setState({ playStep: s }); });
+    setTimeout(() => this.setState({ bootText: 'FREQUENCY DETECTED' }), 800);
+    setTimeout(() => { this.setState({ phase: 'machine' }); this.startLoop(); }, 1700);
+  }
+  keyPerform(e) {
+    if (this.state.phase !== 'machine' || e.metaKey || e.ctrlKey) return;
+    const tag = (e.target && e.target.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    const padKeys = ['a','s','d','f','j','k','l',';'];
+    const k = e.key.toLowerCase();
+    if (k === ' ') { e.preventDefault(); this.togglePlay(); }
+    else if (padKeys.includes(k)) { this.hitPad(padKeys.indexOf(k)); }
+    else if (['1','2','3','4','5'].includes(k)) { this.setState({ sel: ['solar','lunar','rhythm','ancestor','eclipse'][+k - 1] }); }
+    else if (k === 'e') { this.setEclipse(this.state.eclipse > 0.5 ? 0 : 1); }
+  }
+  togglePlay() {
+    if (!this._nfm) return;
+    if (this._nfm.isPlaying()) { this._nfm.stop(); this.setState({ playing: false, playStep: -1 }); }
+    else { this._nfm.play(); this.setState({ playing: true }); }
+  }
+  hitPad(i) {
+    if (!this._nfm) return;
+    this._nfm.pad(i);
+    const el = this._pads[i];
+    if (el) { el.style.color = '#e8c56a'; setTimeout(() => { el.style.color = 'rgba(247,242,232,.6)'; }, 140); }
+  }
+  setEclipse(v) { this.setState({ eclipse: v }); this._nfm && this._nfm.setEclipse(v); }
+  // generic vertical-drag control binding
+  bindDrag(getV, setV, label, fmt) {
+    return e => {
+      e.preventDefault();
+      const startY = e.clientY, startV = getV();
+      const move = ev => {
+        const fine = ev.shiftKey ? 0.25 : 1;
+        const v = Math.max(0, Math.min(1, startV + (startY - ev.clientY) / 160 * fine));
+        setV(v); this.setState({ drag: { label, text: fmt(v) } });
+      };
+      const up = () => { removeEventListener('pointermove', move); removeEventListener('pointerup', up); setTimeout(() => this.setState({ drag: null }), 700); };
+      addEventListener('pointermove', move); addEventListener('pointerup', up);
+    };
+  }
+  startLoop() {
+    const draw = () => {
+      this._raf = requestAnimationFrame(draw);
+      const cv = this._oled, nfm = this._nfm;
+      if (cv && nfm) {
+        const w = cv.clientWidth, h = cv.clientHeight;
+        if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+        const cx = cv.getContext('2d');
+        cx.fillStyle = '#040302'; cx.fillRect(0, 0, w, h);
+        cx.strokeStyle = 'rgba(212,164,55,.08)'; cx.lineWidth = 1;
+        for (let y = 1; y < 4; y++) { cx.beginPath(); cx.moveTo(0, h * y / 4); cx.lineTo(w, h * y / 4); cx.stroke(); }
+        if (!this._wave) this._wave = new Uint8Array(256);
+        nfm.getWave(this.state.sel, this._wave);
+        cx.strokeStyle = this.ACCENTS[this.state.sel]; cx.lineWidth = 1.6;
+        cx.shadowColor = this.ACCENTS[this.state.sel]; cx.shadowBlur = 6;
+        cx.beginPath();
+        for (let i = 0; i < 256; i++) { const x = i / 255 * w, y = h / 2 + (this._wave[i] - 128) / 128 * h * 0.42; i ? cx.lineTo(x, y) : cx.moveTo(x, y); }
+        cx.stroke(); cx.shadowBlur = 0;
+        if (this.state.playing && this._step != null) {
+          const seq = nfm.seq[this.state.sel];
+          const x = ((this._step % seq.length) / seq.length) * w;
+          cx.fillStyle = 'rgba(212,164,55,.12)'; cx.fillRect(x, 0, 2, h);
+        }
+        for (const id in this._leds) {
+          const el = this._leds[id]; if (!el) continue;
+          const lv = Math.min(1, nfm.getLevel(id) * 2.4);
+          el.style.background = lv > 0.04 ? this.ACCENTS[id] : 'rgba(247,242,232,.12)';
+          el.style.boxShadow = lv > 0.04 ? '0 0 ' + (3 + lv * 9).toFixed(0) + 'px ' + this.ACCENTS[id] : 'none';
+        }
+        for (const id in this._meters) {
+          const el = this._meters[id]; if (!el) continue;
+          const lv = id === 'master' ? Math.min(1, (nfm.getLevel('rhythm') + nfm.getLevel('eclipse') + nfm.getLevel('solar')) * 1.2) : Math.min(1, nfm.getLevel(id) * 2.4);
+          el.style.background = 'rgba(212,164,55,' + (0.15 + lv * 0.85).toFixed(2) + ')';
+          el.style.boxShadow = lv > 0.3 ? '0 0 6px rgba(212,164,55,.6)' : 'none';
+        }
+      }
+    };
+    draw();
+  }
+  arc(v, accent, from) { // LED arc conic gradient for knobs
+    const a0 = -135, a1 = a0 + v * 270;
+    return 'conic-gradient(from 180deg, rgba(255,255,255,.05) 0deg ' + (a0 + 180) + 'deg, ' + accent + ' ' + (a0 + 180) + 'deg ' + (a1 + 180) + 'deg, rgba(255,255,255,.05) ' + (a1 + 180) + 'deg 315deg, transparent 315deg 360deg)';
+  }
+  renderVals() {
+    return Object.assign({},
+      this.rvCore(), this.rvSynth(), this.rvSeq(), this.rvBottom(), this.rvTransport());
+  }
+  rvCore() {
+    const S = this.state, sel = S.sel;
+    const ids = ['solar','lunar','rhythm','ancestor','eclipse'];
+    return {
+      inBoot: S.phase !== 'machine', bootIdle: S.phase === 'boot', bootBusy: S.phase === 'booting', bootText: S.bootText,
+      inMachine: S.phase === 'machine',
+      initialize: () => this.initialize(),
+      narrow: S.narrow,
+      patchNum: S.patch.num, patchName: S.patch.name,
+      patchPrev: () => this.loadPatch(-1), patchNext: () => this.loadPatch(1),
+      bpm: S.bpm, bpmDisp: S.bpm.toFixed(1),
+      bpmDrag: this.bindDrag(() => (S.bpm - 90) / 60, v => { const b = Math.round(90 + v * 60); this._nfm && this._nfm.setBpm(b); this.setState({ bpm: b }); }, 'BPM', v => Math.round(90 + v * 60) + ''),
+      bpmWheel: e => { e.preventDefault(); const b = Math.max(90, Math.min(150, S.bpm + (e.deltaY < 0 ? 1 : -1))); this._nfm && this._nfm.setBpm(b); this.setState({ bpm: b }); },
+      bpmKey: e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); const b = Math.max(90, Math.min(150, S.bpm + (e.key === 'ArrowUp' ? 1 : -1))); this._nfm && this._nfm.setBpm(b); this.setState({ bpm: b }); } },
+      selName: sel.toUpperCase(), selAccent: this.ACCENTS[sel],
+      oledRef: el => { this._oled = el; },
+      oledInfo: S.bpm.toFixed(1) + ' BPM',
+      oledParam: S.drag ? S.drag.label + '  ' + S.drag.text : 'SOURCE  ' + (this._nfm ? this._nfm.params[sel].wave.toUpperCase() : ''),
+      barDisp: S.playing && S.playStep >= 0 ? ('0' + (Math.floor(S.playStep / 4) + 1)).slice(-2) + '/04' : '--/04',
+      engines: ids.map(id => {
+        const on = sel === id, acc = this.ACCENTS[id];
+        return {
+          name: id.toUpperCase(), pick: () => this.setState({ sel: id }),
+          on: on ? 'true' : 'false',
+          border: on ? acc + '66' : 'rgba(255,255,255,.07)',
+          bg: on ? 'linear-gradient(180deg,#1a1712,#0e0c09)' : 'transparent',
+          color: on ? acc : 'rgba(247,242,232,.5)',
+          sigFilter: on ? 'none' : 'grayscale(1) brightness(.6)',
+          setSigil: el => { if (el && !el.getAttribute('src')) el.src = 'assets/sigil-' + id + '.png?v=2'; },
+          ledRef: el => { this._leds[id] = el; },
+          led: 'rgba(247,242,232,.12)', ledGlow: 'none'
+        };
+      }),
+      evolve: () => { this._nfm && this._nfm.evolve(); this.setState({ tick: S.tick + 1 }); },
+      mutate: () => { this._nfm && this._nfm.mutate(0.25); this.setState({ tick: S.tick + 1 }); },
+      hintText: S.drag ? S.drag.label + ' ' + S.drag.text : (S.narrow ? 'TAP · DRAG · EXPLORE' : 'SPACE PLAY · ASDF JKL; PADS · 1-5 ENGINES · E ECLIPSE'),
+      hintColor: S.drag ? '#e8c56a' : 'rgba(247,242,232,.3)'
+    };
+  }
+  knob(engine, key, label, size, fmt, def) {
+    const nfm = this._nfm, acc = this.ACCENTS[engine];
+    const v = nfm ? nfm.params[engine][key] : 0.5;
+    const F = fmt || (x => Math.round(x * 100) + '%');
+    const set = x => { nfm && nfm.setParam(engine, key, x); this.setState({ tick: this.state.tick + 1 }); };
+    return {
+      label, w: size + 'px', d: size + 'px',
+      pct: Math.round(v * 100), rot: -135 + v * 270,
+      arc: this.arc(v, acc), ind: acc,
+      down: this.bindDrag(() => (nfm ? nfm.params[engine][key] : 0.5), x => { set(x); }, label, F),
+      reset: () => { set(def != null ? def : 0.5); },
+      wheel: e => { e.preventDefault(); set(Math.max(0, Math.min(1, (nfm ? nfm.params[engine][key] : 0.5) + (e.deltaY < 0 ? 0.02 : -0.02)))); },
+      key: e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); set(Math.max(0, Math.min(1, (nfm ? nfm.params[engine][key] : 0.5) + (e.key === 'ArrowUp' ? 0.02 : -0.02)))); } }
+    };
+  }
+  rvSynth() {
+    const S = this.state, sel = S.sel, nfm = this._nfm, acc = this.ACCENTS[sel];
+    const p = nfm ? nfm.params[sel] : {};
+    const hz = v => { const f = 60 * Math.pow(300, v); return f >= 1000 ? (f / 1000).toFixed(2) + ' kHz' : Math.round(f) + ' Hz'; };
+    const semi = v => { const s = Math.round(v * 100); return (s >= 0 ? '+' : '') + s; };
+    const tuneKnob = () => { // tune maps -24..+24 semitones through 0..1
+      const k = this.knob(sel, 'tune', 'TUNE', 44, v => semi((v * 48 - 24) / 100 * 100 / 100), 0.5);
+      const raw = p.tune != null ? (p.tune + 24) / 48 : 0.5;
+      k.pct = Math.round(raw * 100); k.rot = -135 + raw * 270; k.arc = this.arc(raw, acc);
+      k.down = this.bindDrag(() => (nfm.params[sel].tune + 24) / 48, x => { nfm.setParam(sel, 'tune', Math.round(x * 48 - 24)); this.setState({ tick: S.tick + 1 }); }, 'TUNE', x => (Math.round(x * 48 - 24) >= 0 ? '+' : '') + Math.round(x * 48 - 24) + ' ST');
+      k.reset = () => { nfm.setParam(sel, 'tune', 0); this.setState({ tick: S.tick + 1 }); };
+      k.wheel = e => { e.preventDefault(); nfm.setParam(sel, 'tune', Math.max(-24, Math.min(24, nfm.params[sel].tune + (e.deltaY < 0 ? 1 : -1)))); this.setState({ tick: S.tick + 1 }); };
+      return k;
+    };
+    const groups = nfm ? [
+      { title: 'SOURCE', knobs: [tuneKnob(), this.knob(sel, 'blend', 'A·BLEND·B', 44, null, 0), this.knob(sel, 'drive', 'DRIVE', 44, null, 0.1)] },
+      { title: 'FILTER', knobs: [this.knob(sel, 'cutoff', 'CUTOFF', 74, hz, 0.72), this.knob(sel, 'res', 'RESONANCE', 48, null, 0.2)] },
+      { title: 'ENVELOPE', knobs: [this.knob(sel, 'attack', 'ATK', 38, v => (v * 1000).toFixed(0) + 'ms', 0.01), this.knob(sel, 'decay', 'DEC', 38, v => (v * 1000).toFixed(0) + 'ms', 0.3), this.knob(sel, 'sustain', 'SUS', 38, null, 0.2), this.knob(sel, 'release', 'REL', 38, v => (v * 1000).toFixed(0) + 'ms', 0.2)] },
+      { title: 'MOTION', knobs: [this.knob(sel, 'lfoRate', 'RATE', 44, v => (0.2 + v * 7.8).toFixed(1) + ' Hz', 0.3), this.knob(sel, 'lfoDepth', 'DEPTH', 44, null, 0.25)] },
+      { title: 'SPACE · ECHO', knobs: [this.knob(sel, 'sendA', 'SPACE', 44, null, 0.3), this.knob(sel, 'sendB', 'ECHO', 44, null, 0.2)] }
+    ] : [];
+    const waves = ['sine', 'triangle', 'sawtooth', 'square', 'noise'];
+    const wLabel = { sine: 'SIN', triangle: 'TRI', sawtooth: 'SAW', square: 'SQR', noise: 'NSE' };
+    const dests = ['FILTER', 'PITCH', 'PAN', 'LEVEL'];
+    const opt = (name, on, pick) => ({
+      name, pick, on: on ? 'true' : 'false',
+      border: on ? acc + '66' : 'rgba(255,255,255,.1)',
+      bg: on ? '#171410' : 'transparent',
+      color: on ? acc : 'rgba(247,242,232,.45)'
+    });
+    return {
+      knobGroups: groups,
+      waveOpts: waves.map(w => opt(wLabel[w], p.wave === w, () => { nfm && nfm.setParam(sel, 'wave', w); this.setState({ tick: S.tick + 1 }); })),
+      destOpts: dests.map(d => opt(d, p.lfoDest === d, () => { nfm && nfm.setParam(sel, 'lfoDest', d); this.setState({ tick: S.tick + 1 }); }))
+    };
+  }
+  rvSeq() {
+    const S = this.state, sel = S.sel, nfm = this._nfm, acc = this.ACCENTS[sel];
+    const seq = nfm ? nfm.seq[sel] : { length: 16, lanes: [new Array(16).fill(false)] };
+    const laneNames = sel === 'rhythm' && this._mod ? this._mod.RHYTHM_LANES : ['SEQ'];
+    const cur = S.playing ? S.playStep % seq.length : -1;
+    const rows = seq.lanes.map((lane, li) => ({
+      label: laneNames[li] || 'SEQ',
+      steps: lane.map((on, i) => {
+        const inLen = i < seq.length, isCur = i === cur && inLen;
+        return {
+          tap: () => { nfm && nfm.toggleStep(sel, li, i); this.setState({ tick: S.tick + 1 }); },
+          aria: laneNames[li] + ' step ' + (i + 1), on: on ? 'true' : 'false',
+          gap: i % 4 === 3 && i < 15 ? '6px' : '0',
+          border: isCur ? acc : on ? acc + '88' : 'rgba(255,255,255,.08)',
+          bg: !inLen ? 'rgba(0,0,0,.4)' : on ? 'linear-gradient(180deg,' + acc + '55,' + acc + '22)' : 'linear-gradient(180deg,#12100d,#0a0908)',
+          glow: isCur ? '0 0 10px ' + acc + '66, inset 0 1px 0 rgba(255,255,255,.1)' : on ? 'inset 0 1px 0 rgba(255,255,255,.08)' : 'inset 0 1px 0 rgba(255,255,255,.04)'
+        };
+      })
+    }));
+    return {
+      secSeq: !S.narrow || S.tab === 'SEQ' ? 'flex' : 'none',
+      seqRows: rows,
+      lenOpts: [4, 8, 12, 16].map(n => ({
+        name: n + '', pick: () => { nfm && nfm.setSeqLength(sel, n); this.setState({ tick: S.tick + 1 }); },
+        on: seq.length === n ? 'true' : 'false',
+        border: seq.length === n ? acc + '66' : 'rgba(255,255,255,.1)',
+        bg: seq.length === n ? '#171410' : 'transparent',
+        color: seq.length === n ? acc : 'rgba(247,242,232,.4)'
+      }))
+    };
+  }
+  rvBottom() {
+    const S = this.state, nfm = this._nfm;
+    const padDefs = this._mod ? this._mod.PAD_DEFS : [];
+    const keys = ['A', 'S', 'D', 'F', 'J', 'K', 'L', ';'];
+    const eclV = S.eclipse;
+    const xyDown = e => {
+      e.preventDefault();
+      const el = this._xy; if (!el) return;
+      const mv = ev => {
+        const r = el.getBoundingClientRect();
+        const x = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
+        const y = Math.max(0, Math.min(1, (ev.clientY - r.top) / r.height));
+        if (this._xyDot) { this._xyDot.style.left = (x * 100) + '%'; this._xyDot.style.top = (y * 100) + '%'; }
+        nfm && nfm.setXY(x, 1 - y);
+        this.setState({ drag: { label: 'ENERGY FIELD', text: (x < 0.4 ? 'DARK' : x > 0.6 ? 'LIGHT' : 'CENTER') + ' · ' + (y < 0.4 ? 'SKY' : y > 0.6 ? 'GROUND' : 'MID') } });
+      };
+      mv(e);
+      const up = () => { removeEventListener('pointermove', mv); removeEventListener('pointerup', up); setTimeout(() => this.setState({ drag: null }), 700); };
+      addEventListener('pointermove', mv); addEventListener('pointerup', up);
+    };
+    const ids = ['solar', 'lunar', 'rhythm', 'ancestor', 'eclipse'];
+    const chIds = ids.concat(['master']);
+    const chLabel = { solar: 'SOL', lunar: 'LUN', rhythm: 'RHY', ancestor: 'ANC', eclipse: 'ECL', master: 'MST' };
+    const mixCh = chIds.map(id => {
+      const isM = id === 'master';
+      const lv = nfm ? (isM ? nfm.global.master : nfm.params[id].level) : 0.7;
+      const muted = !isM && nfm && nfm.params[id].mute;
+      const acc = isM ? '#e8c56a' : this.ACCENTS[id];
+      const setL = v => { if (!nfm) return; if (isM) nfm.setMaster(v); else nfm.setParam(id, 'level', v); this.setState({ tick: S.tick + 1 }); };
+      return {
+        label: chLabel[id], aria: chLabel[id] + ' level', accent: acc,
+        pct: Math.round(lv * 100), pos: lv * 76,
+        meterRef: el => { this._meters[id] = el; },
+        down: this.bindDrag(() => (nfm ? (isM ? nfm.global.master : nfm.params[id].level) : 0.7), setL, chLabel[id], v => Math.round(v * 100) + '%'),
+        key: e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); setL(Math.max(0, Math.min(1, lv + (e.key === 'ArrowUp' ? 0.04 : -0.04)))); } },
+        muteTap: () => { if (nfm && !isM) { nfm.setParam(id, 'mute', !nfm.params[id].mute); this.setState({ tick: S.tick + 1 }); } },
+        muteBg: isM ? 'transparent' : muted ? '#8a2f22' : '#12100c',
+        labColor: muted ? 'rgba(247,242,232,.25)' : 'rgba(247,242,232,.55)'
+      };
+    });
+    const tabNames = ['PLAY', 'SEQ', 'SOUND', 'MIX'];
+    return {
+      secSound: !S.narrow || S.tab === 'SOUND' ? 'flex' : 'none',
+      secBottom: !S.narrow || S.tab === 'PLAY' || S.tab === 'MIX' ? 'flex' : 'none',
+      secPlay: !S.narrow || S.tab === 'PLAY' ? 'flex' : 'none',
+      secMix: !S.narrow || S.tab === 'MIX' ? 'flex' : 'none',
+      mixCh,
+      pads: padDefs.map((p, i) => ({
+        label: p.label, keyLabel: keys[i], aria: 'Pad ' + p.label,
+        hit: () => this.hitPad(i),
+        ledRef: el => { this._pads[i] = el; }
+      })),
+      xyRef: el => { this._xy = el; }, xyDotRef: el => { this._xyDot = el; }, xyDown,
+      eclPct: Math.round(eclV * 100),
+      eclArc: this.arc(eclV, '#e8c56a'), eclRot: -135 + eclV * 270,
+      eclDown: this.bindDrag(() => this.state.eclipse, v => this.setEclipse(v), 'ECLIPSE', v => Math.round(v * 100) + '%'),
+      eclReset: () => this.setEclipse(0),
+      eclWheel: e => { e.preventDefault(); this.setEclipse(Math.max(0, Math.min(1, S.eclipse + (e.deltaY < 0 ? 0.04 : -0.04)))); },
+      eclKey: e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); this.setEclipse(Math.max(0, Math.min(1, S.eclipse + (e.key === 'ArrowUp' ? 0.04 : -0.04)))); } },
+      tabs: tabNames.map(t => ({
+        name: t, pick: () => this.setState({ tab: t }),
+        on: S.tab === t ? 'true' : 'false',
+        border: S.tab === t ? 'rgba(212,164,55,.6)' : 'rgba(255,255,255,.1)',
+        bg: S.tab === t ? '#171410' : 'transparent',
+        color: S.tab === t ? '#e8c56a' : 'rgba(247,242,232,.45)'
+      }))
+    };
+  }
+  rvTransport() {
+    const S = this.state;
+    const swingV = (S.swing - 0.5) / 0.2;
+    return {
+      playTap: () => this.togglePlay(),
+      playAria: S.playing ? 'Pause' : 'Play',
+      playIcon: S.playing ? '❚❚' : '▶',
+      playBorder: S.playing ? '#d4a437' : 'rgba(212,164,55,.5)',
+      playBg: S.playing ? 'linear-gradient(180deg,#2a2213,#171208)' : 'linear-gradient(180deg,#181510,#0c0a07)',
+      playColor: '#e8c56a',
+      playGlow: S.playing ? '0 0 20px rgba(212,164,55,.35), inset 0 1px 0 rgba(255,255,255,.1)' : 'inset 0 1px 0 rgba(255,255,255,.08)',
+      stopTap: () => { if (this._nfm) { this._nfm.stop(); this.setState({ playing: false, playStep: -1 }); } },
+      tapTempo: () => {
+        const now = performance.now();
+        if (this._lastTap && now - this._lastTap < 2000) {
+          const b = Math.max(90, Math.min(150, Math.round(60000 / (now - this._lastTap))));
+          this._nfm && this._nfm.setBpm(b); this.setState({ bpm: b });
+        }
+        this._lastTap = now;
+      },
+      swingPct: Math.round(S.swing * 100), swingDisp: Math.round(S.swing * 100) + '%',
+      swingArc: this.arc(swingV, '#d4a437'), swingRot: -135 + swingV * 270,
+      swingDown: this.bindDrag(() => swingV, v => { const s = 0.5 + v * 0.2; this._nfm && this._nfm.setSwing(s); this.setState({ swing: s }); }, 'SWING', v => Math.round((0.5 + v * 0.2) * 100) + '%'),
+      swingReset: () => { this._nfm && this._nfm.setSwing(0.54); this.setState({ swing: 0.54 }); },
+      swingWheel: e => { e.preventDefault(); const s = Math.max(0.5, Math.min(0.7, S.swing + (e.deltaY < 0 ? 0.01 : -0.01))); this._nfm && this._nfm.setSwing(s); this.setState({ swing: s }); },
+      swingKey: e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); const s = Math.max(0.5, Math.min(0.7, S.swing + (e.key === 'ArrowUp' ? 0.01 : -0.01))); this._nfm && this._nfm.setSwing(s); this.setState({ swing: s }); } }
+    };
+  }
+  loadPatch(dir) {
+    if (!this._nfm || !this._mod) return;
+    const n = this._mod.PRESETS.length;
+    const i = ((this.state.patch.i + dir) % n + n) % n;
+    const pr = this._nfm.loadPreset(i);
+    this.setState({ patch: { i, num: pr.num, name: pr.name }, bpm: this._nfm.global.bpm, swing: this._nfm.global.swing, tick: this.state.tick + 1 });
+  }
+}
+</script>
+</body>
+</html>

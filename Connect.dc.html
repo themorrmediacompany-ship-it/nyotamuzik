@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>NYOTA | Connect | Bookings &amp; Social</title>
+<meta name="description" content="Book Nyota, Afro House and Afro Tech DJ, for festivals, clubs and ceremonies, or follow her on Spotify, YouTube and Instagram.">
+<meta name="theme-color" content="#050403">
+<link rel="canonical" href="https://nyotamuzik.com/Connect.dc.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NYOTA">
+<meta property="og:title" content="NYOTA | Connect">
+<meta property="og:description" content="Bookings, press and every way to follow the cycle.">
+<meta property="og:image" content="https://nyotamuzik.com/assets/icon-social.png">
+<link rel="icon" type="image/png" href="assets/icon-social.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; background: #050403; color: #f7f2e8; font-family: 'Inter', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: #d4a437; text-decoration: none; }
+a:hover { color: #f7f2e8; }
+::selection { background: rgba(212,164,55,.3); }
+input, textarea, select { font-family: 'Cormorant Garamond', serif; }
+input::placeholder, textarea::placeholder { color: rgba(247,242,232,.35); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes breathe { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+</style>
+</helmet>
+
+<dc-import name="Nav" hint-size="100%,0px"></dc-import>
+
+<header style="position:relative;overflow:hidden;text-align:center;padding:clamp(150px,22vh,220px) 24px clamp(60px,9vh,100px)">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 60% at 50% 0%, rgba(212,164,55,.14), rgba(0,0,0,0) 70%);pointer-events:none"></div>
+  <p style="position:relative;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#d4a437;margin:0;animation:fadeUp 1.4s ease both">Connect</p>
+  <h1 style="position:relative;font-family:Cinzel,serif;font-weight:400;font-size:clamp(38px,6vw,84px);letter-spacing:.16em;text-indent:.16em;margin:20px 0 0;color:#f7f2e8;line-height:1.05;animation:fadeUp 1.4s ease .15s both">Reach the Spirit</h1>
+  <p style="position:relative;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(19px,2vw,26px);color:rgba(247,242,232,.65);margin:22px auto 0;max-width:560px;line-height:1.6;animation:fadeUp 1.4s ease .3s both">Bookings, press, or simply staying close. Every path begins here.</p>
+</header>
+
+<section style="max-width:680px;margin:0 auto;padding:clamp(30px,5vh,60px) 24px clamp(90px,12vh,140px)">
+  <p style="font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:#d4a437;text-align:center;margin:0 0 12px">Bookings &amp; Press</p>
+  <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(17px,1.6vw,20px);color:rgba(247,242,232,.55);text-align:center;line-height:1.8;margin:0 0 46px;text-wrap:pretty">Festivals, clubs, ceremonies and collaborations. Tell her which energy the night calls for.</p>
+  <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-direction:column;gap:30px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px">
+      <label style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,242,232,.45)">Your name</span>
+        <input ref="{{ nameRef }}" type="text" placeholder="Name" style="background:transparent;border:none;border-bottom:1px solid rgba(247,242,232,.25);outline:none;color:#f7f2e8;font-size:19px;letter-spacing:.04em;padding:10px 2px;transition:border-color .5s ease" style-focus="border-bottom-color:#d4a437"></input>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,242,232,.45)">Email</span>
+        <input ref="{{ emailRef }}" type="email" placeholder="your@email.com" style="background:transparent;border:none;border-bottom:1px solid rgba(247,242,232,.25);outline:none;color:#f7f2e8;font-size:19px;letter-spacing:.04em;padding:10px 2px;transition:border-color .5s ease" style-focus="border-bottom-color:#d4a437"></input>
+      </label>
+    </div>
+    <label style="display:flex;flex-direction:column;gap:12px">
+      <span style="font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,242,232,.45)">Which energy does the night call for?</span>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <sc-for list="{{ forms }}" as="f" hint-placeholder-count="5">
+          <button onClick="{{ f.pick }}" style="background:{{ f.bg }};border:1px solid {{ f.border }};cursor:pointer;font-family:Cinzel,serif;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:{{ f.color }};padding:11px 18px;transition:all .4s ease" style-hover="border-color:#d4a437;color:#d4a437">{{ f.name }}</button>
+        </sc-for>
+      </div>
+    </label>
+    <label style="display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,242,232,.45)">The occasion</span>
+      <textarea ref="{{ msgRef }}" rows="4" placeholder="Venue, date, city, and what the night should feel like." style="background:transparent;border:1px solid rgba(247,242,232,.2);outline:none;color:#f7f2e8;font-size:19px;letter-spacing:.04em;line-height:1.6;padding:16px;resize:vertical;transition:border-color .5s ease" style-focus="border-color:#d4a437"></textarea>
+    </label>
+    <button onClick="{{ send }}" style="align-self:center;background:rgba(212,164,55,.06);border:1px solid rgba(212,164,55,.45);border-radius:100px;cursor:pointer;font-family:Cinzel,serif;font-size:12px;letter-spacing:.34em;text-indent:.34em;text-transform:uppercase;color:#e8d9b0;padding:17px 52px;margin-top:8px;transition:all .6s ease" style-hover="background:rgba(212,164,55,.18);border-color:#d4a437;color:#ffe9b0;box-shadow:0 0 34px rgba(212,164,55,.25)" style-active="transform:scale(.97)">Send the call</button>
+    <p style="font-size:11px;letter-spacing:.14em;color:rgba(247,242,232,.35);text-align:center;margin:0">Opens your mail app addressed to {{ bookingEmail }}</p>
+  </div>
+  </sc-if>
+  <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:24px;color:#d4a437;text-align:center;line-height:1.7">The call is on its way. ✦<br><span style="font-size:18px;color:rgba(247,242,232,.55)">She answers when the moon allows.</span></p>
+  </sc-if>
+</section>
+
+<section style="padding:clamp(80px,11vh,130px) 24px;border-top:1px solid rgba(212,164,55,.14);text-align:center">
+  <h2 style="font-family:Cinzel,serif;font-weight:400;font-size:clamp(26px,3.2vw,46px);letter-spacing:.16em;margin:0 0 44px;color:#f7f2e8">Follow the Cycle</h2>
+  <div style="display:flex;gap:clamp(28px,5vw,72px);justify-content:center;flex-wrap:wrap;font-family:Cinzel,serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase">
+    <a href="{{ spotifyUrl }}" target="_blank" style="display:flex;flex-direction:column;align-items:center;gap:16px;color:rgba(212,164,55,.75);padding:10px 6px;transition:color .5s ease, transform .5s cubic-bezier(.2,.8,.3,1), filter .5s ease" style-hover="color:#ffe9b0;transform:translateY(-5px);filter:drop-shadow(0 0 14px rgba(212,164,55,.45))">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"><circle cx="12" cy="12" r="10.4"></circle><path d="M6.6 9.3c3.7-1.1 7.6-.7 10.8 1.1"></path><path d="M7.2 12.4c3-.85 6.2-.5 8.9.95"></path><path d="M7.8 15.4c2.4-.65 4.9-.35 7 .8"></path></svg>
+      <span>Spotify</span>
+    </a>
+    <a href="{{ ytUrl }}" target="_blank" style="display:flex;flex-direction:column;align-items:center;gap:16px;color:rgba(212,164,55,.75);padding:10px 6px;transition:color .5s ease, transform .5s cubic-bezier(.2,.8,.3,1), filter .5s ease" style-hover="color:#ffe9b0;transform:translateY(-5px);filter:drop-shadow(0 0 14px rgba(212,164,55,.45))">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"><rect x="2.2" y="5.4" width="19.6" height="13.2" rx="4"></rect><path d="M10.2 9.4l5 2.6-5 2.6z"></path></svg>
+      <span>YouTube</span>
+    </a>
+    <a href="{{ igUrl }}" target="_blank" style="display:flex;flex-direction:column;align-items:center;gap:16px;color:rgba(212,164,55,.75);padding:10px 6px;transition:color .5s ease, transform .5s cubic-bezier(.2,.8,.3,1), filter .5s ease" style-hover="color:#ffe9b0;transform:translateY(-5px);filter:drop-shadow(0 0 14px rgba(212,164,55,.45))">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.4" cy="6.6" r=".9" fill="currentColor" stroke="none"></circle></svg>
+      <span>Instagram</span>
+    </a>
+  </div>
+  <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,1.5vw,19px);color:rgba(247,242,232,.45);margin:52px 0 0;line-height:1.8">New music first. New masks first. The cycle continues.</p>
+</section>
+
+<dc-import name="Footer" hint-size="100%,320px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { form: '', sent: false };
+  BOOKING = 'booking@nyotamuzik.com';
+  componentDidMount() {
+    import('./masks.js').then(mod => { this.LINKS = mod.LINKS; this.MASKS = mod.MASKS; this.forceUpdate(); });
+  }
+  renderVals() {
+    const L = this.LINKS || {};
+    const masks = this.MASKS || [];
+    return {
+      nameRef: el => { this._name = el; },
+      emailRef: el => { this._email = el; },
+      msgRef: el => { this._msg = el; },
+      forms: masks.map(m => ({
+        name: m.name,
+        pick: () => this.setState({ form: this.state.form === m.id ? '' : m.id }),
+        bg: this.state.form === m.id ? 'rgba(212,164,55,.14)' : 'transparent',
+        border: this.state.form === m.id ? '#d4a437' : 'rgba(247,242,232,.25)',
+        color: this.state.form === m.id ? '#d4a437' : 'rgba(247,242,232,.65)'
+      })),
+      send: () => {
+        const name = (this._name && this._name.value || '').trim();
+        const email = (this._email && this._email.value || '').trim();
+        const msg = (this._msg && this._msg.value || '').trim();
+        const form = this.state.form ? this.state.form.toUpperCase() + ' energy. ' : '';
+        const subject = encodeURIComponent('Booking inquiry from ' + (name || 'the Nyota website'));
+        const body = encodeURIComponent(form + msg + (name ? '\n\n' + name : '') + (email ? ' (' + email + ')' : ''));
+        location.href = 'mailto:' + this.BOOKING + '?subject=' + subject + '&body=' + body;
+        this.setState({ sent: true });
+      },
+      notSent: !this.state.sent,
+      sent: this.state.sent,
+      bookingEmail: this.BOOKING,
+      spotifyUrl: L.spotify || 'https://open.spotify.com/artist/4nv8RpsA8VQ7mVHj90q1jl',
+      ytUrl: L.youtube || 'https://www.youtube.com/@NyotaMuzik',
+      igUrl: L.instagram || 'https://www.instagram.com/nyotamuzik/'
+    };
+  }
+}
+</script>
+</body>
+</html>

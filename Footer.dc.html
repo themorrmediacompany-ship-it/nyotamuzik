@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>body { margin: 0; background: #050403; }</style>
+</helmet>
+<footer style="position:relative;z-index:1;padding:clamp(70px,9vh,110px) 24px 56px;text-align:center;border-top:1px solid rgba(247,242,232,.08);background:#050403;color:#f7f2e8">
+  <a href="Nyota.dc.html"><img src="assets/logo-gold.png" alt="NYOTA" style="width:min(220px,52vw);opacity:.95" loading="lazy"></img></a>
+  <div style="display:flex;gap:clamp(20px,4vw,36px);justify-content:center;flex-wrap:wrap;margin:40px 0 32px;font-family:Cinzel,serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase">
+    <a href="Nyota.dc.html#masks" style="display:inline-block;color:rgba(247,242,232,.55);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">The Forms</a>
+    <a href="Music.dc.html" style="display:inline-block;color:rgba(247,242,232,.55);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">Music</a>
+    <a href="Connect.dc.html" style="display:inline-block;color:rgba(247,242,232,.55);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">Connect</a>
+    <a href="{{ igUrl }}" target="_blank" style="display:inline-block;color:rgba(247,242,232,.55);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">Instagram</a>
+    <a href="{{ spotifyUrl }}" target="_blank" style="display:inline-block;color:rgba(247,242,232,.55);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">Spotify</a>
+    <a href="{{ ytUrl }}" target="_blank" style="display:inline-block;color:rgba(247,242,232,.55);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">YouTube</a>
+  </div>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:rgba(247,242,232,.45);line-height:1.8">Rhythm is sacred. We just remember.</div>
+  <div style="font-family:Inter,sans-serif;font-weight:300;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(247,242,232,.3);margin-top:26px">© 2026 Nyota Muzik · Five Forms. One Spirit.</div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { links: null };
+  componentDidMount() {
+    import('./masks.js').then(mod => this.setState({ links: mod.LINKS }));
+  }
+  renderVals() {
+    const L = this.state.links || {};
+    return {
+      igUrl: L.instagram || 'https://www.instagram.com/nyotamuzik/',
+      spotifyUrl: L.spotify || 'https://open.spotify.com/artist/4nv8RpsA8VQ7mVHj90q1jl',
+      ytUrl: L.youtube || 'https://www.youtube.com/@NyotaMuzik'
+    };
+  }
+}
+</script>
+</body>
+</html>
