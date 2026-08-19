@@ -12,6 +12,17 @@ export const PAD_DEFS = [
 const P5 = [130.81, 155.56, 196.0, 233.08, 261.63, 311.13, 392.0, 523.25]; // C minor pentatonic
 
 export function defaultParams() {
+  let iosUnlocked = false;
+  function iosSilentUnlock() {
+    if (iosUnlocked) return; iosUnlocked = true;
+    try {
+      const a = document.createElement('audio');
+      a.setAttribute('playsinline', ''); a.preload = 'auto';
+      // 1-sample silent wav — playing an HTML media element switches iOS to playback category (ignores silent switch)
+      a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+      const p = a.play(); if (p && p.catch) p.catch(() => {});
+    } catch (e) {}
+  }
   return {
     solar:    { wave: 'triangle', tune: 0, blend: 0, cutoff: 0.72, res: 0.2, drive: 0.1, attack: 0.01, decay: 0.28, sustain: 0.12, release: 0.2, lfoRate: 0.3, lfoDepth: 0.25, lfoDest: 'FILTER', level: 0.7, pan: 0.12, sendA: 0.3, sendB: 0.25, mute: false, solo: false },
     lunar:    { wave: 'sine', tune: -12, blend: 0, cutoff: 0.5, res: 0.12, drive: 0, attack: 0.9, decay: 0.6, sustain: 0.7, release: 1.6, lfoRate: 0.12, lfoDepth: 0.35, lfoDest: 'PAN', level: 0.65, pan: -0.15, sendA: 0.75, sendB: 0.15, mute: false, solo: false },
@@ -215,8 +226,19 @@ export function createNFM() {
     }
   }
 
+  let iosUnlocked = false;
+  function iosSilentUnlock() {
+    if (iosUnlocked) return; iosUnlocked = true;
+    try {
+      const a = document.createElement('audio');
+      a.setAttribute('playsinline', ''); a.preload = 'auto';
+      // 1-sample silent wav — playing an HTML media element switches iOS to playback category (ignores silent switch)
+      a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+      const p = a.play(); if (p && p.catch) p.catch(() => {});
+    } catch (e) {}
+  }
   return {
-    async boot() { init(); if (ctx.state === 'suspended') await ctx.resume(); },
+    async boot() { iosSilentUnlock(); init(); if (ctx.state === 'suspended') await ctx.resume(); },
     play() { if (playing) return; playing = true; step = 0; nextT = ctx.currentTime + 0.06; timer = setInterval(schedule, 25); },
     stop() { playing = false; if (timer) clearInterval(timer); timer = null; },
     isPlaying: () => playing,

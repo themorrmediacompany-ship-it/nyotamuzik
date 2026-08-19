@@ -651,7 +651,7 @@ class Component extends DCLogic {
       coreLabel: S.playing ? 'REST' : 'BEGIN',
       maskViews, ledCells, chanViews,
       transportTap: () => this.togglePlay(),
-      playGlyph: S.playing ? '■' : '▶',
+      playGlyph: S.playing ? '■︎' : '▶︎',
       playWord: S.playing ? 'REST' : 'AWAKEN',
       eclPct: Math.round(S.eclipse * 100),
       eclArc: this.arc(S.eclipse, '#e8c56a'), eclRot: -135 + S.eclipse * 270,
