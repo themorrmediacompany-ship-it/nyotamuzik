@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
 <title>NYOTA | Music | Afro House &amp; Afro Tech</title>
-<meta name="description" content="Listen to Nyota. Play the latest release Take Me Back, stream the catalog on Spotify, and watch the visuals on YouTube.">
+<meta name="description" content="Listen to Nyota. Play the latest release Rum to the Drum, stream the catalog on Spotify, and watch the visuals on YouTube.">
 <meta name="theme-color" content="#050403">
 <link rel="canonical" href="https://nyotamuzik.com/Music.dc.html">
 <meta property="og:type" content="music.album">
@@ -46,17 +46,17 @@ a:hover { color: #f7f2e8; }
 <section style="position:relative;overflow:hidden;padding:clamp(30px,5vh,60px) clamp(20px,6vw,90px) clamp(70px,10vh,110px)">
   <div style="position:absolute;inset:-10% -10%;background:radial-gradient(ellipse 46% 36% at 22% 40%, rgba(196,150,84,.07), rgba(0,0,0,0) 70%);filter:blur(32px);animation:drift 34s ease-in-out infinite;pointer-events:none"></div>
   <p style="font-size:13px;letter-spacing:.4em;text-transform:uppercase;color:#d4a437;text-align:center;margin:0">Latest Release</p>
-  <h2 style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(40px,5.4vw,76px);margin:14px 0 0;color:#f7f2e8;line-height:1;text-align:center">Take Me Back</h2>
-  <p style="font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:rgba(247,242,232,.45);margin:20px 0 0;text-align:center">Out now. The first transmission</p>
+  <h2 style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(40px,5.4vw,76px);margin:14px 0 0;color:#f7f2e8;line-height:1;text-align:center">Rum to the Drum</h2>
+  <p style="font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:rgba(247,242,232,.45);margin:20px 0 0;text-align:center">Out now. The newest transmission</p>
   <div style="position:relative;max-width:960px;margin:clamp(40px,6vh,64px) auto 0">
     <div style="position:absolute;inset:-18% -24%;background:radial-gradient(ellipse 60% 55% at 50% 50%, rgba(212,164,55,.14), rgba(0,0,0,0) 68%);pointer-events:none"></div>
-    <div style="position:relative;aspect-ratio:16/9;background:#050403;overflow:hidden;border:1px solid rgba(212,164,55,.3)">
+    <div style="position:relative;aspect-ratio:3/2;max-width:820px;margin:0 auto;background:#050403;overflow:hidden;border:1px solid rgba(212,164,55,.3)">
       <sc-if value="{{ playerOn }}" hint-placeholder-val="{{ false }}">
-        <iframe src="https://www.youtube-nocookie.com/embed/Cx1KGbow2iI?autoplay=1&rel=0" title="Take Me Back — Nyota" width="100%" height="100%" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen="{{ true }}" style="position:absolute;inset:0;border:none"></iframe>
+        <iframe src="https://www.youtube-nocookie.com/embed/6mZRaPXnNBE?autoplay=1&rel=0" title="Rum to the Drum — Nyota" width="100%" height="100%" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen="{{ true }}" style="position:absolute;inset:0;border:none"></iframe>
       </sc-if>
       <sc-if value="{{ playerOff }}" hint-placeholder-val="{{ true }}">
         <div onClick="{{ playVideo }}" onMouseEnter="{{ vidEnter }}" onMouseLeave="{{ vidLeave }}" style="position:absolute;inset:0;cursor:pointer">
-          <img src="https://i.ytimg.com/vi/Cx1KGbow2iI/maxresdefault.jpg" alt="Take Me Back visual" style="width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .8s ease" style-hover="opacity:1"></img>
+          <img src="https://i.ytimg.com/vi/6mZRaPXnNBE/maxresdefault.jpg" alt="Rum to the Drum visual" style="width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .8s ease" style-hover="opacity:1"></img>
           <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><span style="width:84px;height:84px;border-radius:50%;border:1px solid {{ playBorder }};display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);background:rgba(17,17,17,.3);font-size:20px;color:#f7f2e8;padding-left:5px;transform:{{ playScale }};box-shadow:{{ playShadow }};transition:transform .6s cubic-bezier(.2,.8,.3,1), box-shadow .6s ease, border-color .6s ease">▶</span></span>
         </div>
       </sc-if>
@@ -64,19 +64,34 @@ a:hover { color: #f7f2e8; }
     <div style="display:flex;justify-content:center;align-items:center;gap:clamp(20px,3vw,40px);flex-wrap:wrap;margin-top:36px;font-family:Cinzel,serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase">
       <a href="{{ spotifyUrl }}" target="_blank" style="color:rgba(247,242,232,.7);padding:10px 4px;border-bottom:1px solid transparent;transition:all .5s ease" style-hover="color:#d4a437;border-color:#d4a437">Spotify</a>
       <span style="color:rgba(212,164,55,.5);font-size:9px">✦</span>
-      <a href="https://www.youtube.com/watch?v=Cx1KGbow2iI" target="_blank" style="color:rgba(247,242,232,.7);padding:10px 4px;border-bottom:1px solid transparent;transition:all .5s ease" style-hover="color:#d4a437;border-color:#d4a437">YouTube</a>
+      <a href="https://www.youtube.com/watch?v=6mZRaPXnNBE" target="_blank" style="color:rgba(247,242,232,.7);padding:10px 4px;border-bottom:1px solid transparent;transition:all .5s ease" style-hover="color:#d4a437;border-color:#d4a437">YouTube</a>
+    </div>
+  </div>
+  <div style="position:relative;max-width:960px;margin:clamp(60px,9vh,100px) auto 0">
+    <p style="font-size:13px;letter-spacing:.4em;text-transform:uppercase;color:#d4a437;text-align:center;margin:0 0 14px">Take Me Back</p>
+    <p style="font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:rgba(247,242,232,.45);margin:0 0 clamp(28px,4vh,44px);text-align:center">The first transmission</p>
+    <div style="position:relative;aspect-ratio:16/9;background:#050403;overflow:hidden;border:1px solid rgba(212,164,55,.3)">
+      <sc-if value="{{ player2On }}" hint-placeholder-val="{{ false }}">
+        <iframe src="https://www.youtube-nocookie.com/embed/Cx1KGbow2iI?autoplay=1&rel=0" title="Take Me Back — Nyota" width="100%" height="100%" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen="{{ true }}" style="position:absolute;inset:0;border:none"></iframe>
+      </sc-if>
+      <sc-if value="{{ player2Off }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ playVideo2 }}" onMouseEnter="{{ vid2Enter }}" onMouseLeave="{{ vid2Leave }}" style="position:absolute;inset:0;cursor:pointer">
+          <img src="https://i.ytimg.com/vi/Cx1KGbow2iI/maxresdefault.jpg" alt="Take Me Back visual" style="width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .8s ease" style-hover="opacity:1"></img>
+          <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><span style="width:84px;height:84px;border-radius:50%;border:1px solid {{ play2Border }};display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);background:rgba(17,17,17,.3);font-size:20px;color:#f7f2e8;padding-left:5px;transform:{{ play2Scale }};box-shadow:{{ play2Shadow }};transition:transform .6s cubic-bezier(.2,.8,.3,1), box-shadow .6s ease, border-color .6s ease">▶</span></span>
+        </div>
+      </sc-if>
     </div>
   </div>
   <div style="position:relative;max-width:960px;margin:clamp(60px,9vh,100px) auto 0">
     <p style="font-size:13px;letter-spacing:.4em;text-transform:uppercase;color:#d4a437;text-align:center;margin:0 0 clamp(28px,4vh,44px)">Another Transmission</p>
     <div style="position:relative;aspect-ratio:16/9;background:#050403;overflow:hidden;border:1px solid rgba(212,164,55,.3)">
-      <sc-if value="{{ player2On }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ player3On }}" hint-placeholder-val="{{ false }}">
         <iframe src="https://www.youtube-nocookie.com/embed/3FhGlyAY1hs?autoplay=1&rel=0" title="Nyota — visual" width="100%" height="100%" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen="{{ true }}" style="position:absolute;inset:0;border:none"></iframe>
       </sc-if>
-      <sc-if value="{{ player2Off }}" hint-placeholder-val="{{ true }}">
-        <div onClick="{{ playVideo2 }}" onMouseEnter="{{ vid2Enter }}" onMouseLeave="{{ vid2Leave }}" style="position:absolute;inset:0;cursor:pointer">
+      <sc-if value="{{ player3Off }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ playVideo3 }}" onMouseEnter="{{ vid3Enter }}" onMouseLeave="{{ vid3Leave }}" style="position:absolute;inset:0;cursor:pointer">
           <img src="https://i.ytimg.com/vi/3FhGlyAY1hs/maxresdefault.jpg" alt="Nyota visual" style="width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .8s ease" style-hover="opacity:1"></img>
-          <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><span style="width:84px;height:84px;border-radius:50%;border:1px solid {{ play2Border }};display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);background:rgba(17,17,17,.3);font-size:20px;color:#f7f2e8;padding-left:5px;transform:{{ play2Scale }};box-shadow:{{ play2Shadow }};transition:transform .6s cubic-bezier(.2,.8,.3,1), box-shadow .6s ease, border-color .6s ease">▶</span></span>
+          <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><span style="width:84px;height:84px;border-radius:50%;border:1px solid {{ play3Border }};display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);background:rgba(17,17,17,.3);font-size:20px;color:#f7f2e8;padding-left:5px;transform:{{ play3Scale }};box-shadow:{{ play3Shadow }};transition:transform .6s cubic-bezier(.2,.8,.3,1), box-shadow .6s ease, border-color .6s ease">▶</span></span>
         </div>
       </sc-if>
     </div>
@@ -103,7 +118,7 @@ a:hover { color: #f7f2e8; }
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { playing: false, vidHover: false, playing2: false, vid2Hover: false };
+  state = { playing: false, vidHover: false, playing2: false, vid2Hover: false, playing3: false, vid3Hover: false };
   renderVals() {
     return {
       playerOn: this.state.playing,
@@ -122,6 +137,14 @@ class Component extends DCLogic {
       play2Border: this.state.vid2Hover ? '#d4a437' : 'rgba(247,242,232,.7)',
       play2Scale: this.state.vid2Hover ? 'scale(1.12)' : 'scale(1)',
       play2Shadow: this.state.vid2Hover ? '0 0 44px rgba(212,164,55,.4)' : '0 0 0 rgba(0,0,0,0)',
+      player3On: this.state.playing3,
+      player3Off: !this.state.playing3,
+      playVideo3: () => this.setState({ playing3: true }),
+      vid3Enter: () => this.setState({ vid3Hover: true }),
+      vid3Leave: () => this.setState({ vid3Hover: false }),
+      play3Border: this.state.vid3Hover ? '#d4a437' : 'rgba(247,242,232,.7)',
+      play3Scale: this.state.vid3Hover ? 'scale(1.12)' : 'scale(1)',
+      play3Shadow: this.state.vid3Hover ? '0 0 44px rgba(212,164,55,.4)' : '0 0 0 rgba(0,0,0,0)',
       spotifyUrl: 'https://open.spotify.com/artist/4nv8RpsA8VQ7mVHj90q1jl'
     };
   }

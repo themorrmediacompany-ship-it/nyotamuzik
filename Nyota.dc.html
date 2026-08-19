@@ -275,7 +275,12 @@ class Component extends DCLogic {
     const cw = box.parentElement.clientWidth, ch = box.parentElement.clientHeight;
     if (!cw || !ch) return;
     const nw = 2179, nh = 1537, s = Math.max(cw / nw, ch / nh);
-    const ox = 0, oy = (ch - nh * s) * .3;
+    let ox = 0;
+    if (cw <= 760) { // center the mask face (image x≈691) on narrow screens
+      ox = Math.min(0, Math.max(cw - nw * s, cw / 2 - 691 * s));
+      if (this._heroImg) this._heroImg.style.objectPosition = ox.toFixed(1) + 'px 30%';
+    } else if (this._heroImg) { this._heroImg.style.objectPosition = 'left 30%'; }
+    const oy = (ch - nh * s) * .3;
     const pt = (x, y) => [(ox + x * s) / cw * 100, (oy + y * s) / ch * 100];
     const [lx, ly] = pt(640, 648), [rx, ry] = pt(742, 655);
     const l = box.querySelector('[data-eye="l"]'), r = box.querySelector('[data-eye="r"]');

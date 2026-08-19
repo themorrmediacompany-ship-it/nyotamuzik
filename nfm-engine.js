@@ -48,7 +48,7 @@ export const PRESETS = [
 ];
 
 export function createNFM() {
-  let ctx = null, master, comp, masterFilter, widener;
+  let ctx = null, master, comp, masterFilter, widener, padBus, masterAn;
   let spaceIn, spaceVerb, spaceOut, echoIn, echoDelay, echoFb, echoFilter, echoOut;
   let analysers = {}, chans = {};
   const params = defaultParams();
@@ -69,6 +69,8 @@ export function createNFM() {
     masterFilter = ctx.createBiquadFilter(); masterFilter.type = 'lowpass'; masterFilter.frequency.value = 18000;
     master = ctx.createGain(); master.gain.value = g.master;
     masterFilter.connect(comp); comp.connect(master); master.connect(ctx.destination);
+    masterAn = ctx.createAnalyser(); masterAn.fftSize = 1024; masterAn.smoothingTimeConstant = 0.82; master.connect(masterAn);
+    padBus = ctx.createGain(); padBus.gain.value = 1.8; padBus.connect(masterFilter);
     spaceIn = ctx.createGain(); spaceVerb = ctx.createConvolver(); spaceVerb.buffer = impulse(3.4, 3.2);
     spaceOut = ctx.createGain(); spaceOut.gain.value = g.space;
     spaceIn.connect(spaceVerb); spaceVerb.connect(spaceOut); spaceOut.connect(masterFilter);
@@ -193,7 +195,7 @@ export function createNFM() {
     }
   }
   function padVoice(i, t) {
-    const dst = masterFilter;
+    const dst = padBus;
     switch (PAD_DEFS[i].id) {
       case 'kick': membrane(t, dst, 150, 42, 0.9, 0.3); break;
       case 'clap': noise(t, dst, 0.5, 0.1, 'bandpass', 1500, 2); break;
@@ -252,6 +254,8 @@ export function createNFM() {
     toggleStep(id, lane, i) { seq[id].lanes[lane][i] = !seq[id].lanes[lane][i]; },
     setSeqLength(id, len) { seq[id].length = len; },
     getWave(id, arr) { if (analysers[id]) analysers[id].getByteTimeDomainData(arr); },
+    getSpectrum(arr) { if (masterAn) masterAn.getByteFrequencyData(arr); },
+    getScope(arr) { if (masterAn) masterAn.getByteTimeDomainData(arr); },
     getLevel(id) { if (!analysers[id]) return 0; const a = new Uint8Array(64); analysers[id].getByteFrequencyData(a); let s = 0; for (let i = 0; i < 64; i++) s += a[i]; return s / (64 * 255); },
     evolve() { // musically safe changes
       ENGINE_IDS.forEach(id => {
