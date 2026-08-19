@@ -44,7 +44,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
     <div style="position:absolute;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px clamp(16px,4vw,40px)">
       <div style="display:flex;align-items:center;gap:10px">
         <a href="Nyota.dc.html" style="font-family:Cinzel,serif;font-size:13px;letter-spacing:.36em;color:rgba(247,242,232,.65);transition:color .4s ease" style-hover="color:#d4a437">← NYOTA</a>
-        <button onClick="{{ tourOpen }}" aria-label="Replay the guided tour" style="width:26px;height:26px;border:1px solid rgba(212,164,55,.35);background:transparent;color:rgba(212,164,55,.75);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;padding:0" style-hover="border-color:rgba(212,164,55,.7);color:#e8c56a">?</button>
+        <button onClick="{{ tourOpen }}" aria-label="Replay the guided tour" style="width:26px;height:26px;border-radius:50%;border:1px solid rgba(212,164,55,.35);background:transparent;color:rgba(212,164,55,.75);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;padding:0" style-hover="border-color:rgba(212,164,55,.7);color:#e8c56a">?</button>
       </div>
       <div tabIndex="0" onPointerDown="{{ bpmDrag }}" onWheel="{{ bpmWheel }}" onKeyDown="{{ bpmKey }}" role="slider" aria-label="Tempo" aria-valuenow="{{ bpm }}" style="text-align:center;cursor:ns-resize;touch-action:none;padding:4px 10px">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:.06em;color:#f3e2b3;text-shadow:0 0 12px rgba(212,164,55,.4)">{{ bpm }}</div>
@@ -80,13 +80,13 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
     <div ref="{{ consoleRef }}" style="position:absolute;left:0;right:0;bottom:0;z-index:30;border-top:1px solid rgba(212,164,55,.16);background:linear-gradient(180deg,rgba(11,9,6,.92),rgba(4,3,2,.97));backdrop-filter:blur(10px);padding:{{ conPadV }} clamp(12px,3vw,28px) calc({{ conPadV }} + env(safe-area-inset-bottom))">
       <div style="max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:{{ conGap }}">
         <div style="display:{{ riteRowDisp }};align-items:center;justify-content:space-between;gap:6px">
-          <button onClick="{{ fieldTap }}" aria-pressed="{{ fieldOn }}" style="padding:8px 10px;border:1px solid {{ fieldBorder }};background:{{ fieldBg }};color:{{ fieldColor }};font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">BALANCE</button>
+          <button onClick="{{ fieldTap }}" aria-pressed="{{ fieldOn }}" style="padding:8px 10px;border-radius:999px;border:1px solid {{ fieldBorder }};background:{{ fieldBg }};color:{{ fieldColor }};font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">BALANCE</button>
           <div style="display:flex;align-items:center;gap:0">
-            <button onClick="{{ patchPrev }}" aria-label="Previous rite" style="border:none;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:10px;padding:4px 8px" style-active="transform:translateX(-1px)">◂</button>
+            <button onClick="{{ patchPrev }}" aria-label="Previous rite" style="border:none;border-radius:999px;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:10px;padding:4px 8px" style-active="transform:translateX(-1px)">◂</button>
             <span style="font-family:Cinzel,serif;font-size:10px;letter-spacing:.18em;color:#e8c56a;white-space:nowrap">{{ patchName }}</span>
-            <button onClick="{{ patchNext }}" aria-label="Next rite" style="border:none;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:10px;padding:4px 8px" style-active="transform:translateX(1px)">▸</button>
+            <button onClick="{{ patchNext }}" aria-label="Next rite" style="border:none;border-radius:999px;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:10px;padding:4px 8px" style-active="transform:translateX(1px)">▸</button>
           </div>
-          <button onClick="{{ padsTap }}" aria-pressed="{{ padsOn }}" style="padding:8px 10px;border:1px solid {{ padsBorder }};background:{{ padsBg }};color:{{ padsColor }};font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">PADS</button>
+          <button onClick="{{ padsTap }}" aria-pressed="{{ padsOn }}" style="padding:8px 10px;border-radius:999px;border:1px solid {{ padsBorder }};background:{{ padsBg }};color:{{ padsColor }};font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">PADS</button>
         </div>
         <div style="display:flex;gap:2px">
           <sc-for list="{{ ledCells }}" as="led" hint-placeholder-count="16">
@@ -95,7 +95,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
         </div>
         <div style="display:flex;align-items:stretch;justify-content:center;gap:clamp(10px,2.2vw,18px)">
           <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
-            <button onClick="{{ transportTap }}" aria-label="{{ coreAria }}" style="width:{{ tBtn }};height:{{ tBtn }};border:1px solid rgba(212,164,55,.5);background:linear-gradient(180deg,rgba(212,164,55,.13),rgba(212,164,55,.03));color:#e8c56a;font-size:13px;cursor:pointer;padding:0" style-active="transform:translateY(1px)">{{ playGlyph }}</button>
+            <button onClick="{{ transportTap }}" aria-label="{{ coreAria }}" style="width:{{ tBtn }};height:{{ tBtn }};border-radius:50%;border:1px solid rgba(212,164,55,.5);background:linear-gradient(180deg,rgba(212,164,55,.13),rgba(212,164,55,.03));color:#e8c56a;font-size:13px;cursor:pointer;padding:0" style-active="transform:translateY(1px)">{{ playGlyph }}</button>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.26em;color:rgba(247,242,232,.4)">{{ playWord }}</span>
           </div>
           <span style="width:1px;background:rgba(247,242,232,.08);display:{{ divDisp }}"></span>
@@ -112,8 +112,8 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
                     <div ref="{{ c.vuRef }}" style="position:absolute;left:0;right:0;bottom:0;height:0%;background:linear-gradient(180deg,#e8c56a,{{ c.accent }})"></div>
                   </div>
                 </div>
-                <button onClick="{{ c.muteTap }}" aria-label="{{ c.muteAria }}" aria-pressed="{{ c.muted }}" style="width:26px;height:11px;border:1px solid rgba(255,255,255,.12);background:{{ c.muteBg }};box-shadow:{{ c.muteGlow }};cursor:pointer;padding:0;transition:all .3s ease"></button>
-                <button onClick="{{ c.openTap }}" style="border:none;background:transparent;color:{{ c.labelColor }};font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;cursor:pointer;padding:2px 1px;transition:color .4s ease">{{ c.name }}</button>
+                <button onClick="{{ c.muteTap }}" aria-label="{{ c.muteAria }}" aria-pressed="{{ c.muted }}" style="width:26px;height:11px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:{{ c.muteBg }};box-shadow:{{ c.muteGlow }};cursor:pointer;padding:0;transition:all .3s ease"></button>
+                <button onClick="{{ c.openTap }}" style="border:none;border-radius:999px;background:transparent;color:{{ c.labelColor }};font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;cursor:pointer;padding:2px 1px;transition:color .4s ease">{{ c.name }}</button>
               </div>
             </sc-for>
           </div>
@@ -128,16 +128,16 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
           <span style="width:1px;background:rgba(247,242,232,.08);display:{{ riteDisp }}"></span>
           <div style="display:{{ riteDisp }};flex-direction:column;align-items:center;justify-content:center;gap:3px">
             <div style="display:flex;align-items:center;gap:2px">
-              <button onClick="{{ patchPrev }}" aria-label="Previous rite" style="border:none;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:11px;padding:6px 10px;transition:color .3s ease" style-hover="color:#e8c56a" style-active="transform:translateX(-1px)">◂</button>
+              <button onClick="{{ patchPrev }}" aria-label="Previous rite" style="border:none;border-radius:999px;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:11px;padding:6px 10px;transition:color .3s ease" style-hover="color:#e8c56a" style-active="transform:translateX(-1px)">◂</button>
               <div style="font-family:Cinzel,serif;font-size:11px;letter-spacing:.2em;color:#e8c56a;white-space:nowrap">{{ patchName }}</div>
-              <button onClick="{{ patchNext }}" aria-label="Next rite" style="border:none;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:11px;padding:6px 10px;transition:color .3s ease" style-hover="color:#e8c56a" style-active="transform:translateX(1px)">▸</button>
+              <button onClick="{{ patchNext }}" aria-label="Next rite" style="border:none;border-radius:999px;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:11px;padding:6px 10px;transition:color .3s ease" style-hover="color:#e8c56a" style-active="transform:translateX(1px)">▸</button>
             </div>
             <span style="font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.26em;color:rgba(247,242,232,.35)">RITE {{ patchNum }}</span>
           </div>
           <span style="width:1px;background:rgba(247,242,232,.08);display:{{ divDisp }}"></span>
           <div style="display:{{ bpColDisp }};flex-direction:column;justify-content:center;gap:6px">
-            <button onClick="{{ fieldTap }}" aria-pressed="{{ fieldOn }}" style="padding:9px 16px;border-radius:0;border:1px solid {{ fieldBorder }};background:{{ fieldBg }};color:{{ fieldColor }};font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">BALANCE</button>
-            <button onClick="{{ padsTap }}" aria-pressed="{{ padsOn }}" ref="{{ padsBtnRef }}" style="padding:9px 16px;border-radius:0;border:1px solid {{ padsBorder }};background:{{ padsBg }};color:{{ padsColor }};font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">PADS</button>
+            <button onClick="{{ fieldTap }}" aria-pressed="{{ fieldOn }}" style="padding:9px 16px;border-radius:999px;border:1px solid {{ fieldBorder }};background:{{ fieldBg }};color:{{ fieldColor }};font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">BALANCE</button>
+            <button onClick="{{ padsTap }}" aria-pressed="{{ padsOn }}" ref="{{ padsBtnRef }}" style="padding:9px 16px;border-radius:999px;border:1px solid {{ padsBorder }};background:{{ padsBg }};color:{{ padsColor }};font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">PADS</button>
           </div>
         </div>
       </div>
@@ -145,21 +145,21 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
 
     <sc-if value="{{ drawerOn }}" hint-placeholder-val="{{ false }}">
       <div style="position:absolute;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;pointer-events:none">
-        <div style="pointer-events:auto;width:min(820px,100vw);max-height:min(62dvh,520px);overflow-y:auto;border-radius:0;border:1px solid rgba(212,164,55,.28);border-bottom:none;border-left:none;border-right:none;background:linear-gradient(180deg,rgba(22,18,13,.97),rgba(8,6,4,.98));backdrop-filter:blur(16px);box-shadow:0 -24px 70px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.08);padding:18px clamp(16px,3vw,28px) calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px;animation:nfmUp .35s cubic-bezier(.2,.8,.2,1) both">
+        <div style="pointer-events:auto;width:min(820px,100vw);max-height:min(62dvh,520px);overflow-y:auto;border-radius:18px 18px 0 0;border:1px solid rgba(212,164,55,.28);border-bottom:none;border-left:none;border-right:none;background:linear-gradient(180deg,rgba(22,18,13,.97),rgba(8,6,4,.98));backdrop-filter:blur(16px);box-shadow:0 -24px 70px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.08);padding:18px clamp(16px,3vw,28px) calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px;animation:nfmUp .35s cubic-bezier(.2,.8,.2,1) both">
           <div style="display:flex;align-items:center;gap:12px">
             <svg viewBox="0 0 24 24" style="width:24px;height:24px;color:{{ dAccent }};display:{{ dSigilDisp }}"><path d="{{ dSigilPath }}" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{ dSigilFill }}" fill="currentColor"></path></svg>
             <span style="font-family:Cinzel,serif;font-size:15px;letter-spacing:.3em;color:{{ dAccent }}">{{ dTitle }}</span>
             <span style="flex:1"></span>
             <sc-if value="{{ dIsEngine }}" hint-placeholder-val="{{ false }}">
-              <button onClick="{{ dSilence }}" style="padding:10px 18px;border-radius:0;border:1px solid rgba(247,242,232,.2);background:transparent;color:rgba(247,242,232,.6);font-family:Cinzel,serif;font-size:10px;letter-spacing:.26em;cursor:pointer" style-hover="border-color:rgba(212,164,55,.5);color:#e8c56a">REST THIS MASK</button>
+              <button onClick="{{ dSilence }}" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(247,242,232,.2);background:transparent;color:rgba(247,242,232,.6);font-family:Cinzel,serif;font-size:10px;letter-spacing:.26em;cursor:pointer" style-hover="border-color:rgba(212,164,55,.5);color:#e8c56a">REST THIS MASK</button>
             </sc-if>
-            <button onClick="{{ dClose }}" aria-label="Close" style="width:38px;height:38px;border-radius:0;border:1px solid rgba(255,255,255,.14);background:rgba(10,8,6,.7);color:rgba(247,242,232,.7);cursor:pointer;font-size:13px" style-active="transform:scale(.94)">✕</button>
+            <button onClick="{{ dClose }}" aria-label="Close" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(10,8,6,.7);color:rgba(247,242,232,.7);cursor:pointer;font-size:13px" style-active="transform:scale(.94)">✕</button>
           </div>
 
           <sc-if value="{{ dIsEngine }}" hint-placeholder-val="{{ false }}">
             <div style="display:flex;flex-wrap:wrap;gap:8px">
               <sc-for list="{{ waveOpts }}" as="w" hint-placeholder-count="0">
-                <button onClick="{{ w.pick }}" aria-pressed="{{ w.on }}" style="padding:11px 18px;border-radius:0;border:1px solid {{ w.border }};background:{{ w.bg }};color:{{ w.color }};font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;cursor:pointer;transition:all .3s ease" style-active="transform:translateY(1px)">{{ w.name }}</button>
+                <button onClick="{{ w.pick }}" aria-pressed="{{ w.on }}" style="padding:11px 18px;border-radius:999px;border:1px solid {{ w.border }};background:{{ w.bg }};color:{{ w.color }};font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;cursor:pointer;transition:all .3s ease" style-active="transform:translateY(1px)">{{ w.name }}</button>
               </sc-for>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:16px clamp(16px,3vw,30px);justify-content:center">
@@ -178,7 +178,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
                 <span style="font-size:9px;letter-spacing:.34em;color:rgba(247,242,232,.4)">PATTERN</span>
                 <span style="flex:1"></span>
                 <sc-for list="{{ lenOpts }}" as="l" hint-placeholder-count="0">
-                  <button onClick="{{ l.pick }}" aria-pressed="{{ l.on }}" style="padding:7px 12px;border-radius:0;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.color }};font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer" style-active="transform:translateY(1px)">{{ l.name }}</button>
+                  <button onClick="{{ l.pick }}" aria-pressed="{{ l.on }}" style="padding:7px 12px;border-radius:999px;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.color }};font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer" style-active="transform:translateY(1px)">{{ l.name }}</button>
                 </sc-for>
               </div>
               <sc-for list="{{ seqRows }}" as="row" hint-placeholder-count="1">
@@ -186,7 +186,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
                   <span style="width:52px;font-size:9px;letter-spacing:.2em;color:rgba(247,242,232,.5);font-family:'IBM Plex Mono',monospace">{{ row.label }}</span>
                   <div style="display:flex;gap:5px;flex:1">
                     <sc-for list="{{ row.steps }}" as="s" hint-placeholder-count="16">
-                      <button onClick="{{ s.tap }}" aria-label="{{ s.aria }}" aria-pressed="{{ s.on }}" style="flex:1;height:34px;min-width:0;border-radius:1px;border:1px solid {{ s.border }};background:{{ s.bg }};box-shadow:{{ s.glow }};cursor:pointer;margin-right:{{ s.gap }};transition:background .15s ease, box-shadow .15s ease;padding:0" style-active="transform:translateY(1px)"></button>
+                      <button onClick="{{ s.tap }}" aria-label="{{ s.aria }}" aria-pressed="{{ s.on }}" style="flex:1;height:34px;min-width:0;border-radius:6px;border:1px solid {{ s.border }};background:{{ s.bg }};box-shadow:{{ s.glow }};cursor:pointer;margin-right:{{ s.gap }};transition:background .15s ease, box-shadow .15s ease;padding:0" style-active="transform:translateY(1px)"></button>
                     </sc-for>
                   </div>
                 </div>
@@ -197,7 +197,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
           <sc-if value="{{ dIsPads }}" hint-placeholder-val="{{ false }}">
             <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
               <sc-for list="{{ pads }}" as="p" hint-placeholder-count="8">
-                <button onPointerDown="{{ p.hit }}" aria-label="{{ p.aria }}" style="min-height:64px;border-radius:2px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,#1a1713,#0d0b09);box-shadow:inset 0 1px 0 rgba(255,255,255,.08), inset 0 -3px 6px rgba(0,0,0,.6), 0 5px 12px rgba(0,0,0,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:box-shadow .1s ease" style-active="transform:translateY(2px);box-shadow:inset 0 2px 8px rgba(0,0,0,.8), 0 0 20px rgba(212,164,55,.3)">
+                <button onPointerDown="{{ p.hit }}" aria-label="{{ p.aria }}" style="min-height:64px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,#1a1713,#0d0b09);box-shadow:inset 0 1px 0 rgba(255,255,255,.08), inset 0 -3px 6px rgba(0,0,0,.6), 0 5px 12px rgba(0,0,0,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:box-shadow .1s ease" style-active="transform:translateY(2px);box-shadow:inset 0 2px 8px rgba(0,0,0,.8), 0 0 20px rgba(212,164,55,.3)">
                   <span ref="{{ p.ledRef }}" style="font-size:11px;letter-spacing:.26em;color:rgba(247,242,232,.65)">{{ p.label }}</span>
                 </button>
               </sc-for>
@@ -205,7 +205,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
           </sc-if>
 
           <sc-if value="{{ dIsField }}" hint-placeholder-val="{{ false }}">
-            <div ref="{{ xyRef }}" onPointerDown="{{ xyDown }}" role="application" aria-label="Energy field, drag to balance the five energies" style="position:relative;height:min(38dvh,300px);border-radius:0;border:1px solid rgba(212,164,55,.2);background:radial-gradient(ellipse 70% 70% at 50% 50%, #0b0806, #040302);cursor:crosshair;touch-action:none;overflow:hidden">
+            <div ref="{{ xyRef }}" onPointerDown="{{ xyDown }}" role="application" aria-label="Energy field, drag to balance the five energies" style="position:relative;height:min(38dvh,300px);border-radius:16px;border:1px solid rgba(212,164,55,.2);background:radial-gradient(ellipse 70% 70% at 50% 50%, #0b0806, #040302);cursor:crosshair;touch-action:none;overflow:hidden">
               <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:10px;letter-spacing:.3em;color:rgba(140,98,57,.8)">DARK</span>
               <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:10px;letter-spacing:.3em;color:rgba(212,164,55,.8)">LIGHT</span>
               <span style="position:absolute;left:50%;top:8px;transform:translateX(-50%);font-size:10px;letter-spacing:.3em;color:rgba(184,167,217,.7)">SKY</span>
@@ -236,8 +236,8 @@ button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164
             </sc-for>
           </div>
           <div style="display:flex;gap:8px;justify-content:center">
-            <button onClick="{{ tourSkip }}" style="padding:11px 18px;border-radius:0;border:1px solid rgba(247,242,232,.18);background:transparent;color:rgba(247,242,232,.55);font-family:Cinzel,serif;font-size:10px;letter-spacing:.28em;cursor:pointer" style-hover="color:#e8c56a">SKIP</button>
-            <button onClick="{{ tourNext }}" style="padding:11px 30px;border-radius:0;border:1px solid rgba(212,164,55,.6);background:linear-gradient(180deg,rgba(212,164,55,.16),rgba(212,164,55,.04));color:#e8c56a;font-family:Cinzel,serif;font-size:10px;letter-spacing:.28em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.1)" style-active="transform:translateY(1px)">{{ tourBtn }}</button>
+            <button onClick="{{ tourSkip }}" style="padding:11px 18px;border-radius:999px;border:1px solid rgba(247,242,232,.18);background:transparent;color:rgba(247,242,232,.55);font-family:Cinzel,serif;font-size:10px;letter-spacing:.28em;cursor:pointer" style-hover="color:#e8c56a">SKIP</button>
+            <button onClick="{{ tourNext }}" style="padding:11px 30px;border-radius:999px;border:1px solid rgba(212,164,55,.6);background:linear-gradient(180deg,rgba(212,164,55,.16),rgba(212,164,55,.04));color:#e8c56a;font-family:Cinzel,serif;font-size:10px;letter-spacing:.28em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.1)" style-active="transform:translateY(1px)">{{ tourBtn }}</button>
           </div>
         </div>
       </div>
