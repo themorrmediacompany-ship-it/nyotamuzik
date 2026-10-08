@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>MorrMoto map</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MorrMoto map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Inter:wght@500&display=swap" rel="stylesheet">
+<style>
+  html,body,#map{margin:0;height:100%;background:#141615;transition:background .2s;font-family:Inter,system-ui,sans-serif}
+  .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) grayscale(.85) brightness(.82) contrast(.92)}
+  [data-theme="light"] body,[data-theme="light"] #map,[data-theme="light"] .leaflet-container{background:#E4DFD8}
+  [data-theme="light"] .leaflet-tile-pane{filter:grayscale(1) sepia(.22) brightness(1.04) contrast(.86)}
+  [data-theme="light"] .pin{background:#0B0B0B;color:#EDE9E4;box-shadow:0 0 0 2px #EDE9E4}
+  [data-theme="light"] .pin.cl{background:#EDE9E4;color:#0B0B0B;box-shadow:0 0 0 1.5px #0B0B0B}
+  [data-theme="light"] .pin.sel{background:#FF4A00;color:#0B0B0B;box-shadow:0 0 0 3px #EDE9E4}
+  [data-theme="light"] .you{background:#0B0B0B;box-shadow:0 0 0 3px #EDE9E4,0 0 0 9px rgba(11,11,11,.14)}
+  [data-theme="light"] .leaflet-control-attribution{background:rgba(237,233,228,.9)!important;color:#4B5A6A!important}
+  [data-theme="light"] .leaflet-control-attribution a{color:#0B0B0B!important}
+  [data-theme="light"] .leaflet-bar a{background:#F6F3EF!important;color:#0B0B0B!important;border-color:rgba(11,11,11,.12)!important}
+  .leaflet-container{background:#141615}
+  .leaflet-control-attribution{background:rgba(11,11,11,.8)!important;color:#A8A39B!important;font:10px 'JetBrains Mono',monospace}
+  .leaflet-control-attribution a{color:#EDE9E4!important}
+  .leaflet-bar a{background:#1D1E1F!important;color:#EDE9E4!important;border-color:rgba(237,233,228,.14)!important}
+  .leaflet-bar{border:1px solid rgba(237,233,228,.14)!important;box-shadow:none!important;border-radius:4px!important}
+  .mm-attr{display:inline-flex;align-items:center;gap:6px}
+  .leaflet-container a{color:#EDE9E4}
+  .pin{display:grid;place-items:center;border-radius:50%;background:#EDE9E4;color:#0B0B0B;font:700 12px/1 'JetBrains Mono',monospace;box-shadow:0 0 0 2px #0B0B0B;transition:transform .2s cubic-bezier(.2,0,0,1),background .12s}
+  .pin.cl{background:#1D1E1F;color:#EDE9E4;box-shadow:0 0 0 1.5px #EDE9E4}
+  .pin.sel{background:#FF4A00;color:#0B0B0B;box-shadow:0 0 0 3px #0B0B0B;transform:scale(1.25)}
+  .pin:focus-visible{outline:2px solid #FF4A00;outline-offset:3px}
+  .you{width:14px;height:14px;border-radius:50%;background:#EDE9E4;box-shadow:0 0 0 3px #0B0B0B,0 0 0 9px rgba(237,233,228,.16)}
+  .leaflet-marker-icon:focus{outline:none}
+  @media (prefers-reduced-motion: reduce){.pin{transition:none}}
+</style>
+</head>
+<body>
+<div id="map" role="application" aria-label="Map of upcoming events. The list beside the map has the same events."></div>
+<script>
+const map = L.map('map', { zoomControl: true, attributionControl: true }).setView([30.35, -97.75], 9);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '<span class="mm-attr"><img src="brand/motion-mark/mark-reverse.svg" alt="MorrMoto" style="height:8px">© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a></span>' }).addTo(map);
+map.attributionControl.setPrefix(false);
+let ring = null, events = [], origin = null, selected = null, layer = L.layerGroup().addTo(map), youLayer = L.layerGroup().addTo(map), fitted = false;
+const post = m => parent.postMessage(m, '*');
+
+function draw() {
+  layer.clearLayers();
+  const pts = events.filter(e => e.lat != null).map(e => ({ e, p: map.latLngToLayerPoint([e.lat, e.lng]) }));
+  const groups = [];
+  pts.forEach(pt => { const g = groups.find(g => g.p.distanceTo(pt.p) < 44); g ? g.items.push(pt.e) : groups.push({ p: pt.p, items: [pt.e] }); });
+  groups.forEach(g => {
+    const n = g.items.length, size = n > 1 ? 30 : 16, ids = g.items.map(e => e.id);
+    const sel = selected && ids.includes(selected);
+    const same = g.items.every(e => Math.abs(e.lat - g.items[0].lat) < 1e-4 && Math.abs(e.lng - g.items[0].lng) < 1e-4);
+    const label = n > 1 ? `${n} events: ${g.items.map(e => e.title).join(', ')}` : `${g.items[0].title}, ${g.items[0].label}`;
+    const m = L.marker(map.layerPointToLatLng(g.p), {
+      keyboard: true, title: label, alt: label,
+      icon: L.divIcon({ className: '', iconSize: [size, size], html: `<div class="pin${n > 1 ? ' cl' : ''}${sel ? ' sel' : ''}" style="width:${size}px;height:${size}px">${n > 1 ? n : ''}</div>` })
+    }).addTo(layer);
+    m.on('click keypress', ev => {
+      if (ev.type === 'keypress' && !['Enter', ' '].includes(ev.originalEvent.key)) return;
+      if (n > 1 && !same && map.getZoom() < 14) map.fitBounds(L.latLngBounds(g.items.map(e => [e.lat, e.lng])).pad(0.6), { maxZoom: 14 });
+      else post({ type: 'mm-select', ids });
+    });
+  });
+}
+function drawYou() {
+  youLayer.clearLayers();
+  if (origin) L.marker([origin.lat, origin.lng], { keyboard: false, interactive: false, icon: L.divIcon({ className: '', iconSize: [14, 14], html: '<div class="you"></div>' }) }).addTo(youLayer);
+}
+map.on('zoomend', draw);
+window.addEventListener('message', ev => {
+  const m = ev.data || {};
+  if (m.type === 'mm-data') {
+    if (m.theme) document.documentElement.dataset.theme = m.theme; if (ring) ring.setStyle({ color: m.theme === 'light' ? '#0B0B0B' : '#EDE9E4' });
+    events = m.events || []; origin = m.origin || null; selected = m.selected || null;
+    drawYou(); draw();
+    if (ring) { map.removeLayer(ring); ring = null; }
+    if (m.radius) { const c = origin || { lat: 30.2672, lng: -97.7431 }; ring = L.circle([c.lat, c.lng], { radius: m.radius * 1609.34, color: m.theme === 'light' ? '#0B0B0B' : '#EDE9E4', weight: 1, opacity: .45, dashArray: '4 6', fill: false, interactive: false }).addTo(map); }
+    const b = events.filter(e => e.lat != null).map(e => [e.lat, e.lng]);
+    if (origin) b.push([origin.lat, origin.lng]);
+    if (ring && (!fitted || m.refit)) { map.fitBounds(ring.getBounds().pad(0.05)); fitted = true; }
+    else if (b.length && (!fitted || m.refit)) { map.fitBounds(L.latLngBounds(b).pad(0.25), { maxZoom: 12 }); fitted = true; }
+  }
+  if (m.type === 'mm-focus') {
+    selected = m.id; const e = events.find(x => x.id === m.id);
+    if (e && e.lat != null) map.flyTo([e.lat, e.lng], Math.max(map.getZoom(), 11), { duration: matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.6 });
+    draw();
+  }
+});
+new ResizeObserver(() => map.invalidateSize()).observe(document.getElementById('map'));
+post({ type: 'mm-ready' });
+</script>
+</body>
+</html>

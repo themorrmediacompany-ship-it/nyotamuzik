@@ -1,0 +1,14 @@
+{
+  "name": "morrmoto",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MorrMoto — static preview build (Phase 1 manual capture)",
+  "scripts": {
+    "dev": "npx vercel dev",
+    "discover": "node scripts/discover.mjs"
+  },
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  }
+}

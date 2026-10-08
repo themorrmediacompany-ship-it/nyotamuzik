@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /uploads/
+Disallow: /admin
+Disallow: /system
+Disallow: /api/
+Allow: /api/seo
 
-Sitemap: https://nyotamuzik.com/sitemap.xml
+Sitemap: https://www.morrmoto.com/sitemap.xml

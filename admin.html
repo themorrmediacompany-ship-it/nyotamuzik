@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="robots" content="noindex,nofollow">
+<script defer src="/_vercel/insights/script.js"></script>
+<title>MorrMoto / admin</title>
+<meta name="description" content="MorrMoto — know what's moving. Car, motorcycle, track and off-road events around Austin, found and verified for you.">
+<style>x-dc{display:none!important}</style>
+<noscript><div style="min-height:100vh;display:grid;place-items:center;background:#0B0B0B;color:#EDE9E4;font:16px system-ui;text-align:center;padding:24px"><div><h1 style="margin:0 0 8px">MorrMoto</h1><p>Know what’s moving. Turn on JavaScript to see what’s happening around Austin.</p></div></div></noscript>
+<script>setTimeout(function(){if(!document.getElementById('dc-root')||!document.getElementById('dc-root').children.length){document.body.insertAdjacentHTML('beforeend','<div role="alert" style="position:fixed;inset:0;z-index:999;display:grid;place-items:center;background:#0B0B0B;color:#EDE9E4;font:16px system-ui;text-align:center;padding:24px"><div><h1 style="margin:0 0 8px;font-size:28px">We lost the signal.</h1><p style="color:#A8A39B">MorrMoto couldn’t start. Check your connection and try again.</p><button onclick="location.reload()" style="margin-top:12px;min-height:48px;padding:0 20px;border:0;border-radius:4px;background:#FF4A00;color:#0B0B0B;font-weight:700;font-size:15px">Reload</button></div></div>');}},10000);</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wdth,wght@1,125,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="brand/motion-mark/favicon.svg" type="image/svg+xml">
+<style>
+body{margin:0;background:#0B0B0B;color:#EDE9E4;font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.5}
+a{color:#EDE9E4;text-underline-offset:3px}
+a:hover{color:#EDE9E4}
+*{box-sizing:border-box}
+input[type=range]{accent-color:#FF4A00}
+::selection{background:rgba(255,74,0,.35)}
+</style>
+</helmet>
+<div style="max-width:1480px;margin:0 auto;padding:20px 24px 64px;display:flex;flex-direction:column;gap:18px">
+
+  <header style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div style="display:flex;flex-direction:column;gap:2px">
+      <div style="display:flex;align-items:center;gap:10px"><span style="font-family:Archivo,sans-serif;font-style:italic;font-weight:900;font-stretch:125%;letter-spacing:-.02em;font-size:16px;line-height:1;white-space:nowrap"><span style="color:#EDE9E4">MORR</span><span style="color:#FF4A00">MOTO</span></span><img src="brand/motion-mark/mark-reverse.svg" alt="" style="height:12px;width:auto"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#A8A39B">/ AUS · ADMIN</span></div>
+      <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+        <h1 style="margin:0;font-family:Anton,sans-serif;font-weight:400;text-transform:uppercase;font-size:34px;line-height:1">Discovery engine</h1>
+        <span style="font-size:13px;color:#A8A39B">Admin intelligence · Greater Austin</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;font-size:12px;color:#A8A39B;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column"><span style="color:#8E8981">Window</span><span style="color:#EDE9E4;font-family:'JetBrains Mono',monospace">2026-10-04 → 2026-11-03</span></div>
+      <div style="display:flex;flex-direction:column"><span style="color:#8E8981">Capture</span><span style="color:#EDE9E4;font-family:'JetBrains Mono',monospace">#0B0B0B · 2026-10-04 15:00 CT</span></div>
+    </div>
+  </header>
+
+  <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:8px;background:#1D1E1F;box-shadow:inset 0 0 0 1px rgba(199,184,163,.45)">
+    <div style="flex:none;margin-top:6px;width:8px;height:8px;border-radius:50%;background:#C7B8A3"></div>
+    <div style="font-size:13px;color:#D6D1C9;text-wrap:pretty"><strong style="font-weight:600;color:#EDE9E4">Data mode: research capture, not live crawling.</strong> Every record below is a real discovery from a public page, with its original URL and discovery time. All of it was captured by hand through a search index on 2026-10-04. No scheduled crawler is running yet, and pages were not fetched. Dedupe, confidence, states and coverage are computed live by the engine. See <a href="docs/MorrMoto%20Phase%201%20Plan.md">the Phase 1 plan</a> and <a href="db/schema.sql">the schema</a>.</div>
+  </div>
+
+  <nav style="display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid rgba(237,233,228,.10)">
+    <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="6">
+      <button onClick="{{ t.onClick }}" style="all:unset;cursor:pointer;display:flex;gap:8px;align-items:center;padding:9px 12px;font-size:13px;font-weight:500;color:{{ t.color }};box-shadow:inset 0 -2px 0 {{ t.line }}" style-hover="color:#EDE9E4">{{ t.label }}<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8E8981">{{ t.count }}</span></button>
+    </sc-for>
+  </nav>
+
+  <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:40px;color:#A8A39B">Running engine…</div>
+  </sc-if>
+
+  <!-- OVERVIEW -->
+  <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <section style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px;align-items:stretch">
+        <div style="padding:20px 22px;border-radius:14px;background:linear-gradient(160deg,#1D1E1F,#1D1E1F 70%);display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:12px;color:#EDE9E4;letter-spacing:.04em">The Phase 1 question</div>
+          <div style="font-size:19px;font-weight:500;line-height:1.3;max-width:560px;text-wrap:pretty">What motor-related events are happening around Austin during the next 30 days?</div>
+          <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:4px">
+            <span style="font-size:56px;font-weight:500;letter-spacing:-.03em;line-height:1">{{ answerCount }}</span>
+            <span style="font-size:14px;color:#D6D1C9;flex:1 1 220px;min-width:220px">publishable events · {{ answerVerified }} verified · {{ answerLikely }} likely</span>
+          </div>
+          <div style="font-size:13px;color:#A8A39B;max-width:620px;text-wrap:pretty;margin-top:4px">{{ answerNote }}</div>
+          <div style="display:flex;gap:8px;margin-top:4px"><button onClick="{{ goAnswer }}" style="all:unset;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid #FF4A00;color:#EDE9E4;font-size:13px;font-weight:500" style-hover="background:rgba(255,74,0,.12)">See the 30-day answer</button><button onClick="{{ goReview }}" style="all:unset;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid rgba(237,233,228,.16);font-size:13px;font-weight:500" style-hover="background:rgba(237,233,228,.07)">Open review queue</button></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+          <sc-for list="{{ experiment }}" as="m" hint-placeholder-count="4">
+            <div style="padding:12px 14px;border-radius:8px;background:#141515;display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:12px;color:#A8A39B">{{ m.label }}</span>
+              <span style="font-size:24px;font-weight:500;letter-spacing:-.02em">{{ m.value }}</span>
+              <span style="font-size:11px;color:#8E8981;text-wrap:pretty">{{ m.sub }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
+        <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="9">
+          <button onClick="{{ k.onClick }}" style="all:unset;cursor:pointer;padding:12px 14px;border-radius:8px;background:#141515;display:flex;flex-direction:column;gap:2px" style-hover="box-shadow:inset 0 0 0 1px #6B675F">
+            <span style="font-size:12px;color:#A8A39B">{{ k.label }}</span>
+            <span style="font-size:26px;font-weight:500;letter-spacing:-.02em;color:{{ k.color }}">{{ k.value }}</span>
+            <span style="font-size:11px;color:#8E8981">{{ k.sub }}</span>
+          </button>
+        </sc-for>
+      </section>
+
+      <section style="padding:14px 16px;border-radius:8px;background:#141515;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span style="font-size:13px;font-weight:500">Events by date</span><span style="font-size:11px;color:#8E8981">Non-rejected events in the window, by start date. Bars stack verified / likely / review.</span></div>
+        <div style="display:grid;grid-template-columns:repeat(31,minmax(0,1fr));gap:3px;align-items:end;height:120px">
+          <sc-for list="{{ dateBars }}" as="d" hint-placeholder-count="31">
+            <div title="{{ d.tip }}" style="display:flex;flex-direction:column-reverse;gap:1px;height:100%;justify-content:flex-start">
+              <div style="height:{{ d.hv }}px;background:#FF4A00;border-radius:2px"></div>
+              <div style="height:{{ d.hl }}px;background:#8E8981;border-radius:2px"></div>
+              <div style="height:{{ d.hr }}px;background:#C7B8A3;border-radius:2px"></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(31,minmax(0,1fr));gap:3px">
+          <sc-for list="{{ dateBars }}" as="d" hint-placeholder-count="31">
+            <span style="font-size:9px;text-align:center;color:{{ d.lc }};font-family:'JetBrains Mono',monospace">{{ d.label }}</span>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px">
+        <sc-for list="{{ charts }}" as="c" hint-placeholder-count="4">
+          <div style="padding:14px 16px;border-radius:8px;background:#141515;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;gap:8px"><span style="font-size:13px;font-weight:500">{{ c.title }}</span><span style="font-size:11px;color:#8E8981">{{ c.note }}</span></div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <sc-for list="{{ c.rows }}" as="r" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:minmax(0,130px) minmax(0,1fr) 28px;gap:8px;align-items:center;font-size:12px">
+                  <span style="color:#D6D1C9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.label }}</span>
+                  <div style="height:8px;border-radius:4px;background:#1D1E1F;overflow:hidden"><div style="height:100%;width:{{ r.w }};background:{{ r.color }};border-radius:4px"></div></div>
+                  <span style="text-align:right;font-family:'JetBrains Mono',monospace;color:{{ r.vc }}">{{ r.value }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </section>
+    </div>
+  </sc-if>
+
+  <!-- REVIEW -->
+  <sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <sc-for list="{{ filters }}" as="fl" hint-placeholder-count="7">
+          <button onClick="{{ fl.onClick }}" style="all:unset;cursor:pointer;padding:4px 10px;border-radius:6px;font-size:12px;white-space:nowrap;background:{{ fl.bg }};color:{{ fl.fg }};box-shadow:inset 0 0 0 1px {{ fl.ring }}">{{ fl.label }} · {{ fl.count }}</button>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(260px,380px) minmax(0,1fr);gap:14px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:4px;max-height:calc(100vh - 220px);overflow:auto;padding-right:4px">
+          <sc-for list="{{ queue }}" as="q" hint-placeholder-count="8">
+            <button onClick="{{ q.onClick }}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding:10px 12px;border-radius:8px;background:{{ q.bg }};box-shadow:inset 0 0 0 1px {{ q.ring }}" style-hover="background:#26282A">
+              <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start">
+                <span style="font-size:13px;font-weight:500;line-height:1.3">{{ q.title }}</span>
+                <span style="flex:none;font-size:11px;padding:1px 7px;border-radius:5px;background:{{ q.sbg }};color:{{ q.sfg }}">{{ q.state }}</span>
+              </div>
+              <div style="display:flex;gap:8px;font-size:11px;color:#A8A39B;flex-wrap:wrap"><span style="font-family:'JetBrains Mono',monospace">{{ q.date }}</span><span>{{ q.region }}</span><span>{{ q.srcs }}</span><span style="font-family:'JetBrains Mono',monospace;color:#D6D1C9">{{ q.score }}</span></div>
+              <span style="font-size:11px;color:{{ q.rc }}">{{ q.reason }}</span>
+            </button>
+          </sc-for>
+          <sc-if value="{{ queueEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:16px;font-size:13px;color:#A8A39B">Nothing in this filter.</div></sc-if>
+        </div>
+
+        <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px;padding:16px 18px;border-radius:14px;background:#141515;box-shadow:0 0 0 1px #26282A">
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start">
+              <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                  <span style="font-size:11px;padding:2px 8px;border-radius:5px;background:{{ sel.sbg }};color:{{ sel.sfg }}">{{ sel.state }}</span>
+                  <span style="font-size:11px;padding:2px 8px;border-radius:5px;background:#26282A;color:#EDE9E4">{{ sel.lifecycle }}</span>
+                  <span style="font-size:11px;color:#A8A39B">{{ sel.reason }}</span>
+                </div>
+                <h2 style="margin:0;font-size:21px;font-weight:500;letter-spacing:-.01em">{{ sel.title }}</h2>
+                <span style="font-size:13px;color:#A8A39B">{{ sel.when }} · {{ sel.where }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end"><span style="font-size:11px;color:#A8A39B">Confidence</span><span style="font-size:30px;font-weight:500;font-family:'JetBrains Mono',monospace;line-height:1.1">{{ sel.score }}</span></div>
+            </div>
+
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button onClick="{{ act.approve }}" style="all:unset;cursor:pointer;padding:5px 11px;border-radius:8px;border:1px solid #FF4A00;color:#EDE9E4;font-size:12px;font-weight:500" style-hover="background:rgba(255,74,0,.12)">Approve</button>
+              <button onClick="{{ act.edit }}" style="all:unset;cursor:pointer;padding:5px 11px;border-radius:8px;border:1px solid rgba(237,233,228,.16);font-size:12px;font-weight:500" style-hover="background:rgba(237,233,228,.07)">{{ act.editLabel }}</button>
+              <button onClick="{{ act.reject }}" style="all:unset;cursor:pointer;padding:5px 11px;border-radius:8px;border:1px solid rgba(237,233,228,.16);font-size:12px;font-weight:500" style-hover="background:rgba(237,233,228,.07)">Reject</button>
+              <button onClick="{{ act.markDup }}" style="all:unset;cursor:pointer;padding:5px 11px;border-radius:8px;border:1px solid rgba(237,233,228,.16);font-size:12px;font-weight:500;opacity:{{ act.dupOpacity }}" style-hover="background:rgba(237,233,228,.07)">Mark duplicate</button>
+              <button onClick="{{ act.cancel }}" style="all:unset;cursor:pointer;padding:5px 11px;border-radius:8px;border:1px solid rgba(237,233,228,.16);font-size:12px;font-weight:500" style-hover="background:rgba(237,233,228,.07)">Mark canceled</button>
+              <sc-if value="{{ act.canReset }}" hint-placeholder-val="{{ false }}"><button onClick="{{ act.reset }}" style="all:unset;cursor:pointer;padding:5px 11px;border-radius:8px;font-size:12px;color:#A8A39B" style-hover="color:#EDE9E4">Undo review</button></sc-if>
+            </div>
+
+            <sc-if value="{{ editing }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding:12px;border-radius:8px;background:#1D1E1F">
+                <sc-for list="{{ editFields }}" as="ef" hint-placeholder-count="5">
+                  <label style="display:flex;flex-direction:column;gap:4px;font-size:11px;color:#A8A39B">{{ ef.label }}<input value="{{ ef.value }}" onChange="{{ ef.onChange }}" placeholder="unknown" style="font:inherit;font-size:13px;color:#EDE9E4;background:#141515;border:1px solid rgba(237,233,228,.16);border-radius:8px;padding:6px 9px;outline:none"></label>
+                </sc-for>
+                <div style="display:flex;align-items:flex-end;gap:6px"><button onClick="{{ act.save }}" style="all:unset;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid #FF4A00;color:#EDE9E4;font-size:12px;font-weight:500">Save edits</button></div>
+              </div>
+            </sc-if>
+
+            <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px">
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:12px;font-weight:500;color:#D6D1C9">Extracted and resolved fields</span>
+                <div style="display:flex;flex-direction:column">
+                  <sc-for list="{{ sel.fields }}" as="fd" hint-placeholder-count="10">
+                    <div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;padding:5px 0;border-bottom:1px solid rgba(237,233,228,.06);font-size:12px">
+                      <span style="color:#A8A39B">{{ fd.label }}</span>
+                      <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                        <span style="color:{{ fd.vc }};font-style:{{ fd.fs }}">{{ fd.value }}</span>
+                        <span style="font-size:10px;color:#8E8981">{{ fd.from }}</span>
+                        <sc-if value="{{ fd.conflict }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:#C7B8A3">Conflict: {{ fd.conflictText }}</span></sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:12px;font-weight:500;color:#D6D1C9">Confidence breakdown</span>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <sc-for list="{{ sel.breakdown }}" as="b" hint-placeholder-count="8">
+                    <div style="display:grid;grid-template-columns:minmax(0,1fr) 46px;gap:8px;font-size:12px;align-items:center">
+                      <span style="color:#A8A39B">{{ b.label }}</span>
+                      <span style="text-align:right;font-family:'JetBrains Mono',monospace;color:{{ b.color }}">{{ b.text }}</span>
+                    </div>
+                  </sc-for>
+                  <div style="display:grid;grid-template-columns:minmax(0,1fr) 46px;gap:8px;font-size:12px;padding-top:4px;border-top:1px solid rgba(237,233,228,.12)"><span>Total</span><span style="text-align:right;font-family:'JetBrains Mono',monospace">{{ sel.score }}</span></div>
+                </div>
+                <sc-if value="{{ sel.hasDupes }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+                    <span style="font-size:12px;font-weight:500;color:#D6D1C9">Possible duplicates</span>
+                    <sc-for list="{{ sel.dupes }}" as="du" hint-placeholder-count="2">
+                      <div style="padding:9px 10px;border-radius:8px;background:#1D1E1F;display:flex;flex-direction:column;gap:5px">
+                        <div style="display:flex;justify-content:space-between;gap:8px"><button onClick="{{ du.onView }}" style="all:unset;cursor:pointer;font-size:12px;font-weight:500;color:#EDE9E4" style-hover="text-decoration:underline">{{ du.title }}</button><span style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ du.score }}</span></div>
+                        <span style="font-size:11px;color:#A8A39B">{{ du.signals }}</span>
+                        <div style="display:flex;gap:6px"><button onClick="{{ du.onMerge }}" style="all:unset;cursor:pointer;padding:3px 9px;border-radius:6px;border:1px solid #FF4A00;color:#EDE9E4;font-size:11px">Merge</button><button onClick="{{ du.onSeparate }}" style="all:unset;cursor:pointer;padding:3px 9px;border-radius:6px;border:1px solid rgba(237,233,228,.16);font-size:11px">Keep separate</button></div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:12px;font-weight:500;color:#D6D1C9">Evidence · {{ sel.evCount }}</span>
+              <sc-for list="{{ sel.evidence }}" as="ev" hint-placeholder-count="2">
+                <div style="padding:10px 12px;border-radius:8px;background:#1D1E1F;display:flex;flex-direction:column;gap:4px">
+                  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span style="font-size:12px;font-weight:500">{{ ev.source }} <span style="font-weight:400;color:#A8A39B">· {{ ev.type }} · reliability {{ ev.rel }}</span></span><span style="font-size:11px;color:#8E8981;font-family:'JetBrains Mono',monospace">{{ ev.basis }}</span></div>
+                  <span style="font-size:12px;color:#EDE9E4">“{{ ev.raw }}”</span>
+                  <span style="font-size:12px;color:#A8A39B;text-wrap:pretty">{{ ev.evidence }}</span>
+                  <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:#8E8981"><a href="{{ ev.url }}" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;word-break:break-all">{{ ev.url }}</a><span>discovered {{ ev.discovered }}</span><span>page age {{ ev.age }}</span><span>{{ ev.cid }}</span></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ANSWER -->
+  <sc-if value="{{ isAnswer }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:980px">
+      <div style="font-size:13px;color:#A8A39B;text-wrap:pretty">{{ answerNote }}</div>
+      <sc-for list="{{ answerDays }}" as="ad" hint-placeholder-count="5">
+        <div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px">
+          <div style="font-size:13px;font-weight:500;padding-top:10px;font-family:'JetBrains Mono',monospace;color:#D6D1C9">{{ ad.label }}</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <sc-for list="{{ ad.items }}" as="ai" hint-placeholder-count="1">
+              <button onClick="{{ ai.onClick }}" style="all:unset;cursor:pointer;padding:10px 14px;border-radius:8px;background:#141515;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap" style-hover="box-shadow:inset 0 0 0 1px #6B675F">
+                <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <span style="font-size:14px;font-weight:500">{{ ai.title }}</span>
+                  <span style="font-size:12px;color:#A8A39B">{{ ai.meta }}</span>
+                  <span style="font-size:11px;color:#8E8981">{{ ai.tags }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span style="font-size:11px;padding:1px 7px;border-radius:5px;background:{{ ai.sbg }};color:{{ ai.sfg }}">{{ ai.state }}</span><span style="font-size:11px;color:#A8A39B">{{ ai.srcs }}</span></div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <!-- SOURCES -->
+  <sc-if value="{{ isSources }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:13px;color:#A8A39B">{{ sourceSummary }}</div>
+      <div style="overflow:auto;border-radius:8px;background:#141515">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:1100px">
+          <thead><tr style="text-align:left;color:#A8A39B;font-size:11px;letter-spacing:.06em;text-transform:uppercase">
+            <th style="padding:10px 12px;font-weight:500">Source</th><th style="padding:10px 8px;font-weight:500">Type</th><th style="padding:10px 8px;font-weight:500">Area</th><th style="padding:10px 8px;font-weight:500">Discovery method</th><th style="padding:10px 8px;font-weight:500">Freq</th><th style="padding:10px 8px;font-weight:500">Last checked</th><th style="padding:10px 8px;font-weight:500">Reliab.</th><th style="padding:10px 8px;font-weight:500">Found</th><th style="padding:10px 8px;font-weight:500">In window</th><th style="padding:10px 8px;font-weight:500">Health</th><th style="padding:10px 8px;font-weight:500">Adapter</th><th style="padding:10px 12px;font-weight:500">Automation</th>
+          </tr></thead>
+          <tbody>
+            <sc-for list="{{ sourceRows }}" as="s" hint-placeholder-count="10">
+              <tr style="border-top:1px solid rgba(237,233,228,.06);vertical-align:top;opacity:{{ s.op }}">
+                <td style="padding:9px 12px;max-width:320px"><div style="display:flex;flex-direction:column;gap:2px"><a href="{{ s.url }}" target="_blank" rel="noopener" style="color:#EDE9E4;font-weight:500;text-decoration:none" style-hover="text-decoration:underline">{{ s.name }}</a><span style="color:#8E8981;font-size:11px;text-wrap:pretty">{{ s.notes }}</span></div></td>
+                <td style="padding:9px 8px;color:#D6D1C9">{{ s.type }}</td>
+                <td style="padding:9px 8px;color:#A8A39B">{{ s.area }}</td>
+                <td style="padding:9px 8px;color:#A8A39B;max-width:200px">{{ s.method }}</td>
+                <td style="padding:9px 8px;color:#A8A39B">{{ s.freq }}</td>
+                <td style="padding:9px 8px;font-family:'JetBrains Mono',monospace;color:#A8A39B">{{ s.last }}</td>
+                <td style="padding:9px 8px;font-family:'JetBrains Mono',monospace">{{ s.rel }}</td>
+                <td style="padding:9px 8px;font-family:'JetBrains Mono',monospace">{{ s.found }}</td>
+                <td style="padding:9px 8px;font-family:'JetBrains Mono',monospace">{{ s.inWin }}</td>
+                <td style="padding:9px 8px"><span style="font-size:11px;padding:1px 7px;border-radius:3px;white-space:nowrap;background:{{ s.hbg }};color:{{ s.hfg }}">{{ s.health }}</span></td><td style="padding:9px 8px;font-family:'JetBrains Mono',monospace;font-size:11px;white-space:nowrap">{{ s.adapter }}</td><td style="padding:9px 12px;max-width:220px"><div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;font-weight:600;color:{{ s.autoColor }}">{{ s.auto }}</span><span style="font-size:11px;color:#A8A39B">{{ s.autoNext }}</span></div></td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- COVERAGE -->
+  <sc-if value="{{ isCoverage }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="font-size:13px;color:#A8A39B;max-width:900px;text-wrap:pretty">Counts are non-rejected canonical events in the 30-day window, including those still in review. This is what the engine can see, not only what's published. Zero means a gap and 1–2 means thin. Each gap is a source-acquisition task.</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px">
+        <sc-for list="{{ coverageGroups }}" as="cg" hint-placeholder-count="3">
+          <div style="padding:14px 16px;border-radius:8px;background:#141515;display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:13px;font-weight:500">{{ cg.title }}</span>
+            <sc-for list="{{ cg.rows }}" as="cr" hint-placeholder-count="8">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) 32px 52px;gap:8px;font-size:12px;align-items:center;padding:3px 0;border-bottom:1px solid rgba(237,233,228,.05)">
+                <span style="color:#D6D1C9">{{ cr.label }}</span>
+                <span style="text-align:right;font-family:'JetBrains Mono',monospace">{{ cr.value }}</span>
+                <span style="font-size:10px;text-align:center;padding:1px 0;border-radius:4px;background:{{ cr.bg }};color:{{ cr.fg }}">{{ cr.status }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+      <div style="padding:14px 16px;border-radius:8px;background:#141515;display:flex;flex-direction:column;gap:8px;max-width:900px">
+        <span style="font-size:13px;font-weight:500">Next source acquisitions</span>
+        <sc-for list="{{ gapActions }}" as="ga" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px;font-size:12px"><span style="color:#C7B8A3">{{ ga.gap }}</span><span style="color:#A8A39B;text-wrap:pretty">{{ ga.action }}</span></div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ENGINE -->
+  <sc-if value="{{ isEngine }}" hint-placeholder-val="{{ false }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;align-items:start">
+      <div style="padding:16px 18px;border-radius:8px;background:#141515;display:flex;flex-direction:column;gap:14px">
+        <span style="font-size:13px;font-weight:500">Thresholds <span style="font-weight:400;color:#A8A39B">— recomputes live</span></span>
+        <sc-for list="{{ sliders }}" as="sl" hint-placeholder-count="5">
+          <label style="display:flex;flex-direction:column;gap:4px;font-size:12px">
+            <div style="display:flex;justify-content:space-between"><span style="color:#D6D1C9">{{ sl.label }}</span><span style="font-family:'JetBrains Mono',monospace">{{ sl.value }}</span></div>
+            <input type="range" min="{{ sl.min }}" max="{{ sl.max }}" step="{{ sl.step }}" value="{{ sl.value }}" onChange="{{ sl.onChange }}">
+            <span style="font-size:11px;color:#8E8981">{{ sl.help }}</span>
+          </label>
+        </sc-for>
+        <button onClick="{{ resetCfg }}" style="all:unset;cursor:pointer;align-self:flex-start;padding:5px 11px;border-radius:8px;border:1px solid rgba(237,233,228,.16);font-size:12px">Restore defaults</button>
+      </div>
+      <div style="padding:16px 18px;border-radius:8px;background:#141515;display:flex;flex-direction:column;gap:8px">
+        <span style="font-size:13px;font-weight:500">Pipeline run · capture #0B0B0B</span>
+        <sc-for list="{{ pipeline }}" as="p" hint-placeholder-count="7">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 60px;gap:8px;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(237,233,228,.05)"><span style="color:#D6D1C9">{{ p.step }} <span style="color:#8E8981">— {{ p.note }}</span></span><span style="text-align:right;font-family:'JetBrains Mono',monospace">{{ p.n }}</span></div>
+        </sc-for>
+        <span style="font-size:11px;color:#8E8981;margin-top:4px">Reviewer decisions are saved in this browser for now. They map to the review_actions table.</span>
+        <button onClick="{{ clearReviews }}" style="all:unset;cursor:pointer;align-self:flex-start;padding:5px 11px;border-radius:8px;border:1px solid rgba(237,233,228,.16);font-size:12px">Clear my review decisions</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;answerIncludesLikely&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Answer&quot;},&quot;defaultTab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;overview&quot;,&quot;options&quot;:[&quot;overview&quot;,&quot;review&quot;,&quot;answer&quot;,&quot;sources&quot;,&quot;coverage&quot;,&quot;engine&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;}}">
+const KEY = 'morrmoto.review.v1', CFGKEY = 'morrmoto.cfg.v1';
+const ST = {
+  'Verified': ['#EDE9E4', '#0B0B0B'],
+  'Likely': ['#26282A', '#EDE9E4'],
+  'Needs Review': ['#3A332A', '#E8DCC8'],
+  'Rejected': ['#3A1F1F', '#FFB3B5']
+};
+const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], MO = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmt = s => { if (!s) return 'No date'; const d = new Date(s + 'T12:00:00Z'); return `${WD[d.getUTCDay()]} ${MO[d.getUTCMonth()]} ${d.getUTCDate()}${d.getUTCFullYear() !== 2026 ? ', ' + d.getUTCFullYear() : ''}`; };
+const when = f => (f.date ? fmt(f.date) + (f.end && f.end !== f.date ? ' – ' + fmt(f.end) : '') : 'No date') + (f.start_time ? ' · ' + f.start_time + (f.end_time ? '–' + f.end_time : '') : '');
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
+
+class Component extends DCLogic {
+  state = { core: null, data: null, tab: null, filter: 'Needs Review', sel: null, cfg: null, ov: load(KEY, { actions: {}, edits: {}, merge: [], separate: [] }), editing: false, draft: {} };
+
+  componentDidMount() {
+    const u = p => new URL(p, document.baseURI).href;
+    Promise.all([import(u('engine/core.js')), import(u('engine/data.js')), import(u('engine/adapters/index.js')).catch(() => null)]).then(([core, data, adapters]) => {
+      this.setState({ core, data, adapters, cfg: load(CFGKEY, null) || { ...core.DEFAULT_CFG } });
+    }).catch(e => console.error('engine load failed', e));
+  }
+  saveOv(ov) { localStorage.setItem(KEY, JSON.stringify(ov)); this.setState({ ov, editing: false }); }
+  setCfg(cfg) { localStorage.setItem(CFGKEY, JSON.stringify(cfg)); this.setState({ cfg }); }
+
+  renderVals() {
+    const adapters = this.state.adapters;
+    const { core, data, cfg, ov } = this.state;
+    const tab = this.state.tab || this.props.defaultTab || 'overview';
+    const includeLikely = this.props.answerIncludesLikely ?? true;
+    const T = [['overview','Overview'],['review','Review queue'],['answer','30-day answer'],['sources','Sources'],['coverage','Coverage'],['engine','Engine']];
+    const base = { loading: !core, isOverview: false, isReview: false, isAnswer: false, isSources: false, isCoverage: false, isEngine: false };
+    if (!core) return { ...base, tabs: T.map(([id, label]) => ({ label, count: '', color: '#A8A39B', line: 'transparent' })) };
+
+    const r = core.run(data, cfg, ov);
+    const evs = r.events, byId = Object.fromEntries(evs.map(e => [e.id, e]));
+    const inWin = evs.filter(e => e.state !== 'Rejected' && e.f.date && !e.beyond);
+    const answer = r.answer.filter(e => includeLikely || e.state === 'Verified');
+    const cnt = s => evs.filter(e => e.state === s).length;
+    const go = t => () => this.setState({ tab: t });
+    const select = id => () => this.setState({ tab: 'review', sel: id, editing: false });
+    const conflictsN = evs.filter(e => e.conflicts.length && e.state !== 'Rejected').length;
+    const srcLabel = e => `${e.occs.length} record${e.occs.length > 1 ? 's' : ''} · ${e.independent} indep.`;
+
+    const tabs = T.map(([id, label]) => ({ label, onClick: go(id), color: tab === id ? '#EDE9E4' : '#A8A39B', line: tab === id ? '#FF4A00' : 'transparent',
+      count: { overview: '', review: cnt('Needs Review'), answer: answer.length, sources: data.SOURCES.length, coverage: '', engine: '' }[id] }));
+
+    // overview
+    const checked = data.SOURCES.filter(s => s.last_checked);
+    const srcStats = data.SOURCES.map(s => {
+      const cands = data.CANDIDATES.filter(c => c.source_id === s.id);
+      const evIn = new Set(inWin.filter(e => e.occs.some(o => o.src.id === s.id)).map(e => e.id)).size;
+      const expired = cands.length && evs.filter(e => e.occs.some(o => o.src.id === s.id)).every(e => e.reason === 'Expired / stale listing');
+      const ad = adapters ? adapters.adapterFor(s) : { key: '—', status: 'manual', next: '' };
+      const health = !s.active ? 'Inactive' : ad.status === 'restricted' ? 'Restricted' : !s.last_checked ? 'Never checked' : !cands.length ? 'No events found' : expired ? 'Stale' : evIn ? 'Healthy' : 'No in-window yield';
+      return { s, found: cands.length, evIn, health, ad };
+    });
+    const healthy = srcStats.filter(x => x.health === 'Healthy').length;
+    const cov = core.coverage(inWin);
+    const regionsCovered = cov.region.filter(x => x.value > 0).length;
+
+    const kpis = [
+      ['Events found', evs.length, `${data.CANDIDATES.length} candidates → ${evs.length} canonical`, '#EDE9E4', 'review', 'All'],
+      ['New today', evs.length, 'First capture, so everything is new', '#EDE9E4', 'review', 'All'],
+      ['Verified', cnt('Verified'), 'Strong evidence, trusted source', '#EDE9E4', 'review', 'Verified'],
+      ['Needs review', cnt('Needs Review'), 'Missing or conflicting info', '#C7B8A3', 'review', 'Needs Review'],
+      ['Possible duplicates', r.possibleDupes.length, `${r.merged.length} pairs auto-merged`, '#EDE9E4', 'review', 'Possible duplicates'],
+      ['Conflicts', conflictsN, 'Sources disagree on a field', '#C7B8A3', 'review', 'Conflicts'],
+      ['Canceled', evs.filter(e => e.lifecycle === 'Canceled').length, 'No cancellations detected yet', '#EDE9E4', 'review', 'All'],
+      ['Source health', `${healthy}/${checked.length}`, 'Checked sources yielding in-window events', '#EDE9E4', 'sources', null],
+      ['Coverage', `${regionsCovered}/${core.TAXONOMY.regions.length}`, 'Regions with at least one event', regionsCovered < 7 ? '#C7B8A3' : '#EDE9E4', 'coverage', null]
+    ].map(([label, value, sub, color, t, f]) => ({ label, value, sub, color, onClick: () => this.setState({ tab: t, ...(f ? { filter: f, sel: null } : {}) }) }));
+
+    const autoVerified = evs.filter(e => e.state === 'Verified' && !e.reviewed).length;
+    const experiment = [
+      { label: 'Automated discovery', value: '0%', sub: 'Capture #0B0B0B was manual search. The crawler is not deployed yet.' },
+      { label: 'Verified with no human touch', value: autoVerified, sub: 'Engine reached Verified on its own' },
+      { label: 'Review load', value: `${Math.round(cnt('Needs Review') / Math.max(1, evs.length) * 100)}%`, sub: 'Share of events needing a human' },
+      { label: 'Duplicate rate', value: `${Math.round((data.CANDIDATES.length - evs.length) / data.CANDIDATES.length * 100)}%`, sub: 'Candidates absorbed into another event' }
+    ];
+    const answerNote = `Every one of these has a legitimate source, an original URL and a discovery time. Recurring meets are dated from their published schedule and scored below explicit listings. ${includeLikely ? 'Includes Likely events.' : 'Verified only.'}`;
+
+    const days = []; for (let i = 0; i < 31; i++) { const d = new Date(Date.UTC(2026, 9, 4 + i, 12)); days.push(d.toISOString().slice(0, 10)); }
+    const onDay = d => inWin.filter(e => d >= e.f.date && d <= (e.f.end || e.f.date));
+    const maxDay = Math.max(1, ...days.map(d => onDay(d).length));
+    const dateBars = days.map(d => { const l = onDay(d), k = 104 / maxDay, dt = new Date(d + 'T12:00:00Z'), we = [0, 6].includes(dt.getUTCDay());
+      return { hv: l.filter(e => e.state === 'Verified').length * k, hl: l.filter(e => e.state === 'Likely').length * k, hr: l.filter(e => e.state === 'Needs Review').length * k,
+        label: dt.getUTCDate(), lc: we ? '#D6D1C9' : '#8E8981', tip: `${fmt(d)}: ${l.map(e => e.f.title).join(', ') || 'none'}` }; });
+
+    const bar = (rows, color = '#FF4A00') => { const m = Math.max(1, ...rows.map(x => x.value)); return rows.map(x => ({ ...x, w: (x.value / m * 100) + '%', color: x.value ? color : 'transparent', vc: x.value ? '#EDE9E4' : '#C7B8A3' })); };
+    const bySource = Object.entries(data.CANDIDATES.reduce((a, c) => { a[c.source_id] = (a[c.source_id] || 0) + 1; return a; }, {})).map(([id, v]) => ({ label: data.SOURCES.find(s => s.id === id).name.split(' — ')[0], value: v })).sort((a, b) => b.value - a.value).slice(0, 10);
+    const bins = [0, .2, .4, .6, .8].map(lo => ({ label: `${lo.toFixed(1)}–${(lo + .2).toFixed(1)}`, value: evs.filter(e => e.score >= lo && (e.score < lo + .2 || (lo === .8 && e.score <= 1))).length }));
+    const charts = [
+      { title: 'Events by category', note: 'in window, non-rejected', rows: bar(cov.event.filter(x => x.value).sort((a, b) => b.value - a.value)) },
+      { title: 'Events by geography', note: 'in window, non-rejected', rows: bar(cov.region) },
+      { title: 'Candidates by source', note: 'top 10', rows: bar(bySource, '#8E8981') },
+      { title: 'Confidence distribution', note: 'all canonical events', rows: bar(bins, '#EDE9E4') }
+    ];
+
+    // review
+    const F = {
+      'Needs Review': e => e.state === 'Needs Review', 'Possible duplicates': e => e.dupes.length > 0, 'Conflicts': e => e.conflicts.length > 0,
+      'Verified': e => e.state === 'Verified', 'Likely': e => e.state === 'Likely', 'Rejected': e => e.state === 'Rejected', 'All': () => true
+    };
+    const filter = this.state.filter;
+    const filters = Object.keys(F).map(k => ({ label: k, count: evs.filter(F[k]).length, onClick: () => this.setState({ filter: k, sel: null, editing: false }),
+      bg: filter === k ? '#EDE9E4' : 'transparent', fg: filter === k ? '#0B0B0B' : '#A8A39B', ring: filter === k ? '#FF4A00' : 'rgba(237,233,228,.14)' }));
+    const list = evs.filter(F[filter]);
+    const selId = this.state.sel && byId[this.state.sel] ? this.state.sel : list[0]?.id;
+    const queue = list.map(e => ({ title: e.f.title, date: e.f.date ? fmt(e.f.date) : 'No date', region: e.f.region, srcs: srcLabel(e), score: e.score.toFixed(2), state: e.state, reason: e.reason,
+      sbg: ST[e.state][0], sfg: ST[e.state][1], rc: e.state === 'Needs Review' ? '#C7B8A3' : '#8E8981',
+      bg: e.id === selId ? '#26282A' : '#1D1E1F', ring: e.id === selId ? '#FF4A00' : 'transparent', onClick: select(e.id) }));
+
+    const e = byId[selId];
+    let sel = null, act = {}, editFields = [];
+    if (e) {
+      const f = e.f, conf = Object.fromEntries(e.conflicts.map(c => [c.field, c.options.map(o => `${o.v} (${o.srcs.join(', ')})`).join(' · ')]));
+      const row = (label, k, v) => { const val = v !== undefined ? v : f[k]; const known = val != null && val !== '' && !(Array.isArray(val) && !val.length);
+        return { label, value: known ? (typeof val === 'boolean' ? (val ? 'Yes' : 'No') : Array.isArray(val) ? val.join(', ') : String(val)) : 'unknown', vc: known ? '#EDE9E4' : '#8E8981', fs: known ? 'normal' : 'italic',
+          from: k && f['_' + k]?.length ? 'from ' + [...new Set(f['_' + k])].join(', ') : '', conflict: !!conf[k], conflictText: conf[k] || '' }; };
+      sel = {
+        title: f.title, when: when(f), where: [f.venue, f.city, f.region !== f.city ? f.region : null].filter(Boolean).join(' · ') || 'Location unknown', state: e.state, reason: e.reason, lifecycle: e.lifecycle,
+        sbg: ST[e.state][0], sfg: ST[e.state][1], score: e.score.toFixed(2),
+        fields: [row('Event name', 'title'), row('Start date', 'date'), row('End date', 'end'), row('Start time', 'start_time'), row('End time', 'end_time'), row('Venue', 'venue'), row('Address', 'street_address'), row('City', 'city'), row('Region', null, f.region), row('Organizer', 'organizer'), row('Event type', null, e.event_type), row('Vehicle type', null, e.vehicle_type), row('Price', 'price'), row('Free', 'free'), row('Family friendly', 'family_friendly'), row('Registration', 'registration_required'), row('Date basis', null, e.basis === 'explicit' ? 'Explicit dated listing' : e.basis === 'stated' ? 'Expanded from recurrence stated by source' : e.basis === 'inferred' ? 'Pattern inferred by engine (not stated)' : 'None')],
+        breakdown: e.breakdown.map(b => ({ label: b.label, text: (b.v >= 0 ? '+' : '') + b.v.toFixed(2), color: b.v < 0 ? '#FF7A7E' : b.v === 0 ? '#8E8981' : '#EDE9E4' })),
+        hasDupes: e.dupes.length > 0,
+        dupes: e.dupes.map(d => { const o = byId[d.other]; return { title: `${o?.f.title} · ${fmt(o?.f.date)}`, score: d.score.toFixed(2), signals: d.sig.map(s => s.note || `${s.k} ${s.v.toFixed(2)}`).join(' · '),
+          onView: select(d.other), onMerge: () => this.saveOv({ ...ov, merge: [...ov.merge, [d.a, d.b]] }), onSeparate: () => this.saveOv({ ...ov, separate: [...ov.separate, [d.a, d.b]] }) }; }),
+        evCount: `${e.occs.length} record${e.occs.length > 1 ? 's' : ''} from ${e.independent} independent source${e.independent > 1 ? 's' : ''}`,
+        evidence: e.occs.map(o => ({ source: o.src.name, type: o.src.type, rel: o.src.reliability.toFixed(2), raw: o.cand.raw_title, evidence: o.cand.evidence, url: o.url, cid: o.oid,
+          discovered: o.cand.discovered_at.replace('T', ' ').slice(0, 16) + ' CT', age: o.cand.page_age_days == null ? 'unknown' : o.cand.page_age_days + 'd',
+          basis: { explicit: 'explicit date', 'recurrence-stated': 'date from stated rule', 'pattern-inferred': 'date inferred', missing: 'no date' }[o.dateBasis] }))
+      };
+      const setAct = a => () => this.saveOv({ ...ov, actions: { ...ov.actions, [e.id]: { action: a, at: new Date().toISOString() } } });
+      const top = e.dupes[0];
+      act = {
+        approve: setAct('approve'), reject: setAct('reject'), cancel: setAct('cancel'),
+        markDup: () => top && this.saveOv({ ...ov, merge: [...ov.merge, [top.a, top.b]] }), dupOpacity: top ? 1 : 0.4,
+        edit: () => this.setState({ editing: !this.state.editing, draft: { title: f.title || '', date: f.date || '', start_time: f.start_time || '', venue: f.venue || '', street_address: f.street_address || '', city: f.city || '' } }),
+        editLabel: this.state.editing ? 'Close edit' : 'Edit',
+        save: () => this.saveOv({ ...ov, edits: { ...ov.edits, [e.id]: this.state.draft } }),
+        canReset: !!(ov.actions[e.id] || ov.edits[e.id]),
+        reset: () => { const a = { ...ov.actions }, ed = { ...ov.edits }; delete a[e.id]; delete ed[e.id]; this.saveOv({ ...ov, actions: a, edits: ed }); }
+      };
+      editFields = [['Event name', 'title'], ['Start date (YYYY-MM-DD)', 'date'], ['Start time (HH:MM)', 'start_time'], ['Venue', 'venue'], ['Address', 'street_address'], ['City', 'city']]
+        .map(([label, k]) => ({ label, value: this.state.draft[k] ?? '', onChange: ev => this.setState({ draft: { ...this.state.draft, [k]: ev.target.value } }) }));
+    }
+
+    // answer
+    const ad = {}; answer.forEach(x => (ad[x.f.date] ??= []).push(x));
+    const answerDays = Object.keys(ad).sort().map(d => ({ label: fmt(d), items: ad[d].map(x => ({ title: x.f.title, onClick: select(x.id), state: x.state, sbg: ST[x.state][0], sfg: ST[x.state][1],
+      meta: [when(x.f).split(' · ').slice(1).join(' '), x.f.venue, x.f.city, x.f.region === 'Worth the Drive' ? 'Worth the Drive' : null].filter(Boolean).join(' · '),
+      tags: [...x.event_type, ...x.vehicle_type].join(' · '), srcs: srcLabel(x) })) }));
+
+    // sources
+    const HC = { Restricted: ['#3A1F1F', '#FFB3B5'], 'Never checked': ['#26282A', '#A8A39B'], Stale: ST['Needs Review'], Healthy: ST.Verified, 'No in-window yield': ST.Likely, 'Stale content': ST['Needs Review'], 'No events found': ST['Needs Review'], 'Not checked': ['#26282A', '#A8A39B'], Inactive: ['#26282A', '#8E8981'] };
+    const AUTO_C = { 'ready-to-automate': '#FF4A00', 'needs-config': '#C7B8A3', 'awaiting-permission': '#C7B8A3', restricted: '#FF7A7E', manual: '#A8A39B' };
+    const sourceRows = srcStats.map(({ s, found, evIn, health, ad }) => ({ adapter: ad.key, auto: adapters ? adapters.STATUS_LABEL[ad.status] : '', autoNext: ad.next, autoColor: AUTO_C[ad.status], name: s.name, url: s.url, notes: s.notes, type: s.type + (s.primary ? ' · primary' : ''), area: s.area, method: s.method, freq: s.freq,
+      last: s.last_checked || '—', rel: s.reliability.toFixed(2), found, inWin: evIn, health, hbg: (HC[health] || HC['Never checked'])[0], hfg: (HC[health] || HC['Never checked'])[1], op: s.active ? 1 : 0.55 }));
+    const sourceSummary = `${data.SOURCES.length} sources in the registry. ${checked.length} were checked in capture #0B0B0B and ${data.SOURCES.length - checked.length} are identified targets. ${healthy} yield in-window events. Primary sources: ${data.SOURCES.filter(s => s.primary).length}.`;
+
+    // coverage
+    const stat = v => v === 0 ? ['Gap', ST.Rejected] : v <= 2 ? ['Thin', ST['Needs Review']] : ['OK', ST.Likely];
+    const cg = (title, rows) => ({ title, rows: rows.map(x => { const [s, c] = stat(x.value); return { label: x.label, value: x.value, status: s, bg: c[0], fg: c[1] }; }) });
+    const coverageGroups = [cg('Vehicle culture', cov.vehicle), cg('Event type', cov.event.filter(x => x.label !== 'Other')), cg('Geography', cov.region)];
+    const gapActions = [
+      { gap: 'Off-road / 4x4', action: 'Hidden Falls has no public calendar. Approach the venue and local Jeep/Bronco clubs, which are Instagram-first, through community submission.' },
+      { gap: 'Cedar Park / Leander', action: 'No sources yet. Target city calendars, plus coffee shops and breweries known for meets, through submissions.' },
+      { gap: 'Buda / Kyle', action: 'No sources yet. Target city calendars and dealer events along I-35 south.' },
+      { gap: 'Drag · Karting · EV', action: 'No sources yet. Research Central Texas drag strips and karting tracks, and EV owner clubs on Meetup.' },
+      { gap: 'Cars & Coffee timing', action: 'Coffee & Pfuel and the REVL meet fall just outside or at the edge of the window. Confirm the REVL address with the organizer.' },
+      { gap: 'Social-only meets', action: 'Build the submission intake (URL or flyer image). Instagram and Facebook have no compliant discovery API.' }
+    ];
+
+    // engine
+    const sl = (label, key, min, max, step, help) => ({ label, value: cfg[key], min, max, step, help, onChange: ev => this.setCfg({ ...cfg, [key]: +ev.target.value }) });
+    const sliders = [
+      sl('Verified threshold', 'verified', 0.5, 1, 0.01, 'Minimum score for Verified with independent agreement'),
+      sl('Likely threshold', 'likely', 0.3, 0.9, 0.01, 'Minimum score to publish as Likely'),
+      sl('Auto-merge threshold', 'autoMerge', 0.6, 1, 0.01, 'Pair score at which duplicates merge without review'),
+      sl('Duplicate suggestion floor', 'possibleDup', 0.3, 0.8, 0.01, 'Pairs above this are suggested to a reviewer'),
+      sl('Independent sources for Verified', 'minIndependent', 1, 4, 1, 'Distinct publishers required (same publisher counts once)')
+    ];
+    const pipeline = [
+      { step: 'Sources checked', note: 'search discovery', n: checked.length },
+      { step: 'Candidates captured', note: 'with URL + timestamp', n: data.CANDIDATES.length },
+      { step: 'Occurrences', note: 'after recurrence expansion', n: r.occs.length },
+      { step: 'Auto-merged pairs', note: `score ≥ ${cfg.autoMerge}`, n: r.merged.length },
+      { step: 'Canonical events', note: 'evidence preserved', n: evs.length },
+      { step: 'Rejected', note: 'non-motor, out of region, expired', n: cnt('Rejected') },
+      { step: 'Published answer', note: includeLikely ? 'verified + likely in window' : 'verified in window', n: answer.length }
+    ];
+
+    return {
+      ...base, loading: false, tabs, isOverview: tab === 'overview', isReview: tab === 'review', isAnswer: tab === 'answer', isSources: tab === 'sources', isCoverage: tab === 'coverage', isEngine: tab === 'engine',
+      answerCount: answer.length, answerVerified: answer.filter(x => x.state === 'Verified').length, answerLikely: answer.filter(x => x.state === 'Likely').length, answerNote,
+      goAnswer: go('answer'), goReview: () => this.setState({ tab: 'review', filter: 'Needs Review', sel: null }),
+      experiment, kpis, dateBars, charts, filters, queue, queueEmpty: !queue.length, hasSel: !!sel, sel: sel || {}, act, editing: this.state.editing && !!sel, editFields,
+      answerDays, sourceRows, sourceSummary, coverageGroups, gapActions, sliders, pipeline,
+      resetCfg: () => this.setCfg({ ...core.DEFAULT_CFG }),
+      clearReviews: () => this.saveOv({ actions: {}, edits: {}, merge: [], separate: [] })
+    };
+  }
+}
+</script>
+</body>
+</html>

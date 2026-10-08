@@ -1,0 +1,49 @@
+/* MorrMoto production tokens v1.0 — Motion Mark system */
+:root{
+  /* color — brand */
+  --mm-ink:#0B0B0B; --mm-paper:#EDE9E4; --mm-ignition:#FF4A00; --mm-ridge:#2E3A2F; --mm-asphalt:#4B5A6A; --mm-dust:#C7B8A3;
+  /* color — dark product surfaces (default app theme) */
+  --mm-bg:#0B0B0B; --mm-surface-1:#141515; --mm-surface-2:#1D1E1F; --mm-surface-3:#26282A;
+  --mm-text:#EDE9E4; --mm-text-2:#A8A39B; --mm-line:rgba(237,233,228,.14); --mm-line-strong:rgba(237,233,228,.32);
+  /* color — light editorial surfaces */
+  --mm-bg-light:#EDE9E4; --mm-surface-light:#F6F3EF; --mm-text-light:#0B0B0B; --mm-text-2-light:#4B5A6A; --mm-line-light:rgba(11,11,11,.14);
+  /* signal */
+  --mm-signal:#FF4A00; --mm-signal-hover:#FF6A2B; --mm-on-signal:#0B0B0B;
+  /* status */
+  --mm-status-verified:var(--mm-text); --mm-status-new:var(--mm-ignition); --mm-status-updated:var(--mm-dust);
+  --mm-status-free:var(--mm-text); --mm-status-canceled:#E5484D; --mm-status-soldout:var(--mm-text-2);
+  /* type */
+  --mm-font-wordmark:'Archivo',sans-serif; /* italic 900 wdth 125 — stand-in until master vector */
+  --mm-font-display:'Anton','Druk Condensed',sans-serif;
+  --mm-font-ui:'Inter','Neue Haas Grotesk Text',system-ui,sans-serif;
+  --mm-font-data:'JetBrains Mono',ui-monospace,monospace;
+  --mm-display-xl:clamp(56px,8vw,120px); --mm-display-l:clamp(44px,5.5vw,84px); --mm-display-m:36px; --mm-display-s:28px;
+  --mm-ui-xl:28px; --mm-ui-l:20px; --mm-ui-m:17px; --mm-ui-base:15px; --mm-ui-s:14px; --mm-ui-xs:13px;
+  --mm-data-m:13px; --mm-data-s:12px; --mm-data-xs:11px; --mm-data-track:.1em;
+  /* space (4pt) */
+  --mm-s-1:4px; --mm-s-2:8px; --mm-s-3:12px; --mm-s-4:16px; --mm-s-5:20px; --mm-s-6:24px; --mm-s-8:32px; --mm-s-10:40px; --mm-s-12:48px; --mm-s-16:64px;
+  /* radius */
+  --mm-r-0:0; --mm-r-tag:3px; --mm-r-control:4px; --mm-r-card:6px; --mm-r-sheet:12px; --mm-r-pill:999px; --mm-r-icon:22.3%;
+  /* borders */
+  --mm-border:1px solid var(--mm-line); --mm-border-strong:1px solid var(--mm-line-strong); --mm-focus:2px solid var(--mm-ignition);
+  /* shadow — used only for floating map cards and sheets */
+  --mm-shadow-float:0 12px 32px rgba(0,0,0,.45);
+  /* motion */
+  --mm-ease:cubic-bezier(.2,0,0,1); --mm-ease-exit:cubic-bezier(.4,0,1,1);
+  --mm-dur-fast:120ms; --mm-dur-standard:200ms; --mm-dur-editorial:480ms; --mm-dur-map:600ms;
+  --mm-mark-stroke-step:90ms; --mm-mark-signal-delay:300ms; --mm-mark-total:520ms;
+  /* geometry — Motion Mark DNA */
+  --mm-angle:25deg; /* stroke lean from vertical: atan(30/64) */
+  --mm-x:18.97%;   /* X = one stroke's baseline width ÷ mark width (22/116) */
+  /* breakpoints */
+  --mm-bp-xs:360px; --mm-bp-s:480px; --mm-bp-m:640px; --mm-bp-tablet:768px; --mm-bp-desktop:1040px; --mm-bp-wide:1440px;
+  /* z */
+  --mm-z-header:20; --mm-z-nav:30; --mm-z-panel:50; --mm-z-sheet:60; --mm-z-toast:80;
+  /* icons */
+  --mm-icon-s:16px; --mm-icon-m:20px; --mm-icon-l:24px;
+  /* images */
+  --mm-ratio-hero:16/9; --mm-ratio-card:4/3; --mm-ratio-detail:16/10; --mm-ratio-story:9/16; --mm-ratio-post:1/1;
+  /* map */
+  --mm-map-land:#141615; --mm-map-pin:#EDE9E4; --mm-map-pin-selected:#FF4A00; --mm-map-cluster:#EDE9E4; --mm-map-route:#FF4A00; --mm-map-you:#EDE9E4;
+}
+@media (prefers-reduced-motion:reduce){:root{--mm-dur-fast:0ms;--mm-dur-standard:0ms;--mm-dur-editorial:0ms;--mm-dur-map:0ms;--mm-mark-stroke-step:0ms;--mm-mark-signal-delay:0ms}}
