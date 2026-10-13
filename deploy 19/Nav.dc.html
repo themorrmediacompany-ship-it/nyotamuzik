@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>body { margin: 0; background: #050403; }</style>
+</helmet>
+<nav style="position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(16px,4vw,56px);background:linear-gradient(to bottom, rgba(5,4,3,.85), rgba(5,4,3,0));font-family:Cinzel,serif">
+  <a href="Nyota.dc.html" aria-label="Nyota — home" style="letter-spacing:.4em;font-size:clamp(14px,4vw,17px);color:#f7f2e8;transition:color .5s ease;padding:12px 0" style-hover="color:#d4a437">NYOTA</a>
+  <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;gap:clamp(10px,3vw,44px);font-size:clamp(10px,2.7vw,12px);letter-spacing:.28em;text-transform:uppercase;align-items:center">
+      <span style="position:relative;display:inline-block" onMouseEnter="{{ openMenu }}" onMouseLeave="{{ closeMenu }}">
+        <a href="Nyota.dc.html#masks" onClick="{{ closeMenu }}" style="display:inline-block;color:rgba(247,242,232,.75);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">Masks ▾</a>
+        <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:16px;display:{{ menuDisplay }}">
+          <div style="background:rgba(15,13,11,.94);backdrop-filter:blur(14px);border:1px solid rgba(212,164,55,.25);padding:8px 0;min-width:220px;display:flex;flex-direction:column">
+            <sc-for list="{{ maskItems }}" as="m" hint-placeholder-count="0">
+              <a href="{{ m.href }}" onClick="{{ closeMenu }}" style="display:flex;justify-content:space-between;gap:18px;padding:13px 22px;font-size:11px;letter-spacing:.28em;color:rgba(247,242,232,.75);transition:all .4s ease" style-hover="background:rgba(212,164,55,.1);color:#d4a437"><span>{{ m.name }}</span><span style="color:{{ m.accent }}">{{ m.num }}</span></a>
+            </sc-for>
+          </div>
+        </div>
+      </span>
+      <a href="Music.dc.html" style="display:inline-block;color:rgba(247,242,232,.75);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">Music</a>
+      <a href="Frequency.dc.html" style="display:inline-block;color:rgba(212,164,55,.85);transition:color .5s ease;padding:12px 2px" style-hover="color:#e8c56a">Frequency</a>
+      <a href="Connect.dc.html" style="display:inline-block;color:rgba(247,242,232,.75);transition:color .5s ease;padding:12px 2px" style-hover="color:#d4a437">Connect</a>
+    </div>
+  </sc-if>
+  <sc-if value="{{ narrowNav }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ toggleOverlay }}" aria-label="Menu" style="position:relative;width:48px;height:48px;background:transparent;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <span style="position:absolute;width:26px;height:1px;background:#d4a437;transition:transform .55s cubic-bezier(.6,.05,.2,1), width .55s ease;transform:{{ line1T }}"></span>
+      <span style="position:absolute;width:26px;height:1px;background:#d4a437;transition:transform .55s cubic-bezier(.6,.05,.2,1), opacity .3s ease;transform:{{ line2T }};opacity:{{ line2Op }}"></span>
+      <span style="position:absolute;width:{{ line3W }};height:1px;background:#d4a437;transition:transform .55s cubic-bezier(.6,.05,.2,1), width .55s ease, margin .55s ease;transform:{{ line3T }};margin-left:{{ line3M }}"></span>
+    </button>
+  </sc-if>
+</nav>
+<div style="position:fixed;inset:0;z-index:89;background:rgba(5,4,3,.96);backdrop-filter:blur(18px);clip-path:{{ overlayClip }};transition:clip-path .9s cubic-bezier(.65,.05,.25,1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:{{ overlayEvents }};font-family:Cinzel,serif">
+  <div style="font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:rgba(212,164,55,.7);margin-bottom:22px;opacity:{{ itemOp }};transform:{{ itemShift }};transition:opacity .7s ease {{ d0 }}, transform .7s ease {{ d0 }}">The Five Forms</div>
+  <sc-for list="{{ overlayMasks }}" as="m" hint-placeholder-count="0">
+    <a href="{{ m.href }}" onClick="{{ closeOverlay }}" style="display:flex;align-items:baseline;gap:16px;padding:11px 10px;font-size:19px;letter-spacing:.3em;color:#f7f2e8;transition:opacity .7s ease {{ m.delay }}, transform .7s ease {{ m.delay }}, color .4s ease;opacity:{{ itemOp }};transform:{{ itemShift }}" style-hover="color:#d4a437">
+      <span style="font-size:11px;letter-spacing:.2em;color:{{ m.accent }};min-width:24px;text-align:right">{{ m.num }}</span>
+      <span>{{ m.name }}</span>
+    </a>
+  </sc-for>
+  <div style="width:1px;height:34px;margin:16px 0;background:linear-gradient(to bottom, rgba(212,164,55,0), rgba(212,164,55,.7), rgba(212,164,55,0));opacity:{{ itemOp }};transition:opacity .7s ease {{ d6 }}"></div>
+  <a href="Music.dc.html" onClick="{{ closeOverlay }}" style="padding:11px 10px;font-size:13px;letter-spacing:.4em;text-transform:uppercase;color:rgba(247,242,232,.65);transition:opacity .7s ease {{ d7 }}, transform .7s ease {{ d7 }}, color .4s ease;opacity:{{ itemOp }};transform:{{ itemShift }}" style-hover="color:#d4a437">Music</a>
+  <a href="Frequency.dc.html" onClick="{{ closeOverlay }}" style="padding:11px 10px;font-size:13px;letter-spacing:.4em;text-transform:uppercase;color:rgba(212,164,55,.85);transition:opacity .7s ease {{ d7 }}, transform .7s ease {{ d7 }}, color .4s ease;opacity:{{ itemOp }};transform:{{ itemShift }}" style-hover="color:#e8c56a">Frequency</a>
+  <a href="Connect.dc.html" onClick="{{ closeOverlay }}" style="padding:11px 10px;font-size:13px;letter-spacing:.4em;text-transform:uppercase;color:rgba(247,242,232,.65);transition:opacity .7s ease {{ d8 }}, transform .7s ease {{ d8 }}, color .4s ease;opacity:{{ itemOp }};transform:{{ itemShift }}" style-hover="color:#d4a437">Connect</a>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(247,242,232,.35);margin-top:26px;opacity:{{ itemOp }};transition:opacity .7s ease {{ d9 }}">One spirit. Five forms.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menu: false, masks: [], narrow: false, open: false };
+  componentDidMount() {
+    import('./masks.js').then(mod => this.setState({ masks: mod.MASKS }));
+    this._onR = () => {
+      const narrow = innerWidth <= 760;
+      if (narrow !== this.state.narrow) this.setState({ narrow, open: narrow ? this.state.open : false });
+    };
+    this._onR();
+    addEventListener('resize', this._onR);
+  }
+  componentWillUnmount() { removeEventListener('resize', this._onR); document.body.style.overflow = ''; }
+  setOpen(open) {
+    this.setState({ open });
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  renderVals() {
+    const open = this.state.open;
+    const nums = ['I','II','III','IV','V'];
+    return {
+      openMenu: () => this.setState({ menu: true }),
+      closeMenu: () => this.setState({ menu: false }),
+      menuDisplay: this.state.menu ? 'block' : 'none',
+      maskItems: this.state.masks.map((m, i) => ({
+        name: m.name, accent: m.accent, num: nums[i],
+        href: 'Mask.dc.html?mask=' + m.id
+      })),
+      wideNav: !this.state.narrow,
+      narrowNav: this.state.narrow,
+      toggleOverlay: () => this.setOpen(!open),
+      closeOverlay: () => this.setOpen(false),
+      line1T: open ? 'translateY(0) rotate(45deg)' : 'translateY(-7px)',
+      line2T: open ? 'scaleX(0)' : 'none',
+      line2Op: open ? 0 : 1,
+      line3T: open ? 'translateY(0) rotate(-45deg)' : 'translateY(7px)',
+      line3M: open ? '0' : '10px',
+      line3W: open ? '26px' : '16px',
+      overlayClip: open ? 'circle(150% at calc(100% - 40px) 40px)' : 'circle(0% at calc(100% - 40px) 40px)',
+      overlayEvents: open ? 'auto' : 'none',
+      itemOp: open ? 1 : 0,
+      itemShift: open ? 'translateY(0)' : 'translateY(16px)',
+      d0: '.15s', d6: '.5s', d7: '.55s', d8: '.6s', d9: '.7s',
+      overlayMasks: this.state.masks.map((m, i) => ({
+        name: m.name, accent: m.accent, num: nums[i],
+        href: 'Mask.dc.html?mask=' + m.id,
+        delay: (0.2 + i * 0.06).toFixed(2) + 's'
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>NYOTA | Mask</title>
+<meta name="description" content="One of the five celestial masks of Nyota, Afro House and Afro Tech DJ. Explore the essence, the sound and the creed of this form.">
+<meta name="theme-color" content="#050403">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="NYOTA">
+<meta property="og:title" content="NYOTA | Mask">
+<meta property="og:image" content="https://nyotamuzik.com/assets/icon-social.png">
+<link rel="icon" type="image/png" href="assets/icon-social.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; background: #050403; color: #f7f2e8; font-family: 'Inter', sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: #d4a437; text-decoration: none; }
+a:hover { color: #f7f2e8; }
+::selection { background: rgba(212,164,55,.3); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes breathe { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+</style>
+</helmet>
+
+<dc-import name="Nav" hint-size="100%,0px"></dc-import>
+
+<header style="position:relative;height:100vh;min-height:640px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:{{ heroJustify }};box-sizing:border-box;padding:96px 24px 56px">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 42% at 50% 42%, {{ glow }} 0%, rgba(0,0,0,0) 70%);pointer-events:none"></div>
+  <sc-if value="{{ heroFull }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;animation:fadeUp 1.8s ease both;pointer-events:none">
+      <img ref="{{ heroWideRef }}" alt="{{ name }} Nyota at the decks" style="position:absolute;left:50%;top:0;height:100%;width:auto;transform:translateX(-50%);-webkit-mask-image:linear-gradient(to right, rgba(0,0,0,0) 0%, #000 16%, #000 84%, rgba(0,0,0,0) 100%);mask-image:linear-gradient(to right, rgba(0,0,0,0) 0%, #000 16%, #000 84%, rgba(0,0,0,0) 100%)"></img>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:52%;background:linear-gradient(to bottom, rgba(5,4,3,0), rgba(5,4,3,.72) 55%, #050403 100%);pointer-events:none"></div>
+  </sc-if>
+  <sc-if value="{{ heroFloat }}" hint-placeholder-val="{{ true }}">
+    <img ref="{{ heroRef }}" alt="{{ name }} Nyota at the decks" style="position:relative;height:clamp(280px,44vh,460px);width:auto;max-width:88vw;object-fit:contain;filter:drop-shadow(0 30px 60px rgba(0,0,0,.5));animation:fadeUp 1.8s ease both"></img>
+  </sc-if>
+  <div style="position:relative;text-align:center;margin-top:clamp(20px,3.5vh,40px);animation:fadeUp 1.8s ease .25s both">
+    <div style="font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:{{ accent }};margin-bottom:18px">Form {{ num }} of V</div>
+    <h1 style="font-family:Cinzel,serif;font-weight:400;font-size:clamp(48px,7vw,104px);letter-spacing:.18em;text-indent:.18em;margin:0;color:#f7f2e8;line-height:1">{{ name }}</h1>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.2vw,30px);color:rgba(247,242,232,.8);margin:18px 0 0;line-height:1.4">{{ line }}</p>
+  </div>
+  <div style="position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;animation:breathe 5s ease-in-out infinite">
+    <span style="display:block;width:1px;height:36px;background:linear-gradient(to bottom, rgba(212,164,55,0), rgba(212,164,55,.7))"></span>
+  </div>
+</header>
+
+<section style="padding:clamp(80px,12vh,150px) 24px;text-align:center;max-width:820px;margin:0 auto">
+  <img ref="{{ sigilRef }}" alt="" loading="lazy" style="height:52px;width:52px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(212,164,55,.35))"></img>
+  <p data-reveal="" style="font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:{{ accent }};margin:34px 0 0">The Essence</p>
+  <p data-reveal="" style="font-family:'Cormorant Garamond',serif;font-size:clamp(23px,2.6vw,34px);color:rgba(247,242,232,.88);line-height:1.7;margin:30px 0 0;text-wrap:pretty">{{ essence }}</p>
+  <div data-reveal="" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:44px">
+    <sc-for list="{{ traits }}" as="t" hint-placeholder-count="3">
+      <span style="font-family:Cinzel,serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:{{ accent }};border:1px solid rgba(212,164,55,.3);padding:9px 18px">{{ t.w }}</span>
+    </sc-for>
+  </div>
+  <p data-reveal="" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,1.5vw,19px);color:rgba(247,242,232,.5);margin:40px 0 0;line-height:1.9">She appears at {{ appears }}</p>
+</section>
+
+<section style="padding:clamp(70px,10vh,130px) clamp(20px,6vw,90px);border-top:1px solid rgba(212,164,55,.14);text-align:center">
+  <p data-reveal="" style="font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:{{ accent }};margin:0">The Sound</p>
+  <h2 data-reveal="" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(30px,3.6vw,54px);margin:22px 0 0;color:#f7f2e8;line-height:1.15;text-wrap:balance">{{ soundLine }}</h2>
+  <div data-reveal="" style="display:flex;justify-content:center;gap:clamp(28px,6vw,90px);flex-wrap:wrap;margin-top:52px">
+    <div style="min-width:150px">
+      <div style="font-size:11px;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,242,232,.4)">The Set</div>
+      <div style="font-family:Cinzel,serif;font-size:18px;letter-spacing:.16em;color:{{ accent }};margin-top:14px">{{ setTitle }}</div>
+    </div>
+    <div style="min-width:150px">
+      <div style="font-size:11px;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,242,232,.4)">Elements</div>
+      <div style="font-family:Cinzel,serif;font-size:18px;letter-spacing:.16em;color:#f7f2e8;margin-top:14px">{{ setElements }}</div>
+    </div>
+    <div style="min-width:150px">
+      <div style="font-size:11px;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,242,232,.4)">Energy</div>
+      <div style="font-family:Cinzel,serif;font-size:18px;letter-spacing:.16em;color:{{ accent }};margin-top:14px">{{ setKey }}</div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;max-width:620px;margin:clamp(48px,7vh,80px) auto 0">
+    <sc-for list="{{ ritual }}" as="r" hint-placeholder-count="3">
+      <div data-reveal="" style="display:flex;flex-direction:column;align-items:center;text-align:center">
+        <div style="width:1px;height:clamp(36px,5vh,56px);background:linear-gradient(to bottom, rgba(212,164,55,0), rgba(212,164,55,.5));display:{{ r.threadDisplay }}"></div>
+        <div style="font-family:Cinzel,serif;font-size:12px;letter-spacing:.4em;text-indent:.4em;color:rgba(247,242,232,.4);margin-top:{{ r.numMargin }}">{{ r.numeral }}</div>
+        <div style="font-family:Cinzel,serif;font-size:clamp(20px,2.2vw,26px);letter-spacing:.18em;color:{{ accent }};margin-top:14px">{{ r.name }}</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(17px,1.7vw,20px);color:rgba(247,242,232,.65);line-height:1.75;margin:12px 0 0;max-width:460px;text-wrap:pretty">{{ r.text }}</p>
+      </div>
+    </sc-for>
+  </div>
+  <a data-reveal="" href="{{ spotifyUrl }}" target="_blank" style="display:inline-block;margin-top:clamp(44px,6vh,64px);font-family:Cinzel,serif;font-size:12px;letter-spacing:.34em;text-indent:.34em;text-transform:uppercase;color:#e8d9b0;border:1px solid rgba(212,164,55,.45);border-radius:100px;background:rgba(212,164,55,.06);padding:16px 46px;transition:background 1s ease, border-color 1s ease, color 1s ease, box-shadow 1.2s ease" style-hover="background:rgba(212,164,55,.16);border-color:#d4a437;color:#ffe9b0;box-shadow:0 0 30px rgba(212,164,55,.22)" style-active="transform:scale(.97)">Listen to this form</a>
+</section>
+
+<section style="padding:clamp(80px,12vh,150px) 24px;border-top:1px solid rgba(212,164,55,.14);text-align:center;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 60% at 50% 50%, {{ glow }} 0%, rgba(0,0,0,0) 70%);opacity:.5;pointer-events:none"></div>
+  <p data-reveal="" style="position:relative;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:{{ accent }};margin:0 0 44px">The Creed</p>
+  <div style="position:relative;display:flex;flex-direction:column;gap:clamp(20px,3vh,32px)">
+    <sc-for list="{{ creed }}" as="c" hint-placeholder-count="3">
+      <div data-reveal="" style="font-family:Cinzel,serif;font-size:clamp(20px,2.8vw,38px);letter-spacing:.18em;color:rgba(247,242,232,.85);line-height:1.3">{{ c.w }}</div>
+    </sc-for>
+  </div>
+  <p data-reveal="" style="position:relative;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(19px,1.8vw,24px);color:{{ accent }};margin:52px 0 0">{{ motto }}</p>
+</section>
+
+<section style="padding:0 clamp(16px,3vw,40px) clamp(80px,11vh,140px);border-top:1px solid rgba(212,164,55,.14)">
+  <div data-reveal="" style="text-align:center;font-size:11px;letter-spacing:.36em;text-transform:uppercase;color:rgba(247,242,232,.4);margin:clamp(60px,8vh,90px) 0 34px">The Cycle · Every Form, A Different Night</div>
+  <div data-reveal="" style="position:relative;display:flex;justify-content:center;align-items:flex-start;gap:0;flex-wrap:wrap;max-width:1150px;margin:0 auto">
+    <div style="position:absolute;top:44px;left:8%;right:8%;height:1px;background:linear-gradient(to right, rgba(212,164,55,0), rgba(212,164,55,.35) 12%, rgba(212,164,55,.35) 88%, rgba(212,164,55,0));pointer-events:none;display:{{ cycleLineDisplay }}"></div>
+    <sc-for list="{{ cycle }}" as="c" hint-placeholder-count="5">
+      <a href="{{ c.href }}" style="position:relative;flex:1 1 110px;min-width:110px;max-width:220px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 8px;transition:transform .7s cubic-bezier(.2,.8,.3,1)" style-hover="transform:translateY(-6px)">
+        <span style="width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#050403;border:1px solid {{ c.ringColor }};box-shadow:{{ c.ringShadow }};transition:border-color .6s ease, box-shadow .6s ease">
+          <img ref="{{ c.setSigil }}" alt="" style="height:30px;width:30px;object-fit:contain;opacity:{{ c.sigilOp }};transition:opacity .6s ease"></img>
+        </span>
+        <div style="font-family:Cinzel,serif;font-size:13px;letter-spacing:.24em;color:{{ c.color }};margin-top:18px;transition:color .6s ease">{{ c.name }}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:rgba(247,242,232,.55);margin-top:8px;line-height:1.5">{{ c.line }}</div>
+        <div style="font-size:9px;letter-spacing:.32em;text-indent:.32em;text-transform:uppercase;color:{{ c.hereColor }};margin-top:12px;min-height:12px">{{ c.hereLabel }}</div>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<a href="{{ nextHref }}" style="display:block;position:relative;overflow:hidden;border-top:1px solid rgba(212,164,55,.16)">
+  <div style="display:flex;align-items:center;justify-content:center;gap:clamp(24px,4vw,64px);flex-wrap:wrap;padding:clamp(56px,8vh,100px) 24px;transition:background .6s ease" style-hover="background:rgba(212,164,55,.05)">
+    <img ref="{{ nextImgRef }}" alt="{{ nextName }} mask" loading="lazy" style="height:clamp(150px,22vh,220px);width:auto;filter:drop-shadow(0 20px 30px rgba(0,0,0,.55))"></img>
+    <div style="text-align:left;max-width:420px">
+      <div style="font-size:11px;letter-spacing:.38em;text-transform:uppercase;color:rgba(247,242,232,.4)">The cycle continues</div>
+      <div style="font-family:Cinzel,serif;font-size:clamp(28px,3.4vw,46px);letter-spacing:.16em;color:#f7f2e8;margin-top:14px">{{ nextName }}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(18px,1.8vw,24px);color:{{ nextAccent }};margin-top:10px">{{ nextLine }}</div>
+      <div style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(247,242,232,.5);margin-top:22px">Enter the next form →</div>
+    </div>
+  </div>
+</a>
+
+<dc-import name="Footer" hint-size="100%,320px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { mask: null, next: null, num: 'I', all: [], narrow: false };
+  componentDidMount() {
+    this._onR = () => { const narrow = innerWidth < 640; if (narrow !== this.state.narrow) this.setState({ narrow }); };
+    this._onR();
+    addEventListener('resize', this._onR);
+    import('./masks.js').then(mod => {
+      const id = new URLSearchParams(location.search).get('mask') || 'solar';
+      let i = mod.MASKS.findIndex(m => m.id === id); if (i < 0) i = 0;
+      const m = mod.MASKS[i], n = mod.MASKS[(i + 1) % 5];
+      const pretty = m.name.charAt(0) + m.name.slice(1).toLowerCase();
+      const title = 'NYOTA | ' + pretty + ' Form | Afro House & Afro Tech DJ';
+      document.title = title;
+      // helmet re-applies its static <title> after mount — re-assert ours once it settles
+      setTimeout(() => { document.title = title; }, 400);
+      setTimeout(() => { document.title = title; }, 1500);
+      const desc = pretty + ', one of the five masks of Nyota, Afro House & Afro Tech DJ. ' + (m.sound || []).join(', ') + '. ' + m.line;
+      const md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', desc);
+      const ot = document.querySelector('meta[property="og:title"]'); if (ot) ot.setAttribute('content', 'NYOTA | ' + pretty + ' Form');
+      let canon = document.querySelector('link[rel="canonical"]');
+      if (!canon) { canon = document.createElement('link'); canon.rel = 'canonical'; document.head.appendChild(canon); }
+      canon.href = 'https://nyotamuzik.com/Mask.dc.html?mask=' + m.id;
+      const ld = document.createElement('script'); ld.type = 'application/ld+json';
+      ld.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'MusicGroup', name: 'Nyota', genre: m.sound, description: desc, sameAs: [mod.LINKS.spotify, mod.LINKS.youtube, mod.LINKS.instagram] });
+      document.head.appendChild(ld);
+      this.LINKS = mod.LINKS;
+      this.setState({ mask: m, next: n, num: ['I','II','III','IV','V'][i], all: mod.MASKS }, () => this.observeReveals());
+    });
+  }
+  observeReveals() {
+    const els = document.querySelectorAll('[data-reveal]');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.style.opacity = '1'; en.target.style.transform = 'translateY(0)'; io.unobserve(en.target); } });
+    }, { threshold: .12 });
+    els.forEach(el => {
+      el.style.opacity = '0'; el.style.transform = 'translateY(26px)';
+      el.style.transition = 'opacity 1.4s ease, transform 1.4s ease';
+      io.observe(el);
+    });
+    this._io = io;
+  }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); if (this._onR) removeEventListener('resize', this._onR); }
+  renderVals() {
+    const m = this.state.mask || {}, n = this.state.next || {};
+    return {
+      heroRef: el => { if (el && m.dj && !el.getAttribute('src')) el.src = m.dj; },
+      heroWideRef: el => { if (el && m.heroWide && !el.getAttribute('src')) el.src = m.heroWide; },
+      heroFull: !!m.heroWide,
+      heroFloat: this.state.mask ? !m.heroWide : false,
+      heroJustify: m.heroWide ? 'flex-end' : 'center',
+      sigilRef: el => { if (el && m.id && !el.getAttribute('src')) el.src = 'assets/sigil-' + m.id + '.png?v=2'; },
+      nextImgRef: el => { if (el && n.figure && !el.getAttribute('src')) el.src = n.figure + '?v=2'; },
+      name: m.name || '', motto: m.motto || '', line: m.line || '',
+      essence: m.essence || '', appears: m.appears || '',
+      accent: m.accent || '#d4a437', glow: m.glow || 'rgba(212,164,55,.15)',
+      num: this.state.num,
+      traits: (m.traits || []).map(w => ({ w })),
+      soundLine: (m.sound || []).join('  ·  '),
+      creed: (m.creed || []).map(w => ({ w })),
+      ritual: (m.ritual || []).map((r, i) => ({ name: r.name, text: r.text, numeral: ['I','II','III'][i], threadDisplay: i === 0 ? 'none' : 'block', numMargin: i === 0 ? '0' : '18px' })),
+      setTitle: m.setTitle || '', setElements: m.setElements || '', setKey: m.setKey || '',
+      spotifyUrl: (this.LINKS || {}).spotify || 'https://open.spotify.com/artist/4nv8RpsA8VQ7mVHj90q1jl',
+      cycleLineDisplay: this.state.narrow ? 'none' : 'block',
+      cycle: this.state.all.map(x => {
+        const here = x.id === m.id;
+        return {
+          name: x.name, line: x.line, href: 'Mask.dc.html?mask=' + x.id,
+          setSigil: el => { if (el && !el.getAttribute('src')) el.src = 'assets/sigil-' + x.id + '.png?v=2'; },
+          ringColor: here ? (x.accent || '#d4a437') : 'rgba(212,164,55,.3)',
+          ringShadow: here ? '0 0 22px ' + (x.glow || 'rgba(212,164,55,.35)') : 'none',
+          sigilOp: here ? 1 : .6,
+          color: here ? (x.accent || '#d4a437') : '#f7f2e8',
+          hereColor: here ? (x.accent || '#d4a437') : 'transparent',
+          hereLabel: here ? 'You are here' : ''
+        };
+      }),
+      nextHref: 'Mask.dc.html?mask=' + (n.id || 'solar'),
+      nextName: n.name || '', nextLine: n.line || '', nextAccent: n.accent || '#d4a437'
+    };
+  }
+}
+</script>
+</body>
+</html>

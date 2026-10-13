@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /uploads/
+
+Sitemap: https://nyotamuzik.com/sitemap.xml
