@@ -2,721 +2,534 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<meta name="description" content="NYOTA Frequency Machine: awaken the five masks and shape the sound of Nyota.">
-<title>NYOTA | Frequency Machine</title>
+<meta name="description" content="NYOTA Frequency: a sound bath in five forms, with a drum machine tuned to her key.">
+<title>NYOTA | Frequency</title>
 <link rel="canonical" href="https://nyotamuzik.com/Frequency.dc.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NYOTA">
-<meta property="og:title" content="NYOTA | Frequency Machine">
-<meta property="og:description" content="Five energies. One instrument. Play the Nyota Frequency Machine.">
+<meta property="og:title" content="NYOTA | Frequency">
+<meta property="og:description" content="Five forms. One tide. Drift in a sound bath or build a beat in her key.">
 <meta property="og:image" content="https://nyotamuzik.com/assets/icon-social.png">
+<meta name="theme-color" content="#070605">
 <link rel="icon" type="image/png" href="assets/icon-social.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-body { margin: 0; background: #030302; color: #f7f2e8; overflow: hidden; -webkit-user-select: none; user-select: none; }
+body { margin: 0; background: #070605; color: #f7f2e8; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
 a { color: #d4a437; text-decoration: none; }
 a:hover { color: #e8c56a; }
-button { font-family: inherit; }
 button:focus-visible, [tabindex]:focus-visible { outline: 1px solid rgba(212,164,55,.8); outline-offset: 3px; }
-@keyframes nfmFade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes nfmUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes nfmBlink { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
-@keyframes nfmSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-@keyframes nfmTap { 0% { transform: translate(-50%,-50%) scale(.55); opacity: .9; } 70% { transform: translate(-50%,-50%) scale(1.35); opacity: 0; } 100% { transform: translate(-50%,-50%) scale(1.35); opacity: 0; } }
-@keyframes nfmDragY { 0%, 100% { transform: translateY(20px); } 50% { transform: translateY(-20px); } }
-@media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01s !important; } }
 </style>
 </helmet>
-<div ref="{{ stageRef }}" style="position:fixed;inset:0;background:radial-gradient(ellipse 90% 75% at 50% 38%, #0b0906, #030302 74%);font-family:Inter,sans-serif;overflow:hidden">
-  
-  
-      
-
-  <div style="position:absolute;inset:0;animation:nfmFade .9s ease both">
-
-    <div style="position:absolute;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px clamp(16px,4vw,40px)">
-      <div style="display:flex;align-items:center;gap:10px">
-        <a href="Nyota.dc.html" style="font-family:Cinzel,serif;font-size:13px;letter-spacing:.36em;color:rgba(247,242,232,.65);transition:color .4s ease" style-hover="color:#d4a437">← NYOTA</a>
-        <button onClick="{{ tourOpen }}" aria-label="Replay the guided tour" style="width:26px;height:26px;border-radius:50%;border:1px solid rgba(212,164,55,.35);background:transparent;color:rgba(212,164,55,.75);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;padding:0" style-hover="border-color:rgba(212,164,55,.7);color:#e8c56a">?</button>
-      </div>
-      <div tabIndex="0" onPointerDown="{{ bpmDrag }}" onWheel="{{ bpmWheel }}" onKeyDown="{{ bpmKey }}" role="slider" aria-label="Tempo" aria-valuenow="{{ bpm }}" style="text-align:center;cursor:ns-resize;touch-action:none;padding:4px 10px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:.06em;color:#f3e2b3;text-shadow:0 0 12px rgba(212,164,55,.4)">{{ bpm }}</div>
-        <div style="font-size:8px;letter-spacing:.4em;color:rgba(247,242,232,.4)">BPM</div>
-      </div>
-    </div>
-
-    <div ref="{{ fieldRef }}" style="position:absolute;left:0;right:0;top:60px;bottom:{{ fieldBot }}">
-    <canvas ref="{{ fxRef }}" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
-    <button ref="{{ coreRef }}" onClick="{{ coreTap }}" aria-label="{{ coreAria }}" style="position:absolute;left:50%;top:{{ coreTop }};transform:translate(-50%,-50%);z-index:20;width:{{ coreSize }};height:{{ coreSize }};border-radius:50%;border:none;background:transparent;cursor:pointer;padding:0">
-      <span style="position:absolute;inset:-14%;border-radius:50%;background:conic-gradient(from 0deg, rgba(212,164,55,0), rgba(212,164,55,.4), rgba(212,164,55,0) 30%);animation:nfmSpin {{ coreSpinDur }} linear infinite;-webkit-mask:radial-gradient(circle, transparent 66%, #000 67%, #000 68.5%, transparent 69.5%);mask:radial-gradient(circle, transparent 66%, #000 67%, #000 68.5%, transparent 69.5%)"></span>
-      <span style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 36% 28%, rgba(255,255,255,.1), rgba(18,14,10,.94) 55%, #0a0806);border:1px solid rgba(212,164,55,.4);box-shadow:inset 0 1px 2px rgba(255,255,255,.14), inset 0 -16px 30px rgba(0,0,0,.7), 0 24px 60px rgba(0,0,0,.7)"></span>
-      <span ref="{{ coreGlowRef }}" style="position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle, rgba(212,164,55,.22), rgba(212,164,55,0) 70%)"></span>
-      <span style="position:relative;display:flex;flex-direction:column;align-items:center;gap:8px">
-        <img src="assets/logo-gold.png" alt="" style="width:38%;opacity:.95;filter:drop-shadow(0 0 12px rgba(212,164,55,.5))"></img>
-        <span style="font-family:Cinzel,serif;font-size:clamp(11px,1.2vw,13px);letter-spacing:.34em;color:#e8c56a">{{ coreLabel }}</span>
-      </span>
-    </button>
-
-    <sc-for list="{{ maskViews }}" as="m" hint-placeholder-count="0">
-      <div style="position:absolute;left:{{ m.left }};top:{{ m.top }};transform:translate(-50%,-50%);z-index:20;display:flex;flex-direction:column;align-items:center;gap:16px">
-        <button onClick="{{ m.tap }}" aria-label="{{ m.aria }}" aria-pressed="{{ m.pressed }}" style="position:relative;width:{{ m.size }};height:{{ m.size }};border-radius:50%;background:radial-gradient(circle at 36% 28%, rgba(255,255,255,.08), rgba(16,13,10,.94) 58%, #090705);border:1px solid {{ m.border }};cursor:pointer;padding:0;display:block;box-shadow:inset 0 1px 2px rgba(255,255,255,.1), inset 0 -10px 22px rgba(0,0,0,.6), 0 18px 40px rgba(0,0,0,.6);transition:border-color .8s ease, transform .3s ease" style-hover="transform:scale(1.05)" style-active="transform:scale(.95)">
-          <span ref="{{ m.ringRef }}" style="position:absolute;inset:-6%;border-radius:50%;pointer-events:none"></span>
-          <svg viewBox="0 0 24 24" style="position:absolute;inset:24%;width:52%;height:52%;color:{{ m.glyphColor }};opacity:{{ m.imgOp }};transition:color 1s ease, opacity 1s ease;pointer-events:none"><path d="{{ m.sigil }}" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{ m.sigilFill }}" fill="currentColor"></path></svg>
-          <span style="position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);width:14px;height:3px;background:{{ m.dot }};box-shadow:{{ m.dotGlow }};transition:all .6s ease;border:1px solid rgba(0,0,0,.6)"></span>
-        </button>
-        <span style="font-family:Cinzel,serif;font-size:clamp(10px,1.2vw,12px);letter-spacing:.32em;color:{{ m.nameColor }};transition:color .8s ease;text-shadow:0 0 12px {{ m.nameGlow }};pointer-events:none">{{ m.name }}</span>
-      </div>
-    </sc-for>
-    </div>
-
-    <div style="position:absolute;left:0;right:0;bottom:{{ hintBot }};z-index:29;text-align:center;pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.28em;color:{{ hintColor }};transition:color .3s ease">{{ hintText }}</div>
-    <div ref="{{ consoleRef }}" style="position:absolute;left:0;right:0;bottom:0;z-index:30;border-top:1px solid rgba(212,164,55,.16);background:linear-gradient(180deg,rgba(11,9,6,.92),rgba(4,3,2,.97));backdrop-filter:blur(10px);padding:{{ conPadV }} clamp(12px,3vw,28px) calc({{ conPadV }} + env(safe-area-inset-bottom))">
-      <div style="max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:{{ conGap }}">
-        <div style="display:{{ riteRowDisp }};align-items:center;justify-content:space-between;gap:6px">
-          <button onClick="{{ fieldTap }}" aria-pressed="{{ fieldOn }}" style="padding:8px 10px;border-radius:999px;border:1px solid {{ fieldBorder }};background:{{ fieldBg }};color:{{ fieldColor }};font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">BALANCE</button>
-          <div style="display:flex;align-items:center;gap:0">
-            <button onClick="{{ patchPrev }}" aria-label="Previous rite" style="border:none;border-radius:999px;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:10px;padding:4px 8px" style-active="transform:translateX(-1px)">◂</button>
-            <span style="font-family:Cinzel,serif;font-size:10px;letter-spacing:.18em;color:#e8c56a;white-space:nowrap">{{ patchName }}</span>
-            <button onClick="{{ patchNext }}" aria-label="Next rite" style="border:none;border-radius:999px;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:10px;padding:4px 8px" style-active="transform:translateX(1px)">▸</button>
-          </div>
-          <button onClick="{{ padsTap }}" aria-pressed="{{ padsOn }}" style="padding:8px 10px;border-radius:999px;border:1px solid {{ padsBorder }};background:{{ padsBg }};color:{{ padsColor }};font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.14em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">PADS</button>
-        </div>
-        <div style="display:flex;gap:2px">
-          <sc-for list="{{ ledCells }}" as="led" hint-placeholder-count="16">
-            <span ref="{{ led.ref }}" style="flex:1;height:3px;background:rgba(247,242,232,.09);margin-right:{{ led.gap }}"></span>
+<sc-if value="{{ desk }}" hint-placeholder-val="{{ true }}">
+<div style="position:fixed;inset:0;background:#070605;overflow:hidden">
+<div style="position:absolute;left:50%;top:50%;width:1480px;height:860px;transform:translate(-50%,-50%) scale({{ dScale }});transform-origin:50% 50%;overflow:hidden;background:radial-gradient(ellipse 55% 70% at 30% 55%, #17130f, #070605);color:#f7f2e8;display:flex;flex-direction:column;padding:30px 48px 40px;box-sizing:border-box">
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center">
+        <span style="display:flex;align-items:center;gap:10px;font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.32em;color:rgba(247,242,232,.5)"><span style="width:6px;height:6px;border-radius:50%;background:{{ dLed }};box-shadow:0 0 8px {{ dLed }}"></span><a href="Nyota.dc.html" style="color:rgba(247,242,232,.75);transition:color .4s ease" style-hover="color:#d4a437">← NYOTA</a><span style="opacity:.6">· FREQUENCY</span></span>
+        <div style="display:flex;padding:4px;border-radius:999px;border:1px solid rgba(247,242,232,.12);background:rgba(0,0,0,.35)">
+          <sc-for list="{{ dModes }}" as="m" hint-placeholder-count="2">
+            <button onClick="{{ m.pick }}" aria-pressed="{{ m.on }}" style="padding:9px 26px;border-radius:999px;border:none;cursor:pointer;background:{{ m.bg }};color:{{ m.ink }};font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.32em;transition:all .3s ease">{{ m.label }}</button>
           </sc-for>
         </div>
-        <div style="display:flex;align-items:stretch;justify-content:center;gap:clamp(10px,2.2vw,18px)">
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
-            <button onClick="{{ transportTap }}" aria-label="{{ coreAria }}" style="width:{{ tBtn }};height:{{ tBtn }};border-radius:50%;border:1px solid rgba(212,164,55,.5);background:linear-gradient(180deg,rgba(212,164,55,.13),rgba(212,164,55,.03));color:#e8c56a;font-size:13px;cursor:pointer;padding:0" style-active="transform:translateY(1px)">{{ playGlyph }}</button>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.26em;color:rgba(247,242,232,.4)">{{ playWord }}</span>
-          </div>
-          <span style="width:1px;background:rgba(247,242,232,.08);display:{{ divDisp }}"></span>
-          <div style="display:flex;gap:clamp(8px,1.8vw,15px)">
-            <sc-for list="{{ chanViews }}" as="c" hint-placeholder-count="5">
-              <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-                <div style="display:flex;align-items:flex-end;gap:2px">
-                  <span style="width:4px"></span>
-                  <div tabIndex="0" role="slider" aria-label="{{ c.ariaFader }}" aria-valuenow="{{ c.pct }}" onPointerDown="{{ c.down }}" onWheel="{{ c.wheel }}" onKeyDown="{{ c.key }}" style="position:relative;width:20px;height:{{ faderH }};background:linear-gradient(180deg,#14110d,#0a0806);border:1px solid rgba(255,255,255,.1);cursor:ns-resize;touch-action:none">
-                    <div style="position:absolute;left:0;right:0;bottom:0;height:{{ c.fill }};background:{{ c.fillBg }}"></div>
-                    <div style="position:absolute;left:-3px;right:-3px;bottom:{{ c.fill }};height:3px;margin-bottom:-2px;background:#e8d9b0;box-shadow:0 1px 3px rgba(0,0,0,.8)"></div>
-                  </div>
-                  <div style="width:4px;height:{{ faderH }};background:#0a0806;border:1px solid rgba(255,255,255,.08);position:relative;overflow:hidden">
-                    <div ref="{{ c.vuRef }}" style="position:absolute;left:0;right:0;bottom:0;height:0%;background:linear-gradient(180deg,#e8c56a,{{ c.accent }})"></div>
-                  </div>
-                </div>
-                <button onClick="{{ c.muteTap }}" aria-label="{{ c.muteAria }}" aria-pressed="{{ c.muted }}" style="width:26px;height:11px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:{{ c.muteBg }};box-shadow:{{ c.muteGlow }};cursor:pointer;padding:0;transition:all .3s ease"></button>
-                <button onClick="{{ c.openTap }}" style="border:none;border-radius:999px;background:transparent;color:{{ c.labelColor }};font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;cursor:pointer;padding:2px 1px;transition:color .4s ease">{{ c.name }}</button>
-              </div>
-            </sc-for>
-          </div>
-          <span style="width:1px;background:rgba(247,242,232,.08);display:{{ divDisp }}"></span>
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px">
-            <div tabIndex="0" role="slider" aria-label="Eclipse master effect" aria-valuenow="{{ eclPct }}" onPointerDown="{{ eclDown }}" onDoubleClick="{{ eclReset }}" onWheel="{{ eclWheel }}" onKeyDown="{{ eclKey }}" ref="{{ eclKnobRef }}" style="position:relative;width:52px;height:52px;border-radius:50%;cursor:ns-resize;touch-action:none;background:{{ eclArc }}">
-              <div style="position:absolute;inset:5px;border-radius:50%;background:radial-gradient(circle at 36% 28%, #26221c, #0a0806 72%);border:1px solid rgba(212,164,55,.3);box-shadow:inset 0 1px 1px rgba(255,255,255,.12), inset 0 -6px 12px rgba(0,0,0,.8), 0 8px 18px rgba(0,0,0,.7)"></div>
-              <div style="position:absolute;inset:5px;border-radius:50%;transform:rotate({{ eclRot }}deg)"><div style="position:absolute;left:50%;top:9%;width:3px;height:24%;margin-left:-1.5px;border-radius:2px;background:#e8c56a;box-shadow:0 0 8px rgba(212,164,55,.8)"></div></div>
-            </div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.26em;color:rgba(212,164,55,.75)">ECLIPSE</span>
-          </div>
-          <span style="width:1px;background:rgba(247,242,232,.08);display:{{ riteDisp }}"></span>
-          <div style="display:{{ riteDisp }};flex-direction:column;align-items:center;justify-content:center;gap:3px">
-            <div style="display:flex;align-items:center;gap:2px">
-              <button onClick="{{ patchPrev }}" aria-label="Previous rite" style="border:none;border-radius:999px;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:11px;padding:6px 10px;transition:color .3s ease" style-hover="color:#e8c56a" style-active="transform:translateX(-1px)">◂</button>
-              <div style="font-family:Cinzel,serif;font-size:11px;letter-spacing:.2em;color:#e8c56a;white-space:nowrap">{{ patchName }}</div>
-              <button onClick="{{ patchNext }}" aria-label="Next rite" style="border:none;border-radius:999px;background:transparent;color:rgba(212,164,55,.55);cursor:pointer;font-size:11px;padding:6px 10px;transition:color .3s ease" style-hover="color:#e8c56a" style-active="transform:translateX(1px)">▸</button>
-            </div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.26em;color:rgba(247,242,232,.35)">RITE {{ patchNum }}</span>
-          </div>
-          <span style="width:1px;background:rgba(247,242,232,.08);display:{{ divDisp }}"></span>
-          <div style="display:{{ bpColDisp }};flex-direction:column;justify-content:center;gap:6px">
-            <button onClick="{{ fieldTap }}" aria-pressed="{{ fieldOn }}" style="padding:9px 16px;border-radius:999px;border:1px solid {{ fieldBorder }};background:{{ fieldBg }};color:{{ fieldColor }};font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">BALANCE</button>
-            <button onClick="{{ padsTap }}" aria-pressed="{{ padsOn }}" ref="{{ padsBtnRef }}" style="padding:9px 16px;border-radius:999px;border:1px solid {{ padsBorder }};background:{{ padsBg }};color:{{ padsColor }};font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;cursor:pointer;transition:all .4s ease" style-active="transform:translateY(1px)">PADS</button>
-          </div>
+        <div style="display:flex;justify-content:flex-end">
+          <button onClick="{{ engageD }}" style="display:flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;border:1px solid {{ dColor }};background:{{ dBtnBg }};color:#f7f2e8;cursor:pointer;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.3em">{{ dWord }}</button>
         </div>
       </div>
-    </div>
-
-    <sc-if value="{{ drawerOn }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;pointer-events:none">
-        <div style="pointer-events:auto;width:min(820px,100vw);max-height:min(62dvh,520px);overflow-y:auto;border-radius:18px 18px 0 0;border:1px solid rgba(212,164,55,.28);border-bottom:none;border-left:none;border-right:none;background:linear-gradient(180deg,rgba(22,18,13,.97),rgba(8,6,4,.98));backdrop-filter:blur(16px);box-shadow:0 -24px 70px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.08);padding:18px clamp(16px,3vw,28px) calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px;animation:nfmUp .35s cubic-bezier(.2,.8,.2,1) both">
-          <div style="display:flex;align-items:center;gap:12px">
-            <svg viewBox="0 0 24 24" style="width:24px;height:24px;color:{{ dAccent }};display:{{ dSigilDisp }}"><path d="{{ dSigilPath }}" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="{{ dSigilFill }}" fill="currentColor"></path></svg>
-            <span style="font-family:Cinzel,serif;font-size:15px;letter-spacing:.3em;color:{{ dAccent }}">{{ dTitle }}</span>
-            <span style="flex:1"></span>
-            <sc-if value="{{ dIsEngine }}" hint-placeholder-val="{{ false }}">
-              <button onClick="{{ dSilence }}" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(247,242,232,.2);background:transparent;color:rgba(247,242,232,.6);font-family:Cinzel,serif;font-size:10px;letter-spacing:.26em;cursor:pointer" style-hover="border-color:rgba(212,164,55,.5);color:#e8c56a">REST THIS MASK</button>
-            </sc-if>
-            <button onClick="{{ dClose }}" aria-label="Close" style="width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(10,8,6,.7);color:rgba(247,242,232,.7);cursor:pointer;font-size:13px" style-active="transform:scale(.94)">✕</button>
+      <div style="flex:1;display:flex;align-items:center;gap:56px;min-height:0">
+        <div onPointerDown="{{ dDialDown }}" style="position:relative;flex:none;width:{{ dD }};height:{{ dD }};touch-action:none;cursor:grab">
+          <div style="position:absolute;inset:{{ dInset }};border-radius:50%;border:1px solid rgba(247,242,232,.1)"></div>
+          <sc-for list="{{ dTicks }}" as="t" hint-placeholder-count="0">
+            <span style="position:absolute;left:{{ t.left }};top:{{ dInset }};width:1px;height:{{ t.h }};background:{{ t.c }};transform-origin:{{ t.origin }};transform:rotate({{ t.rot }})"></span>
+          </sc-for>
+          <sc-for list="{{ dSigils }}" as="s" hint-placeholder-count="5">
+            <button onClick="{{ s.pick }}" aria-label="Drift to {{ s.name }}" style="position:absolute;left:{{ s.x }};top:{{ s.y }};transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px;border:none;background:transparent;cursor:pointer;opacity:{{ s.op }}">
+              <img ref="{{ s.imgRef }}" alt="" style="width:{{ s.size }};height:{{ s.size }}">
+              <span style="display:{{ s.nameDisp }};font:500 8px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:#f7f2e8">{{ s.name }}</span>
+            </button>
+          </sc-for>
+          <div style="position:absolute;inset:{{ dInset }};transform:rotate({{ dRot }});transition:{{ dTrans }};pointer-events:none">
+            <span style="position:absolute;left:50%;top:0;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:{{ dColor }};box-shadow:0 0 18px {{ dColor }}, 0 0 0 5px rgba(7,6,5,.9)"></span>
           </div>
-
-          <sc-if value="{{ dIsEngine }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-wrap:wrap;gap:8px">
-              <sc-for list="{{ waveOpts }}" as="w" hint-placeholder-count="0">
-                <button onClick="{{ w.pick }}" aria-pressed="{{ w.on }}" style="padding:11px 18px;border-radius:999px;border:1px solid {{ w.border }};background:{{ w.bg }};color:{{ w.color }};font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;cursor:pointer;transition:all .3s ease" style-active="transform:translateY(1px)">{{ w.name }}</button>
-              </sc-for>
-            </div>
-            <div style="display:flex;flex-wrap:wrap;gap:16px clamp(16px,3vw,30px);justify-content:center">
-              <sc-for list="{{ dKnobs }}" as="k" hint-placeholder-count="0">
-                <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-                  <div tabIndex="0" role="slider" aria-label="{{ k.label }}" aria-valuenow="{{ k.pct }}" onPointerDown="{{ k.down }}" onDoubleClick="{{ k.reset }}" onWheel="{{ k.wheel }}" onKeyDown="{{ k.key }}" style="position:relative;width:{{ k.d }};height:{{ k.d }};border-radius:50%;cursor:ns-resize;touch-action:none;background:{{ k.arc }}">
-                    <div style="position:absolute;inset:6px;border-radius:50%;background:radial-gradient(circle at 36% 28%, #26221c, #0d0b09 70%);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 1px rgba(255,255,255,.12), inset 0 -5px 10px rgba(0,0,0,.7), 0 6px 14px rgba(0,0,0,.6)"></div>
-                    <div style="position:absolute;inset:6px;border-radius:50%;transform:rotate({{ k.rot }}deg)"><div style="position:absolute;left:50%;top:9%;width:3px;height:25%;margin-left:-1.5px;border-radius:2px;background:{{ k.ind }};box-shadow:0 0 7px {{ k.ind }}"></div></div>
+          <canvas ref="{{ dCvRef }}" width="640" height="640" style="position:absolute;left:{{ dCvPos }};top:{{ dCvPos }};width:{{ dCvSize }};height:{{ dCvSize }};pointer-events:none"></canvas>
+          <button onPointerDown="{{ stopProp }}" onClick="{{ engageD }}" aria-label="{{ dWord }}" style="position:absolute;left:50%;top:50%;width:{{ dCore }};height:{{ dCore }};transform:translate(-50%,-50%);border-radius:50%;border:1px solid {{ dColor }};background:rgba(7,6,5,.85);color:#f7f2e8;cursor:pointer;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.28em">{{ dWord }}</button>
+        </div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:30px">
+          <sc-if value="{{ dIsDrift }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:34px;max-width:520px">
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <sc-for list="{{ dRead }}" as="r" hint-placeholder-count="2">
+                  <div style="display:flex;flex-direction:column;gap:7px">
+                    <div style="display:flex;justify-content:space-between;align-items:baseline">
+                      <span style="font-family:Cinzel,serif;font-size:19px;letter-spacing:.24em;color:{{ r.accent }}">{{ r.name }}</span>
+                      <span style="font:400 12px 'IBM Plex Mono',monospace;color:rgba(247,242,232,.6)">{{ r.pct }}</span>
+                    </div>
+                    <div style="height:2px;background:rgba(247,242,232,.08)"><div style="height:100%;width:{{ r.w }};background:{{ r.accent }}"></div></div>
                   </div>
-                  <span style="font-size:10px;letter-spacing:.26em;color:rgba(247,242,232,.6)">{{ k.label }}</span>
-                </div>
-              </sc-for>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <div style="display:flex;align-items:center;gap:10px">
-                <span style="font-size:9px;letter-spacing:.34em;color:rgba(247,242,232,.4)">PATTERN</span>
-                <span style="flex:1"></span>
-                <sc-for list="{{ lenOpts }}" as="l" hint-placeholder-count="0">
-                  <button onClick="{{ l.pick }}" aria-pressed="{{ l.on }}" style="padding:7px 12px;border-radius:999px;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.color }};font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer" style-active="transform:translateY(1px)">{{ l.name }}</button>
                 </sc-for>
               </div>
-              <sc-for list="{{ seqRows }}" as="row" hint-placeholder-count="1">
-                <div style="display:flex;align-items:center;gap:8px">
-                  <span style="width:52px;font-size:9px;letter-spacing:.2em;color:rgba(247,242,232,.5);font-family:'IBM Plex Mono',monospace">{{ row.label }}</span>
-                  <div style="display:flex;gap:5px;flex:1">
-                    <sc-for list="{{ row.steps }}" as="s" hint-placeholder-count="16">
-                      <button onClick="{{ s.tap }}" aria-label="{{ s.aria }}" aria-pressed="{{ s.on }}" style="flex:1;height:34px;min-width:0;border-radius:6px;border:1px solid {{ s.border }};background:{{ s.bg }};box-shadow:{{ s.glow }};cursor:pointer;margin-right:{{ s.gap }};transition:background .15s ease, box-shadow .15s ease;padding:0" style-active="transform:translateY(1px)"></button>
+              <div style="display:flex;gap:34px">
+                <sc-for list="{{ dKnobs }}" as="k" hint-placeholder-count="3">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+                    <div onPointerDown="{{ k.down }}" style="position:relative;width:{{ k.size }};height:{{ k.size }};cursor:ns-resize;touch-action:none">
+                      <div style="position:absolute;inset:0;border-radius:50%;background:{{ k.arc }};-webkit-mask-image:radial-gradient(circle closest-side, transparent 90%, #000 91%, #000 97%, transparent 98%);mask-image:radial-gradient(circle closest-side, transparent 90%, #000 91%, #000 97%, transparent 98%)"></div>
+                      <div style="position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle at 36% 28%, #45403a, #1a1713 62%, #0e0c0a);box-shadow:0 8px 16px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.14);transform:rotate({{ k.rot }})">
+                        <span style="position:absolute;left:50%;top:8%;width:3px;height:18%;margin-left:-1.5px;border-radius:2px;background:{{ dColor }};box-shadow:0 0 8px {{ dColor }}"></span>
+                      </div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+                      <span style="font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.32em;color:rgba(247,242,232,.7)">{{ k.label }}</span>
+                      <span style="font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:rgba(247,242,232,.4)">{{ k.val }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:rgba(247,242,232,.6)">Turn the ring to drift. Breath sets how often the bowls are struck. Switch to BEAT to add a rhythm.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ dIsBeat }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:22px">
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                <span style="font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:{{ dColor }}">KIT TUNED TO {{ dDom }}</span>
+                <span style="flex:1"></span>
+                <span style="font:400 8px 'IBM Plex Mono',monospace;letter-spacing:.28em;color:rgba(247,242,232,.4)">KIT</span>
+                <div style="display:flex;padding:3px;border-radius:999px;border:1px solid rgba(247,242,232,.12)">
+                  <sc-for list="{{ dKits }}" as="o" hint-placeholder-count="3">
+                    <button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="padding:6px 11px;border-radius:999px;border:none;cursor:pointer;background:{{ o.bg }};color:{{ o.ink }};font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.2em">{{ o.label }}</button>
+                  </sc-for>
+                </div>
+                <span style="font:400 8px 'IBM Plex Mono',monospace;letter-spacing:.28em;color:rgba(247,242,232,.4);margin-left:6px">STEPS</span>
+                <div style="display:flex;padding:3px;border-radius:999px;border:1px solid rgba(247,242,232,.12)">
+                  <sc-for list="{{ dLens }}" as="o" hint-placeholder-count="3">
+                    <button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="padding:6px 11px;border-radius:999px;border:none;cursor:pointer;background:{{ o.bg }};color:{{ o.ink }};font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.2em">{{ o.label }}</button>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:6px;margin-left:6px"><button onClick="{{ dVary }}" style="padding:7px 13px;border-radius:999px;border:1px solid rgba(247,242,232,.16);background:transparent;color:rgba(247,242,232,.65);cursor:pointer;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.22em" style-hover="color:#f7f2e8">VARY</button><button onClick="{{ dReset }}" style="padding:7px 13px;border-radius:999px;border:1px solid rgba(247,242,232,.16);background:transparent;color:rgba(247,242,232,.65);cursor:pointer;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.22em" style-hover="color:#f7f2e8">GROOVE</button><button onClick="{{ dClear }}" style="padding:7px 13px;border-radius:999px;border:1px solid rgba(247,242,232,.16);background:transparent;color:rgba(247,242,232,.65);cursor:pointer;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.22em" style-hover="color:#f7f2e8">CLEAR</button></div>
+              </div>
+              <div style="display:flex;gap:12px">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <sc-for list="{{ dRows }}" as="row" hint-placeholder-count="6">
+                    <button onPointerDown="{{ row.audition }}" title="Tap to hear" style="width:76px;height:38px;display:flex;align-items:center;gap:8px;padding:0;border:none;background:transparent;cursor:pointer;font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:{{ row.ink }}"><span style="width:5px;height:5px;border-radius:50%;background:{{ row.dot }}"></span>{{ row.name }}</button>
+                  </sc-for>
+                </div>
+                <div style="position:relative;display:flex;flex-direction:column;gap:6px">
+                  <sc-for list="{{ dRows }}" as="row" hint-placeholder-count="6">
+                    <div style="display:flex;gap:6px;opacity:{{ row.op }};transition:opacity .2s ease">
+                      <sc-for list="{{ row.steps }}" as="s" hint-placeholder-count="16">
+                        <button onPointerDown="{{ s.down }}" onPointerEnter="{{ s.enter }}" aria-pressed="{{ s.on }}" aria-label="{{ s.aria }}" style="position:relative;width:38px;height:38px;flex:none;margin-left:{{ s.ml }};border-radius:7px;border:1px solid {{ s.border }};background:{{ s.bg }};box-shadow:{{ s.glow }};opacity:{{ s.op }};cursor:pointer;padding:0;touch-action:none;transition:background .12s ease"><span style="position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#0a0806;opacity:{{ s.acc }}"></span></button>
+                      </sc-for>
+                    </div>
+                  </sc-for>
+                  <span ref="{{ dPhRef }}" style="position:absolute;left:0;top:-5px;bottom:-5px;width:38px;border-radius:9px;border:1px solid rgba(247,242,232,.55);opacity:0;pointer-events:none;transition:opacity .2s ease"></span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <sc-for list="{{ dRows }}" as="row" hint-placeholder-count="6">
+                    <div style="height:38px;display:flex;align-items:center;gap:8px">
+                      <button onClick="{{ row.mute }}" aria-pressed="{{ row.muted }}" aria-label="Mute {{ row.name }}" style="width:26px;height:26px;border-radius:6px;border:1px solid {{ row.mBorder }};background:{{ row.mBg }};color:{{ row.mInk }};cursor:pointer;padding:0;font:500 9px 'IBM Plex Mono',monospace">M</button>
+                      <div onPointerDown="{{ row.lvDown }}" title="Lane volume" style="position:relative;width:64px;height:26px;cursor:ew-resize;touch-action:none;display:flex;align-items:center">
+                        <div style="position:relative;width:100%;height:3px;border-radius:2px;background:rgba(247,242,232,.1)"><div style="position:absolute;left:0;top:0;bottom:0;width:{{ row.lv }};border-radius:2px;background:{{ row.dot }}"></div></div>
+                        <span style="position:absolute;left:{{ row.lv }};top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#f7f2e8"></span>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:36px">
+                <div style="display:flex;gap:18px">
+                  <sc-for list="{{ dKnobs }}" as="k" hint-placeholder-count="5">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+                      <div onPointerDown="{{ k.down }}" style="position:relative;width:{{ k.size }};height:{{ k.size }};cursor:ns-resize;touch-action:none">
+                        <div style="position:absolute;inset:0;border-radius:50%;background:{{ k.arc }};-webkit-mask-image:radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%);mask-image:radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%)"></div>
+                        <div style="position:absolute;inset:13%;border-radius:50%;background:radial-gradient(circle at 36% 28%, #45403a, #1a1713 62%, #0e0c0a);box-shadow:0 6px 12px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.14);transform:rotate({{ k.rot }})">
+                          <span style="position:absolute;left:50%;top:8%;width:3px;height:20%;margin-left:-1.5px;border-radius:2px;background:{{ dColor }}"></span>
+                        </div>
+                      </div>
+                      <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                        <span style="font:500 8px 'IBM Plex Mono',monospace;letter-spacing:.3em;color:rgba(247,242,232,.7)">{{ k.label }}</span>
+                        <span style="font:400 9px 'IBM Plex Mono',monospace;color:rgba(247,242,232,.45)">{{ k.val }}</span>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:10px">
+                  <div style="display:flex;align-items:center;gap:12px">
+                    <span style="font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.32em;color:rgba(247,242,232,.5)">SAVED BEATS</span>
+                    <span style="flex:1"></span>
+                    <button onClick="{{ dSave }}" style="padding:7px 16px;border-radius:999px;border:1px solid {{ dColor }};background:transparent;color:#f7f2e8;cursor:pointer;font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.28em">SAVE</button>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+                    <sc-for list="{{ dSlots }}" as="sl" hint-placeholder-count="8">
+                      <div style="position:relative">
+                        <button onClick="{{ sl.click }}" title="{{ sl.title }}" style="width:100%;height:50px;border-radius:10px;border:1px {{ sl.bstyle }} {{ sl.border }};background:{{ sl.bg }};cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:0 12px;box-sizing:border-box;text-align:left">
+                          <span style="font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:{{ sl.ink }}">{{ sl.top }}</span>
+                          <span style="font:400 8px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:rgba(247,242,232,.4)">{{ sl.sub }}</span>
+                        </button>
+                        <sc-if value="{{ sl.filled }}" hint-placeholder-val="{{ false }}">
+                          <button onClick="{{ sl.del }}" aria-label="Delete beat" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;border:none;background:transparent;color:rgba(247,242,232,.35);cursor:pointer;font-size:12px;line-height:1;padding:0" style-hover="color:#f7f2e8">×</button>
+                        </sc-if>
+                      </div>
                     </sc-for>
                   </div>
                 </div>
-              </sc-for>
-            </div>
-          </sc-if>
-
-          <sc-if value="{{ dIsPads }}" hint-placeholder-val="{{ false }}">
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
-              <sc-for list="{{ pads }}" as="p" hint-placeholder-count="8">
-                <button onPointerDown="{{ p.hit }}" aria-label="{{ p.aria }}" style="min-height:64px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,#1a1713,#0d0b09);box-shadow:inset 0 1px 0 rgba(255,255,255,.08), inset 0 -3px 6px rgba(0,0,0,.6), 0 5px 12px rgba(0,0,0,.5);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:box-shadow .1s ease" style-active="transform:translateY(2px);box-shadow:inset 0 2px 8px rgba(0,0,0,.8), 0 0 20px rgba(212,164,55,.3)">
-                  <span ref="{{ p.ledRef }}" style="font-size:11px;letter-spacing:.26em;color:rgba(247,242,232,.65)">{{ p.label }}</span>
-                </button>
-              </sc-for>
-            </div>
-          </sc-if>
-
-          <sc-if value="{{ dIsField }}" hint-placeholder-val="{{ false }}">
-            <div ref="{{ xyRef }}" onPointerDown="{{ xyDown }}" role="application" aria-label="Energy field, drag to balance the five energies" style="position:relative;height:min(38dvh,300px);border-radius:16px;border:1px solid rgba(212,164,55,.2);background:radial-gradient(ellipse 70% 70% at 50% 50%, #0b0806, #040302);cursor:crosshair;touch-action:none;overflow:hidden">
-              <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:10px;letter-spacing:.3em;color:rgba(140,98,57,.8)">DARK</span>
-              <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:10px;letter-spacing:.3em;color:rgba(212,164,55,.8)">LIGHT</span>
-              <span style="position:absolute;left:50%;top:8px;transform:translateX(-50%);font-size:10px;letter-spacing:.3em;color:rgba(184,167,217,.7)">SKY</span>
-              <span style="position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-size:10px;letter-spacing:.3em;color:rgba(83,199,192,.7)">GROUND</span>
-              <div ref="{{ xyDotRef }}" style="position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:radial-gradient(circle at 36% 30%, #f3e2b3, #c79a2e 60%, #6f5416);box-shadow:0 0 20px rgba(212,164,55,.7), 0 3px 8px rgba(0,0,0,.7);left:55%;top:50%;pointer-events:none"></div>
+              </div>
             </div>
           </sc-if>
         </div>
       </div>
-    </sc-if>
-
-    <sc-if value="{{ tourOn }}" hint-placeholder-val="{{ false }}">
-      <div style="position:absolute;inset:0;z-index:70;overflow:hidden;animation:nfmFade .4s ease both;pointer-events:none">
-        <div style="position:absolute;left:{{ spotX }};top:{{ spotY }};width:{{ spotD }};height:{{ spotD }};transform:translate(-50%,-50%);border-radius:50%;box-shadow:0 0 0 300vmax rgba(3,3,2,.82);transition:left .5s cubic-bezier(.3,.8,.3,1), top .5s cubic-bezier(.3,.8,.3,1), width .5s cubic-bezier(.3,.8,.3,1), height .5s cubic-bezier(.3,.8,.3,1)"></div>
-        <div style="position:absolute;left:{{ spotX }};top:{{ spotY }};width:{{ spotD }};height:{{ spotD }};transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(212,164,55,.6);box-shadow:0 0 26px rgba(212,164,55,.25), inset 0 0 26px rgba(212,164,55,.12);transition:left .5s cubic-bezier(.3,.8,.3,1), top .5s cubic-bezier(.3,.8,.3,1), width .5s cubic-bezier(.3,.8,.3,1), height .5s cubic-bezier(.3,.8,.3,1)"></div>
-        <div style="position:absolute;left:{{ spotX }};top:{{ spotY }};width:{{ spotD }};height:{{ spotD }};border-radius:50%;border:1px solid rgba(212,164,55,.55);animation:nfmTap 1.6s ease-out infinite;display:{{ tapDisp }}"></div>
-        <div style="position:absolute;left:{{ spotX }};top:{{ spotY }};display:{{ dragDisp }}">
-          <div style="position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:2px;height:58px;background:linear-gradient(180deg,transparent,rgba(212,164,55,.55),transparent)"></div>
-          <div style="position:absolute;left:0;top:0;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#e8c56a;box-shadow:0 0 14px rgba(212,164,55,.9);animation:nfmDragY 1.8s ease-in-out infinite"></div>
+    </div>
+</div>
+</sc-if>
+<sc-if value="{{ mob }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height:100vh;min-height:100dvh;background:radial-gradient(ellipse 120% 60% at 50% 22%, #17130f, #070605 70%);color:#f7f2e8;padding:0 {{ mPad }} calc(104px + env(safe-area-inset-bottom));box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+    <div style="position:sticky;top:0;z-index:20;margin:0 {{ mPadNeg }};padding:calc(10px + env(safe-area-inset-top)) {{ mPad }} 10px;background:rgba(7,6,5,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <a href="Nyota.dc.html" style="display:flex;align-items:center;min-height:44px;font-family:Cinzel,serif;font-size:12px;letter-spacing:.3em;color:rgba(247,242,232,.75)">← NYOTA</a>
+      <div style="display:flex;padding:3px;border-radius:999px;border:1px solid rgba(247,242,232,.14);background:rgba(0,0,0,.35)">
+        <sc-for list="{{ dModes }}" as="m" hint-placeholder-count="2">
+          <button onClick="{{ m.pick }}" aria-pressed="{{ m.on }}" style="min-height:40px;padding:0 18px;border-radius:999px;border:none;cursor:pointer;background:{{ m.bg }};color:{{ m.ink }};font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.26em">{{ m.label }}</button>
+        </sc-for>
+      </div>
+      <span style="width:44px;display:flex;justify-content:flex-end"><span style="width:7px;height:7px;border-radius:50%;background:{{ dLed }};box-shadow:0 0 8px {{ dLed }}"></span></span>
+    </div>
+    <div onPointerDown="{{ dDialDown }}" style="position:relative;flex:none;align-self:center;margin:8px 0;width:{{ dD }};height:{{ dD }};touch-action:none;cursor:grab">
+          <div style="position:absolute;inset:{{ dInset }};border-radius:50%;border:1px solid rgba(247,242,232,.1)"></div>
+          <sc-for list="{{ dTicks }}" as="t" hint-placeholder-count="0">
+            <span style="position:absolute;left:{{ t.left }};top:{{ dInset }};width:1px;height:{{ t.h }};background:{{ t.c }};transform-origin:{{ t.origin }};transform:rotate({{ t.rot }})"></span>
+          </sc-for>
+          <sc-for list="{{ dSigils }}" as="s" hint-placeholder-count="5">
+            <button onClick="{{ s.pick }}" aria-label="Drift to {{ s.name }}" style="position:absolute;left:{{ s.x }};top:{{ s.y }};transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px;border:none;background:transparent;cursor:pointer;opacity:{{ s.op }}">
+              <img ref="{{ s.imgRef }}" alt="" style="width:{{ s.size }};height:{{ s.size }}">
+              <span style="display:{{ s.nameDisp }};font:500 8px 'IBM Plex Mono',monospace;letter-spacing:.24em;color:#f7f2e8">{{ s.name }}</span>
+            </button>
+          </sc-for>
+          <div style="position:absolute;inset:{{ dInset }};transform:rotate({{ dRot }});transition:{{ dTrans }};pointer-events:none">
+            <span style="position:absolute;left:50%;top:0;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;background:{{ dColor }};box-shadow:0 0 18px {{ dColor }}, 0 0 0 5px rgba(7,6,5,.9)"></span>
+          </div>
+          <canvas ref="{{ mCvRef }}" width="640" height="640" style="position:absolute;left:{{ dCvPos }};top:{{ dCvPos }};width:{{ dCvSize }};height:{{ dCvSize }};pointer-events:none"></canvas>
+          <button onPointerDown="{{ stopProp }}" onClick="{{ engageD }}" aria-label="{{ dWord }}" style="position:absolute;left:50%;top:50%;width:{{ dCore }};height:{{ dCore }};transform:translate(-50%,-50%);border-radius:50%;border:1px solid {{ dColor }};background:rgba(7,6,5,.85);color:#f7f2e8;cursor:pointer;font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.28em">{{ dWord }}</button>
         </div>
-        <div ref="{{ tourCardRef }}" style="pointer-events:auto;position:absolute;left:{{ cardLeft }};top:{{ cardTop }};bottom:{{ cardBottom }};width:{{ cardW }};border:1px solid rgba(212,164,55,.35);background:linear-gradient(180deg,#16130e,#0a0806);box-shadow:0 24px 70px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.07);padding:18px 18px 14px;display:flex;flex-direction:column;gap:10px;text-align:center;transition:left .5s cubic-bezier(.3,.8,.3,1)">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.4em;color:rgba(212,164,55,.7)">{{ tourStepNum }} / 4</div>
-          <div style="font-family:Cinzel,serif;font-size:17px;letter-spacing:.22em;color:#f3e2b3">{{ tourTitle }}</div>
-          <div style="font-size:13px;line-height:1.65;color:rgba(247,242,232,.78)">{{ tourBody }}</div>
-          <div style="display:flex;gap:6px;justify-content:center;padding:2px 0">
-            <sc-for list="{{ tourDots }}" as="d" hint-placeholder-count="4">
-              <span style="width:14px;height:2px;background:{{ d.bg }};transition:background .3s ease"></span>
+        
+    <sc-if value="{{ dIsDrift }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ dRead }}" as="r" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline">
+                <span style="font-family:Cinzel,serif;font-size:17px;letter-spacing:.22em;color:{{ r.accent }}">{{ r.name }}</span>
+                <span style="font:400 12px 'IBM Plex Mono',monospace;color:rgba(247,242,232,.6)">{{ r.pct }}</span>
+              </div>
+              <div style="height:2px;background:rgba(247,242,232,.08)"><div style="height:100%;width:{{ r.w }};background:{{ r.accent }}"></div></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;justify-content:space-around">
+        <sc-for list="{{ dKnobs }}" as="k" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+            <div onPointerDown="{{ k.down }}" style="position:relative;width:{{ k.size }};height:{{ k.size }};cursor:ns-resize;touch-action:none">
+              <div style="position:absolute;inset:0;border-radius:50%;background:{{ k.arc }};-webkit-mask-image:radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%);mask-image:radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%)"></div>
+              <div style="position:absolute;inset:13%;border-radius:50%;background:radial-gradient(circle at 36% 28%, #45403a, #1a1713 62%, #0e0c0a);box-shadow:0 6px 12px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.14);transform:rotate({{ k.rot }})">
+                <span style="position:absolute;left:50%;top:8%;width:3px;height:20%;margin-left:-1.5px;border-radius:2px;background:{{ dColor }}"></span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+              <span style="font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.26em;color:rgba(247,242,232,.75)">{{ k.label }}</span>
+              <span style="font:400 9px 'IBM Plex Mono',monospace;color:rgba(247,242,232,.5)">{{ k.val }}</span>
+            </div>
+          </div>
+        </sc-for>
+        </div>
+        <p style="margin:0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;line-height:1.4;color:rgba(247,242,232,.65);text-align:center;text-wrap:pretty">Turn the ring to drift. Breath sets how often the bowls are struck. Switch to BEAT to add a rhythm.</p>
+      </div>
+    </sc-if>
+    <sc-if value="{{ dIsBeat }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <span style="font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.22em;color:{{ dColor }};text-align:center">KIT TUNED TO {{ dDom }}</span>
+        <div style="display:flex;gap:8px;overflow-x:auto;margin:0 {{ mPadNeg }};padding:0 {{ mPad }};scrollbar-width:none">
+          <sc-for list="{{ mLanes }}" as="l" hint-placeholder-count="6">
+            <button onClick="{{ l.pick }}" aria-pressed="{{ l.on }}" style="flex:none;min-height:44px;padding:0 14px;display:flex;align-items:center;gap:8px;border-radius:999px;border:1px solid {{ l.border }};background:{{ l.bg }};color:{{ l.ink }};cursor:pointer;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.2em;text-decoration:{{ l.strike }}"><span style="width:6px;height:6px;border-radius:50%;background:{{ l.dot }}"></span>{{ l.name }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button onClick="{{ mLane.mute }}" aria-pressed="{{ mLane.muted }}" style="flex:none;width:44px;height:44px;border-radius:12px;border:1px solid {{ mLane.mBorder }};background:{{ mLane.mBg }};color:{{ mLane.mInk }};cursor:pointer;font:500 11px 'IBM Plex Mono',monospace">M</button>
+          <div onPointerDown="{{ mLane.lvDown }}" aria-label="Lane volume" style="position:relative;flex:1;height:44px;touch-action:none;display:flex;align-items:center">
+            <div style="position:relative;width:100%;height:4px;border-radius:2px;background:rgba(247,242,232,.12)"><div style="position:absolute;left:0;top:0;bottom:0;width:{{ mLane.lv }};border-radius:2px;background:{{ mLane.dot }}"></div></div>
+            <span style="position:absolute;left:{{ mLane.lv }};top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#f7f2e8;box-shadow:0 2px 6px rgba(0,0,0,.5)"></span>
+          </div>
+          <button onPointerDown="{{ mLane.audition }}" style="flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(247,242,232,.16);background:transparent;color:rgba(247,242,232,.75);cursor:pointer;font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.2em">HEAR</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+          <sc-for list="{{ mPads }}" as="p" hint-placeholder-count="16">
+            <button ref="{{ p.ref }}" onClick="{{ p.tap }}" aria-pressed="{{ p.on }}" aria-label="{{ p.aria }}" style="position:relative;aspect-ratio:1;min-height:44px;border-radius:12px;border:1px solid {{ p.border }};background:{{ p.bg }};box-shadow:{{ p.glow }};opacity:{{ p.op }};cursor:pointer;padding:0;transition:background .12s ease">
+              <span style="position:absolute;left:8px;top:6px;font:400 9px 'IBM Plex Mono',monospace;color:{{ p.numInk }}">{{ p.num }}</span>
+              <span style="position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#0a0806;opacity:{{ p.acc }}"></span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="position:relative;display:flex;flex-direction:column;gap:4px;padding:10px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid rgba(247,242,232,.06)">
+          <sc-for list="{{ mOverview }}" as="row" hint-placeholder-count="6">
+            <button onClick="{{ row.pick }}" aria-label="Edit {{ row.name }}" style="display:flex;gap:2px;height:10px;padding:0;border:none;background:transparent;cursor:pointer;opacity:{{ row.op }}">
+              <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="16">
+                <span style="flex:1;height:100%;border-radius:2px;background:{{ c.bg }}"></span>
+              </sc-for>
+            </button>
+          </sc-for>
+          <span ref="{{ mOvPhRef }}" style="position:absolute;top:6px;bottom:6px;left:10px;width:calc((100% - 20px) / 16);border-radius:3px;border:1px solid rgba(247,242,232,.6);opacity:0;pointer-events:none;box-sizing:border-box"></span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between">
+          <div style="display:flex;padding:3px;border-radius:999px;border:1px solid rgba(247,242,232,.14)">
+            <sc-for list="{{ dKits }}" as="o" hint-placeholder-count="3">
+              <button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="min-height:38px;padding:0 13px;border-radius:999px;border:none;cursor:pointer;background:{{ o.bg }};color:{{ o.ink }};font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.16em">{{ o.label }}</button>
             </sc-for>
           </div>
-          <div style="display:flex;gap:8px;justify-content:center">
-            <button onClick="{{ tourSkip }}" style="padding:11px 18px;border-radius:999px;border:1px solid rgba(247,242,232,.18);background:transparent;color:rgba(247,242,232,.55);font-family:Cinzel,serif;font-size:10px;letter-spacing:.28em;cursor:pointer" style-hover="color:#e8c56a">SKIP</button>
-            <button onClick="{{ tourNext }}" style="padding:11px 30px;border-radius:999px;border:1px solid rgba(212,164,55,.6);background:linear-gradient(180deg,rgba(212,164,55,.16),rgba(212,164,55,.04));color:#e8c56a;font-family:Cinzel,serif;font-size:10px;letter-spacing:.28em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.1)" style-active="transform:translateY(1px)">{{ tourBtn }}</button>
+          <div style="display:flex;padding:3px;border-radius:999px;border:1px solid rgba(247,242,232,.14)">
+            <sc-for list="{{ dLens }}" as="o" hint-placeholder-count="3">
+              <button onClick="{{ o.pick }}" aria-pressed="{{ o.on }}" style="min-height:38px;padding:0 13px;border-radius:999px;border:none;cursor:pointer;background:{{ o.bg }};color:{{ o.ink }};font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.16em">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px"><button onClick="{{ dVary }}" style="flex:1;min-height:44px;border-radius:999px;border:1px solid rgba(247,242,232,.16);background:transparent;color:rgba(247,242,232,.75);cursor:pointer;font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.2em">VARY</button><button onClick="{{ dReset }}" style="flex:1;min-height:44px;border-radius:999px;border:1px solid rgba(247,242,232,.16);background:transparent;color:rgba(247,242,232,.75);cursor:pointer;font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.2em">GROOVE</button><button onClick="{{ dClear }}" style="flex:1;min-height:44px;border-radius:999px;border:1px solid rgba(247,242,232,.16);background:transparent;color:rgba(247,242,232,.75);cursor:pointer;font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.2em">CLEAR</button></div>
+        <div style="display:flex;justify-content:space-between">
+        <sc-for list="{{ dKnobs }}" as="k" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+            <div onPointerDown="{{ k.down }}" style="position:relative;width:{{ k.size }};height:{{ k.size }};cursor:ns-resize;touch-action:none">
+              <div style="position:absolute;inset:0;border-radius:50%;background:{{ k.arc }};-webkit-mask-image:radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%);mask-image:radial-gradient(circle closest-side, transparent 88%, #000 89%, #000 97%, transparent 98%)"></div>
+              <div style="position:absolute;inset:13%;border-radius:50%;background:radial-gradient(circle at 36% 28%, #45403a, #1a1713 62%, #0e0c0a);box-shadow:0 6px 12px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.14);transform:rotate({{ k.rot }})">
+                <span style="position:absolute;left:50%;top:8%;width:3px;height:20%;margin-left:-1.5px;border-radius:2px;background:{{ dColor }}"></span>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+              <span style="font:500 7px 'IBM Plex Mono',monospace;letter-spacing:.26em;color:rgba(247,242,232,.75)">{{ k.label }}</span>
+              <span style="font:400 9px 'IBM Plex Mono',monospace;color:rgba(247,242,232,.5)">{{ k.val }}</span>
+            </div>
+          </div>
+        </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center">
+            <span style="font:400 10px 'IBM Plex Mono',monospace;letter-spacing:.3em;color:rgba(247,242,232,.55)">SAVED BEATS</span>
+            <span style="flex:1"></span>
+            <button onClick="{{ dSave }}" style="min-height:40px;padding:0 20px;border-radius:999px;border:1px solid {{ dColor }};background:transparent;color:#f7f2e8;cursor:pointer;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.26em">SAVE</button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
+            <sc-for list="{{ dSlots }}" as="sl" hint-placeholder-count="8">
+              <div style="position:relative">
+                <button onClick="{{ sl.click }}" style="width:100%;min-height:56px;border-radius:12px;border:1px {{ sl.bstyle }} {{ sl.border }};background:{{ sl.bg }};cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:0 14px;box-sizing:border-box;text-align:left">
+                  <span style="font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.16em;color:{{ sl.ink }}">{{ sl.top }}</span>
+                  <span style="font:400 8px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:rgba(247,242,232,.45)">{{ sl.sub }}</span>
+                </button>
+                <sc-if value="{{ sl.filled }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ sl.del }}" aria-label="Delete beat" style="position:absolute;top:0;right:0;width:44px;height:44px;border:none;background:transparent;color:rgba(247,242,232,.45);cursor:pointer;font-size:16px;padding:0">×</button>
+                </sc-if>
+              </div>
+            </sc-for>
           </div>
         </div>
       </div>
     </sc-if>
+    <div style="position:fixed;left:0;right:0;bottom:0;z-index:30;padding:12px {{ mPad }} calc(12px + env(safe-area-inset-bottom));background:rgba(7,6,5,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid rgba(247,242,232,.08);display:flex;align-items:center;gap:14px">
+      <button onClick="{{ engageD }}" aria-label="{{ dWord }}" style="flex:none;width:56px;height:56px;border-radius:50%;border:1px solid {{ dColor }};background:{{ dBtnBg }};color:#f7f2e8;cursor:pointer;font:500 9px 'IBM Plex Mono',monospace;letter-spacing:.2em">{{ dWord }}</button>
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+        <span style="font-family:Cinzel,serif;font-size:14px;letter-spacing:.22em;color:{{ dColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ mNow }}</span>
+        <span style="font:400 9px 'IBM Plex Mono',monospace;letter-spacing:.2em;color:rgba(247,242,232,.45)">{{ mSub }}</span>
+      </div>
+      <sc-if value="{{ dIsBeat }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:4px">
+          <button onClick="{{ bpmDown }}" aria-label="Slower" style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(247,242,232,.16);background:transparent;color:#f7f2e8;cursor:pointer;font-size:18px">−</button>
+          <span style="width:44px;text-align:center;font:500 13px 'IBM Plex Mono',monospace">{{ dBpm }}</span>
+          <button onClick="{{ bpmUp }}" aria-label="Faster" style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(247,242,232,.16);background:transparent;color:#f7f2e8;cursor:pointer;font-size:18px">+</button>
+        </div>
+      </sc-if>
+    </div>
   </div>
-</div>
+</sc-if>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: &quot;100%&quot;, &quot;height&quot;: &quot;100%&quot;}}">
+<script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { consoleH: 140, playing: false, playStep: -1, bpm: 124, eclipse: 0, drawer: null, narrow: false, short: false, patch: { num: '001', name: 'FIRST LIGHT', i: 0 }, drag: null, tick: 0, tour: -1 };
-  TOUR = [
-    { t: 'TOUCH THE CORE', b: 'The gold core is the heartbeat. Lay a finger on it and the ritual stirs — a rhythm already lives inside, waiting to be heard.', g: 'tap' },
-    { t: 'AWAKEN THE MASKS', b: 'Five masks keep vigil around the core. Touch a sleeping mask and its energy wakes; touch a glowing one to enter its chamber and shape its voice.', g: 'tap' },
-    { t: 'THE ECLIPSE', b: 'Draw the ECLIPSE upward, slowly, and feel the whole mix transform. Every knob and fader answers the same gesture — a slow pull of the hand.', g: 'drag' },
-    { t: 'THE PADS', b: 'The pads are yours to strike — drums, voices, thunder. Nothing here can break. Follow the pulse until you find your frequency.', g: 'tap' }
-  ];
-  ACCENTS = { solar: '#d4a437', lunar: '#b8a7d9', rhythm: '#53c7c0', ancestor: '#a97c4a', eclipse: '#d4b76a' };
-  SIGILS = {
-    // stroke redraws of the uploaded brand sheet (line art + dot accents)
-    solar: 'M12 7.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9zM12 9.6a2.4 2.4 0 100 4.8 2.4 2.4 0 000-4.8zM12 5.8V3.2M12 18.2v2.6M5.8 12H3.2M18.2 12h2.6M17.4 8.9l1.4-.8M15.1 6.6l.8-1.4M8.9 6.6l-.8-1.4M6.6 8.9l-1.4-.8M6.6 15.1l-1.4.8M8.9 17.4l-.8 1.4M15.1 17.4l.8 1.4M17.4 15.1l1.4.8',
-    lunar: 'M14 3.6a8.6 8.6 0 100 16.8A10.6 10.6 0 0114 3.6z',
-    rhythm: 'M3.4 12h2l.9-1.4 1.4 2.8 1.5-5.6 1.9 8.4 1.9-11.4 1.8 9.8 1.4-6.4 1 3.8H20.8',
-    ancestor: 'M12 8.3c-3.5 0-6.4 1.7-8.3 3.7 1.9 2 4.8 3.7 8.3 3.7s6.4-1.7 8.3-3.7c-1.9-2-4.8-3.7-8.3-3.7zM14.6 12a2.6 2.6 0 11-5.2 0 2.6 2.6 0 015.2 0z',
-    eclipse: 'M12 6a6 6 0 110 12 6 6 0 010-12z'
-  };
-  SIGIL_FILLS = {
-    solar: 'M17.5 5.7a.6.6 0 100 1.2.6.6 0 000-1.2zM5.9 5.7a.6.6 0 100 1.2.6.6 0 000-1.2zM5.9 17.1a.6.6 0 100 1.2.6.6 0 000-1.2zM17.5 17.1a.6.6 0 100 1.2.6.6 0 000-1.2z',
-    lunar: 'M18.8 8.9a.7.7 0 100 1.4.7.7 0 000-1.4zM18.5 11a1 1 0 100 2 1 1 0 000-2zM18.8 13.7a.7.7 0 100 1.4.7.7 0 000-1.4z',
-    rhythm: 'M2.4 11.2a.8.8 0 100 1.6.8.8 0 000-1.6zM21.6 11.2a.8.8 0 100 1.6.8.8 0 000-1.6z',
-    ancestor: 'M12 10.9a1.1 1.1 0 100 2.2 1.1 1.1 0 000-2.2zM12 5.3a.8.8 0 100 1.6.8.8 0 000-1.6zM12 17.1a.8.8 0 100 1.6.8.8 0 000-1.6z',
-    eclipse: 'M12 6a6 6 0 000 12 2 2 0 010-4 2 2 0 000-4 2 2 0 010-4zM12 2.8a.8.8 0 100 1.6.8.8 0 000-1.6zM12 19.6a.8.8 0 100 1.6.8.8 0 000-1.6z'
-  };
-  _pads = {}; _rings = {}; _pos = {}; _vu = {}; _leds = {};
+  state = { on: false, vw: window.innerWidth, vh: window.innerHeight, lane: 0,
+    dMode: 'drift', dAngle: 72, dAnim: false, dDepth: .5, dBreath: .4, dSpace: .55, dBpm: 120, dSwing: .12, dMix: .6, dLen: 16, dKit: 'organic',
+    laneLv: [.9, .7, .6, .5, .7, .6], mutes: [false, false, false, false, false, false], pat: null, slots: [null, null, null, null, null, null, null, null], slotOn: -1 };
+  forms() {
+    if (this._F) return this._F;
+    const img = src => el => { if (el && el.getAttribute('src') !== src) el.setAttribute('src', src); };
+    return this._F = [['solar', 'SOLAR', '#D4A437'], ['lunar', 'LUNAR', '#B8A7D9'], ['rhythm', 'RHYTHM', '#53C7C0'], ['ancestor', 'ANCESTOR', '#C9945C'], ['eclipse', 'ECLIPSE', '#D4B76A']]
+      .map(([id, name, accent]) => ({ id, name, accent, sigRef: img('assets/sigil-' + id + '_APPROVED.png') }));
+  }
+  lanes() { return ['KICK', 'CLAP', 'HAT', 'SHAKER', 'CONGA', 'TOM']; }
+  groove() { const on = (s, a = []) => Array.from({ length: 16 }, (_, i) => a.includes(i) ? 2 : s.includes(i) ? 1 : 0); return [on([0, 4, 8, 12], [0]), on([4, 12]), on([2, 6, 10, 14], [6, 14]), on([1, 3, 5, 7, 9, 11, 13, 15]), on([3, 7, 10, 14], [10]), on([15])]; }
+  vary() { return this.state.pat.map((row, l) => row.map((v, i) => (l === 0 && i % 4 === 0) ? v : Math.random() < .16 ? (v ? 0 : (Math.random() < .3 ? 2 : 1)) : v)); }
   componentDidMount() {
-    import('./nfm-engine.js').then(m => { this._mod = m; });
-    this._onR = () => this.setState({ narrow: innerWidth <= 700, short: innerHeight <= 640, consoleH: this._console ? this._console.offsetHeight : this.state.consoleH });
-    this._ro = new ResizeObserver(() => this._onR());
-    this._onR(); addEventListener('resize', this._onR);
-    this._onKey = e => this.keyPerform(e);
-    addEventListener('keydown', this._onKey);
-    let seen = false;
-    try { seen = localStorage.getItem('nyota-nfm-tour') === 'done'; } catch (e) {}
-    if (!seen) this.setState({ tour: 0 });
-    this.startLoop();
+    this.wav = new Uint8Array(1024); this.padEls = [];
+    let slots = this.state.slots;
+    try { const raw = JSON.parse(localStorage.getItem('nyota-frequency-beats') || 'null'); if (Array.isArray(raw)) slots = slots.map((_, i) => raw[i] || null); } catch (e) {}
+    this.setState({ pat: this.groove(), slots });
+    this.onResize = () => this.setState({ vw: window.innerWidth, vh: window.innerHeight }); window.addEventListener('resize', this.onResize);
+    this.upP = () => { this.painting = null; }; window.addEventListener('pointerup', this.upP);
+    import('./drift-engine.js').then(m => {
+      this.E = m.createDrift();
+      this.E.onStep(i => {
+        const el = this.ph, ov = this.ovPh;
+        if (this.lastPad) { this.lastPad.style.outline = ''; this.lastPad = null; }
+        if (i < 0) { if (el) el.style.opacity = 0; if (ov) ov.style.opacity = 0; return; }
+        if (el) { el.style.opacity = 1; el.style.transform = 'translateX(' + (i * 44 + Math.floor(i / 4) * 10) + 'px)'; }
+        if (ov) { ov.style.opacity = 1; ov.style.transform = 'translateX(' + (i * 100) + '%)'; }
+        const p = this.padEls[i]; if (p) { p.style.outline = '2px solid rgba(247,242,232,.85)'; p.style.outlineOffset = '2px'; this.lastPad = p; }
+      });
+    });
+    const loop = () => { this.draw(); this.raf = requestAnimationFrame(loop); };
+    this.raf = requestAnimationFrame(loop);
   }
-  componentWillUnmount() {
-    removeEventListener('resize', this._onR); removeEventListener('keydown', this._onKey);
-    if (this._ro) this._ro.disconnect();
-    if (this._raf) cancelAnimationFrame(this._raf);
-    if (this._nfm) this._nfm.stop();
+  componentWillUnmount() { cancelAnimationFrame(this.raf); window.removeEventListener('resize', this.onResize); window.removeEventListener('pointerup', this.upP); if (this.E) this.E.stop(); }
+  blend(angle) { const F = this.forms(), n = ((angle % 360) + 360) % 360, p = n / 72, i = Math.floor(p) % 5; return { A: F[i], B: F[(i + 1) % 5], fr: p - Math.floor(p) }; }
+  mix() { const c = this.blend(this.state.dAngle), w = {}; w[c.A.id] = 1 - c.fr; w[c.B.id] = (w[c.B.id] || 0) + c.fr; return w; }
+  tone() {
+    const E = this.E, s = this.state; if (!E) return;
+    E.setDepth(s.dDepth); E.setBreath(s.dBreath); E.setSpace(s.dSpace); E.setBpm(s.dBpm); E.setSwing(s.dSwing); if (s.pat) E.setPattern(s.pat);
+    E.setLanes(s.laneLv.map((v, i) => s.mutes[i] ? 0 : v)); E.setLength(s.dLen); E.setKit(s.dKit); E.setDrumMix(s.dMode === 'beat' ? s.dMix : 0);
   }
-  async ensureAudio() {
-    if (this._nfm) return this._nfm;
-    if (this._booting) return this._booting;
-    this._booting = (async () => {
-      if (!this._mod) this._mod = await import('./nfm-engine.js');
-      const nfm = this._mod.createNFM();
-      await nfm.boot();
-      ['solar', 'lunar', 'ancestor'].forEach(id => nfm.setParam(id, 'mute', true)); // start with heartbeat only
-      nfm.onStep(s => { this._step = s; this.paintLeds(s); if (s % 4 === 0) { (this._pulses = this._pulses || []).push({ r: 0, a: 0.45 }); this.setState({ playStep: s }); } });
-      this._nfm = nfm;
-      this.forceUpdate();
-      return nfm;
-    })();
-    return this._booting;
+  engage() {
+    if (!this.E) return;
+    if (this.state.on) { this.E.stop(); this.setState({ on: false }); return; }
+    this.setState({ on: true }, async () => { this.tone(); this.E.setMix(this.mix()); await this.E.start(); this.E.setBeat(this.state.dMode === 'beat'); });
   }
-  endTour(autoplay) {
-    try { localStorage.setItem('nyota-nfm-tour', 'done'); } catch (e) {}
-    this.setState({ tour: -1 });
-    if (autoplay && this._nfm && !this._nfm.isPlaying()) this.togglePlay();
+  update(patch) { this.setState(patch, () => { if (this.E && this.state.on) { this.tone(); this.E.setMix(this.mix()); } }); }
+  knob(e, k, lo, hi) {
+    e.preventDefault();
+    const y0 = e.clientY, v0 = this.state[k];
+    const mv = ev => { let v = Math.max(lo, Math.min(hi, v0 + (y0 - ev.clientY) / 180 * (hi - lo))); if (k === 'dBpm') v = Math.round(v); this.update({ [k]: v }); };
+    const up = () => { window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up);
   }
-  keyPerform(e) {
-    if (e.metaKey || e.ctrlKey) return;
-    const tag = (e.target && e.target.tagName) || '';
-    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-    const padKeys = ['a','s','d','f','j','k','l',';'];
-    const k = e.key.toLowerCase();
-    if (k === ' ') { e.preventDefault(); this.togglePlay(); }
-    else if (padKeys.includes(k)) this.hitPad(padKeys.indexOf(k));
-    else if (k === 'escape') this.setState({ drawer: null });
+  laneDown(e, l) {
+    e.preventDefault(); const r = e.currentTarget.getBoundingClientRect();
+    const at = ev => { const lv = this.state.laneLv.slice(); lv[l] = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)); this.update({ laneLv: lv }); };
+    at(e); const up = () => { window.removeEventListener('pointermove', at); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', at); window.addEventListener('pointerup', up);
   }
-  paintLeds(s) {
-    for (let i = 0; i < 16; i++) {
-      const el = this._leds[i]; if (!el) continue;
-      el.style.background = i === s ? '#e8c56a' : 'rgba(247,242,232,.09)';
-      el.style.boxShadow = i === s ? '0 0 8px rgba(212,164,55,.8)' : 'none';
+  setMode(m) { this.setState({ dMode: m }, () => { if (this.E && this.state.on) { this.tone(); this.E.setBeat(m === 'beat'); } }); }
+  paint(l, i, v) { const pat = this.state.pat.map(r => r.slice()); pat[l][i] = v; this.update({ pat, slotOn: -1 }); }
+  persist(slots) { try { localStorage.setItem('nyota-frequency-beats', JSON.stringify(slots)); } catch (e) {} }
+  snap() { const s = this.state, c = this.blend(s.dAngle); return { form: (c.fr < .5 ? c.A : c.B).name, pat: s.pat, bpm: s.dBpm, swing: s.dSwing, mix: s.dMix, len: s.dLen, kit: s.dKit, laneLv: s.laneLv, mutes: s.mutes, angle: s.dAngle, depth: s.dDepth, space: s.dSpace, ts: Date.now() }; }
+  saveTo(i) { const slots = this.state.slots.slice(); slots[i] = this.snap(); this.persist(slots); this.setState({ slots, slotOn: i }); }
+  save() { const s = this.state; let i = s.slotOn >= 0 ? s.slotOn : s.slots.findIndex(x => !x); if (i < 0) i = s.slots.length - 1; this.saveTo(i); }
+  load(i) { const b = this.state.slots[i]; if (!b) return; this.update({ pat: b.pat.map(r => r.map(v => v === true ? 1 : v || 0)), dMix: b.mix ?? .6, dLen: b.len || 16, dKit: b.kit || 'organic', laneLv: b.laneLv || this.state.laneLv, mutes: b.mutes || [false, false, false, false, false, false], dBpm: b.bpm, dSwing: b.swing, dAngle: this.nearestD(b.angle), dAnim: true, dDepth: b.depth, dSpace: b.space, slotOn: i }); }
+  del(i) { const slots = this.state.slots.slice(); slots[i] = null; this.persist(slots); this.setState({ slots, slotOn: this.state.slotOn === i ? -1 : this.state.slotOn }); }
+  nearestD(target) { const cur = this.state.dAngle; return cur + ((((target - cur) % 360) + 540) % 360 - 180); }
+  dDialDown(e) {
+    const el = e.currentTarget, r = el.getBoundingClientRect();
+    const at = ev => { const a = Math.atan2(ev.clientX - (r.left + r.width / 2), -(ev.clientY - (r.top + r.height / 2))) * 180 / Math.PI; this.update({ dAngle: this.nearestD(a), dAnim: false }); };
+    at(e);
+    const up = () => { window.removeEventListener('pointermove', at); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', at); window.addEventListener('pointerup', up);
+  }
+  hexMix(a, b, t) { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), x = p(a), y = p(b); return 'rgb(' + x.map((v, i) => Math.round(v + (y[i] - v) * t)).join(',') + ')'; }
+  ring(cv, color, R, on, amp) {
+    if (!cv) return;
+    const dpr = Math.min(2, window.devicePixelRatio || 1), css = cv.clientWidth || 300, want = Math.round(css * dpr);
+    if (cv.width !== want) { cv.width = want; cv.height = want; }
+    const x = cv.getContext('2d'), W = cv.width, t = performance.now() / 1000, px = dpr * Math.max(1, css / 260);
+    const NB = 24;
+    const st = cv._st || (cv._st = { env: 0, pk: .05, bands: [new Float32Array(NB), new Float32Array(NB), new Float32Array(NB)] });
+    if (!this.spec) this.spec = new Uint8Array(512);
+    const target = new Float32Array(NB);
+    let rms = 0;
+    if (on && this.E && this.E.spectrum) {
+      this.E.spectrum(this.spec); rms = this.E.level();
+      for (let b = 0; b < NB; b++) {
+        const lo = Math.floor(2 * Math.pow(70, b / NB)), hi = Math.max(lo + 1, Math.floor(2 * Math.pow(70, (b + 1) / NB)));
+        let m = 0; for (let q = lo; q < hi; q++) m += this.spec[q]; target[b] = Math.pow(m / (hi - lo) / 255, 1.6);
+      }
     }
-  }
-  async togglePlay() {
-    const nfm = await this.ensureAudio();
-    if (nfm.isPlaying()) { nfm.stop(); this.paintLeds(-1); this.setState({ playing: false, playStep: -1 }); }
-    else { nfm.play(); this.setState({ playing: true }); }
-  }
-  async hitPad(i) {
-    if (!this._nfm) await this.ensureAudio();
-    this._nfm.pad(i);
-    const el = this._pads[i];
-    if (el) { el.style.color = '#e8c56a'; setTimeout(() => { el.style.color = 'rgba(247,242,232,.65)'; }, 140); }
-  }
-  setEclipse(v) { this.setState({ eclipse: v }); this._nfm && this._nfm.setEclipse(v); }
-  async tapMask(id) {
-    if (!this._nfm) await this.ensureAudio();
-    if (this._nfm.params[id].mute) {
-      this._nfm.setParam(id, 'mute', false);
-      if (!this._nfm.isPlaying()) this.togglePlay();
-      this.setState({ tick: this.state.tick + 1 });
-    } else this.setState({ drawer: this.state.drawer === id ? null : id });
-  }
-  bindDrag(getV, setV, label, fmt) {
-    return e => {
-      e.preventDefault();
-      const startY = e.clientY, startV = getV();
-      const move = ev => {
-        const fine = ev.shiftKey ? 0.25 : 1;
-        const v = Math.max(0, Math.min(1, startV + (startY - ev.clientY) / 160 * fine));
-        setV(v); this.setState({ drag: { label, text: fmt(v) } });
-      };
-      const up = () => { removeEventListener('pointermove', move); removeEventListener('pointerup', up); setTimeout(() => this.setState({ drag: null }), 700); };
-      addEventListener('pointermove', move); addEventListener('pointerup', up);
-    };
-  }
-  arc(v, accent) {
-    const a0 = -135, a1 = a0 + v * 270;
-    return 'conic-gradient(from 180deg, rgba(255,255,255,.06) 0deg ' + (a0 + 180) + 'deg, ' + accent + ' ' + (a0 + 180) + 'deg ' + (a1 + 180) + 'deg, rgba(255,255,255,.06) ' + (a1 + 180) + 'deg 315deg, transparent 315deg 360deg)';
-  }
-  startLoop() {
-    const draw = () => {
-      this._raf = requestAnimationFrame(draw);
-      const nfm = this._nfm; if (!nfm) return;
-      const bass = nfm.getLevel('rhythm') + nfm.getLevel('eclipse');
-      if (this._core) this._core.style.filter = 'brightness(' + (1 + Math.min(0.35, bass * 0.8)).toFixed(3) + ')';
-      if (this._coreGlow) this._coreGlow.style.opacity = (0.4 + Math.min(1.4, bass * 2.2)).toFixed(2);
-      for (const id in this._rings) {
-        const el = this._rings[id]; if (!el) continue;
-        const muted = nfm.params[id].mute;
-        const lv = muted ? 0 : Math.min(1, nfm.getLevel(id) * 2.6);
-        el.style.boxShadow = muted ? 'none' : '0 0 ' + (14 + lv * 34).toFixed(0) + 'px ' + this.ACCENTS[id] + Math.round(40 + lv * 60).toString(16);
+    st.pk = Math.max(rms, st.pk * .9985, .03);
+    const lvT = on ? Math.min(1, rms / st.pk) : 0;
+    st.env += (lvT - st.env) * (lvT > st.env ? .12 : .025);
+    const speeds = [.16, .08, .04];
+    st.bands.forEach((bd, k) => { for (let b = 0; b < NB; b++) bd[b] += (target[b] - bd[b]) * speeds[k]; });
+    const E = st.env;
+    const bandAt = (bd, a) => { let u = (a / (Math.PI * 2)) * 2; if (u > 1) u = 2 - u; const p = u * (NB - 1), i = Math.floor(p), f = p - i, s = .5 - .5 * Math.cos(f * Math.PI); return bd[i] * (1 - s) + bd[Math.min(NB - 1, i + 1)] * s; };
+    x.clearRect(0, 0, W, W); x.lineJoin = 'round';
+    [[0, .08, 0, 'fill', 0], [1.7, .9, 1.8 * px, 0, 0], [3.4, .55, 1.3 * px, 0, 1], [5.1, .32, 1 * px, 0, 2]].forEach(([ph, alpha, lw, mode, bi], k) => {
+      const bd = st.bands[bi], pts = [];
+      for (let i = 0; i < 72; i++) {
+        const a = i / 72 * Math.PI * 2;
+        const drift = Math.sin(a * 2 + t * .18 + ph) * .6 + Math.sin(a * 3 - t * .13 + ph * 1.3) * .4;
+        const r = W * R * (1 + .012 * Math.sin(t * .35 + ph) + drift * (.025 + E * .03) + bandAt(bd, a) * .34 * amp + E * .06 * amp + k * (.035 + E * .03));
+        pts.push([W / 2 + Math.cos(a - Math.PI / 2) * r, W / 2 + Math.sin(a - Math.PI / 2) * r]);
       }
-      for (const id in this._vu) {
-        const el = this._vu[id]; if (!el) continue;
-        const lv = nfm.params[id].mute ? 0 : Math.min(1, nfm.getLevel(id) * 2.6);
-        el.style.height = (lv * 100).toFixed(0) + '%';
-      }
-      const cv = this._fx, stage = this._field || this._stage;
-      if (cv && stage) {
-        const w = stage.clientWidth, h = stage.clientHeight;
-        if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
-        const cx = cv.getContext('2d');
-        cx.clearRect(0, 0, w, h);
-        const cyv = this.coreTopPct() / 100;
-        const kx = w / 2, ky = h * cyv;
-        // starfield warp: dust streaming outward from the core, speed rides the bass
-        if (!this._stars) this._stars = Array.from({ length: 110 }, () => ({ a: Math.random() * Math.PI * 2, d: Math.random() * Math.max(w, h) * 0.55 + 20, s: 0.4 + Math.random() * 0.8 }));
-        const warp = nfm.isPlaying() ? 0.6 + bass * 7 : 0.12;
-        const maxD = Math.max(w, h) * 0.75;
-        for (const st of this._stars) {
-          st.d += warp * st.s * (0.4 + st.d / maxD);
-          if (st.d > maxD) { st.d = 18 + Math.random() * 30; st.a = Math.random() * Math.PI * 2; }
-          const sx = kx + Math.cos(st.a) * st.d, sy = ky + Math.sin(st.a) * st.d * 0.86;
-          const al = Math.min(0.55, st.d / maxD * 0.8) * (0.5 + bass);
-          cx.fillStyle = 'rgba(232,197,106,' + al.toFixed(2) + ')';
-          const sz = st.d / maxD > 0.6 ? 1.6 : 1;
-          cx.fillRect(sx, sy, sz, sz);
-        }
-        // beat pulse rings expanding from the core
-        if (this._pulses && this._pulses.length) {
-          this._pulses = this._pulses.filter(p => p.a > 0.02);
-          for (const p of this._pulses) {
-            p.r += 3.5 + bass * 7; p.a *= 0.955;
-            cx.beginPath(); cx.ellipse(kx, ky, p.r, p.r * 0.86, 0, 0, Math.PI * 2);
-            cx.strokeStyle = 'rgba(212,164,55,' + p.a.toFixed(3) + ')'; cx.lineWidth = 1.2; cx.stroke();
-          }
-        }
-        for (const id in this._pos) {
-          if (nfm.params[id].mute) continue;
-          const p = this._pos[id];
-          const lv = Math.min(1, nfm.getLevel(id) * 2.4);
-          const g = cx.createLinearGradient(p.x * w / 100, p.y * h / 100, w / 2, h * cyv);
-          g.addColorStop(0, this.ACCENTS[id] + '00');
-          g.addColorStop(0.5, this.ACCENTS[id] + Math.round(24 + lv * 70).toString(16).padStart(2, '0'));
-          g.addColorStop(1, this.ACCENTS[id] + '00');
-          cx.strokeStyle = g; cx.lineWidth = 1;
-          cx.beginPath(); cx.moveTo(p.x * w / 100, p.y * h / 100); cx.lineTo(w / 2, h * cyv); cx.stroke();
-        }
-        if (nfm.getSpectrum) {
-          // Winamp-style spectrum bars w/ falling peak caps, rising from the console line
-          if (!this._spec) { this._spec = new Uint8Array(512); this._peaks = new Float32Array(48); this._scope = new Uint8Array(1024); }
-          nfm.getSpectrum(this._spec);
-          const N = 48, bw = w / N;
-          const maxH = Math.min(150, h * 0.3);
-          for (let i = 0; i < N; i++) {
-            // log-ish bin mapping so bass doesn't hog the left half
-            const b0 = Math.floor(Math.pow(i / N, 1.7) * 220), b1 = Math.max(b0 + 1, Math.floor(Math.pow((i + 1) / N, 1.7) * 220));
-            let v = 0; for (let b = b0; b < b1; b++) v = Math.max(v, this._spec[b]);
-            v /= 255;
-            const bh = v * v * maxH;
-            const x = i * bw + 1, y0 = h - bh;
-            if (bh > 1) {
-              const g2 = cx.createLinearGradient(0, h, 0, h - maxH);
-              g2.addColorStop(0, 'rgba(140,98,57,.28)'); g2.addColorStop(0.6, 'rgba(212,164,55,.5)'); g2.addColorStop(1, 'rgba(243,226,179,.85)');
-              cx.fillStyle = g2;
-              cx.fillRect(x, y0, bw - 2, bh);
-            }
-            const pk = Math.max(bh, (this._peaks[i] || 0) - maxH * 0.012); // gravity
-            this._peaks[i] = pk;
-            if (pk > 2) { cx.fillStyle = 'rgba(232,197,106,.9)'; cx.fillRect(x, h - pk - 2, bw - 2, 2); }
-          }
-          // circular oscilloscope ring around the core
-          if (this._core && nfm.isPlaying()) {
-            nfm.getScope(this._scope);
-            const r0 = this._core.getBoundingClientRect(), sr = stage.getBoundingClientRect();
-            const ccx = r0.left - sr.left + r0.width / 2, ccy = r0.top - sr.top + r0.height / 2;
-            const base = r0.width / 2 * 1.28, amp = r0.width / 2 * 0.34;
-            cx.beginPath();
-            for (let i = 0; i <= 128; i++) {
-              const a = (i / 128) * Math.PI * 2 - Math.PI / 2;
-              const s = (this._scope[Math.floor(i / 128 * 1023)] - 128) / 128;
-              const rr = base + s * amp;
-              const px = ccx + Math.cos(a) * rr, py = ccy + Math.sin(a) * rr;
-              i === 0 ? cx.moveTo(px, py) : cx.lineTo(px, py);
-            }
-            cx.closePath();
-            cx.strokeStyle = 'rgba(232,197,106,' + (0.25 + Math.min(0.5, bass)) + ')';
-            cx.lineWidth = 1.4;
-            cx.shadowColor = 'rgba(212,164,55,.8)'; cx.shadowBlur = 8;
-            cx.stroke();
-            cx.shadowBlur = 0;
-          }
-        }
-      }
-    };
-    draw();
+      x.beginPath();
+      for (let i = 0; i <= 72; i++) { const p = pts[i % 72], q = pts[(i + 1) % 72], mx = (p[0] + q[0]) / 2, my = (p[1] + q[1]) / 2; i ? x.quadraticCurveTo(p[0], p[1], mx, my) : x.moveTo(mx, my); }
+      x.closePath(); x.globalAlpha = alpha * (mode ? .7 + E * .6 : .7 + E * .3);
+      if (mode) { x.fillStyle = color; x.fill(); } else { x.strokeStyle = color; x.lineWidth = lw * (1 + E * .4); x.stroke(); }
+    });
+    x.globalAlpha = 1;
   }
-  coreTopPct() { return this.state.narrow ? 46 : 50; }
-  knob(engine, key, label, fmt, def) {
-    const nfm = this._nfm, acc = this.ACCENTS[engine];
-    const v = nfm ? nfm.params[engine][key] : 0.5;
-    const F = fmt || (x => Math.round(x * 100) + '%');
-    const set = x => { nfm && nfm.setParam(engine, key, x); this.setState({ tick: this.state.tick + 1 }); };
-    return {
-      label, d: 'clamp(58px,8vw,72px)',
-      pct: Math.round(v * 100), rot: -135 + v * 270,
-      arc: this.arc(v, acc), ind: acc,
-      down: this.bindDrag(() => nfm.params[engine][key], set, label, F),
-      reset: () => set(def != null ? def : 0.5),
-      wheel: e => { e.preventDefault(); set(Math.max(0, Math.min(1, nfm.params[engine][key] + (e.deltaY < 0 ? 0.02 : -0.02)))); },
-      key: e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); set(Math.max(0, Math.min(1, nfm.params[engine][key] + (e.key === 'ArrowUp' ? 0.02 : -0.02)))); } }
-    };
-  }
-  loadPatch(dir) {
-    if (!this._nfm || !this._mod) return;
-    const n = this._mod.PRESETS.length;
-    const i = ((this.state.patch.i + dir) % n + n) % n;
-    const pr = this._nfm.loadPreset(i);
-    this.setState({ patch: { i, num: pr.num, name: pr.name }, bpm: this._nfm.global.bpm, tick: this.state.tick + 1 });
+  draw() {
+    const s = this.state; this._fr = (this._fr || 0) + 1;
+    if (!s.on && this._fr % 2) return;
+    const c = this.blend(s.dAngle), col = this.hexMix(c.A.accent, c.B.accent, c.fr);
+    this.ring(this.dCv, col, .25, s.on, 1); this.ring(this.mCv, col, .25, s.on, 1);
   }
   renderVals() {
-    const S = this.state, nfm = this._nfm;
-    const ids = ['solar', 'lunar', 'rhythm', 'ancestor', 'eclipse'];
-    const layout = S.narrow
-      ? { solar: [50, 12], lunar: [15, 32], rhythm: [85, 32], ancestor: [20, 76], eclipse: [80, 76] }
-      : { solar: [50, 13], lunar: [25, 34], rhythm: [75, 34], ancestor: [30, 78], eclipse: [70, 78] };
-    this._pos = {};
-    const maskViews = ids.map(id => {
-      const acc = this.ACCENTS[id];
-      const muted = nfm ? nfm.params[id].mute : true;
-      this._pos[id] = { x: layout[id][0], y: layout[id][1] };
-      return {
-        name: id.toUpperCase(),
-        left: layout[id][0] + '%', top: layout[id][1] + '%',
-        size: S.narrow ? 'clamp(56px,16vw,74px)' : 'clamp(56px,12.5vh,92px)',
-        tap: () => this.tapMask(id),
-        aria: muted ? 'Awaken ' + id : 'Enter the ' + id + ' chamber',
-        pressed: muted ? 'false' : 'true',
-        border: muted ? 'rgba(255,255,255,.1)' : acc + '77',
-        ringRef: el => { this._rings[id] = el; },
-        sigil: this.SIGILS[id],
-        sigilFill: this.SIGIL_FILLS[id],
-        glyphColor: muted ? 'rgba(247,242,232,.35)' : acc,
-        imgOp: muted ? 0.55 : 1,
-        dot: muted ? 'rgba(247,242,232,.14)' : acc,
-        dotGlow: muted ? 'none' : '0 0 10px ' + acc,
-        nameColor: muted ? 'rgba(247,242,232,.4)' : acc,
-        nameGlow: muted ? 'transparent' : acc + '44'
-      };
-    });
-    const ledCells = Array.from({ length: 16 }, (_, i) => ({ ref: el => { this._leds[i] = el; }, gap: i % 4 === 3 && i < 15 ? '7px' : '0' }));
-    const chanViews = ids.map(id => {
-      const acc2 = this.ACCENTS[id];
-      const cm = nfm ? nfm.params[id].mute : true;
-      const lvl = nfm ? nfm.params[id].level : 0.7;
-      const setL = v => { nfm && nfm.setParam(id, 'level', v); this.setState({ tick: this.state.tick + 1 }); };
-      return {
-        name: id.toUpperCase(), accent: acc2,
-        pct: Math.round(lvl * 100), fill: Math.round(lvl * 100) + '%',
-        fillBg: 'linear-gradient(180deg,' + acc2 + '88,' + acc2 + '22)',
-        ariaFader: id + ' level',
-        down: this.bindDrag(() => (nfm ? nfm.params[id].level : 0.7), setL, id.toUpperCase() + ' LEVEL', v => Math.round(v * 100) + '%'),
-        wheel: e => { e.preventDefault(); nfm && setL(Math.max(0, Math.min(1, nfm.params[id].level + (e.deltaY < 0 ? 0.03 : -0.03)))); },
-        key: e => { if ((e.key === 'ArrowUp' || e.key === 'ArrowDown') && nfm) { e.preventDefault(); setL(Math.max(0, Math.min(1, nfm.params[id].level + (e.key === 'ArrowUp' ? 0.03 : -0.03)))); } },
-        vuRef: el => { this._vu[id] = el; },
-        muted: cm ? 'true' : 'false',
-        muteAria: (cm ? 'Awaken ' : 'Rest ') + id,
-        muteTap: async () => { const n2 = await this.ensureAudio(); n2.setParam(id, 'mute', !n2.params[id].mute); if (!n2.isPlaying()) this.togglePlay(); else this.setState({ tick: this.state.tick + 1 }); },
-        muteBg: cm ? 'rgba(247,242,232,.05)' : acc2,
-        muteGlow: cm ? 'none' : '0 0 10px ' + acc2 + '88',
-        openTap: () => this.setState({ drawer: S.drawer === id ? null : id }),
-        labelColor: cm ? 'rgba(247,242,232,.35)' : acc2
-      };
-    });
-    const drawer = S.drawer, isEng = drawer && ids.includes(drawer);
-    const acc = isEng ? this.ACCENTS[drawer] : '#d4a437';
-    let waveOpts = [], dKnobs = [], seqRows = [], lenOpts = [], pads = [];
-    if (isEng && nfm) {
-      const p = nfm.params[drawer];
-      const hz = v => { const f = 60 * Math.pow(300, v); return f >= 1000 ? (f / 1000).toFixed(1) + 'k' : Math.round(f) + ''; };
-      dKnobs = [
-        this.knob(drawer, 'cutoff', 'BRIGHTNESS', hz, 0.72),
-        this.knob(drawer, 'res', 'EDGE', null, 0.2),
-        this.knob(drawer, 'drive', 'HEAT', null, 0.1),
-        this.knob(drawer, 'sendA', 'SPACE', null, 0.3),
-        this.knob(drawer, 'sendB', 'ECHO', null, 0.2),
-        this.knob(drawer, 'level', 'LEVEL', null, 0.7)
-      ];
-      const waves = ['sine', 'triangle', 'sawtooth', 'square'];
-      const wl = { sine: 'PURE', triangle: 'SOFT', sawtooth: 'RAW', square: 'HOLLOW' };
-      waveOpts = drawer === 'rhythm' || drawer === 'ancestor' ? [] : waves.map(w => ({
-        name: wl[w], pick: () => { nfm.setParam(drawer, 'wave', w); this.setState({ tick: S.tick + 1 }); },
-        on: p.wave === w ? 'true' : 'false',
-        border: p.wave === w ? acc + '77' : 'rgba(255,255,255,.12)',
-        bg: p.wave === w ? 'rgba(212,164,55,.1)' : 'transparent',
-        color: p.wave === w ? acc : 'rgba(247,242,232,.5)'
-      }));
-      const seq = nfm.seq[drawer];
-      const laneNames = drawer === 'rhythm' && this._mod ? this._mod.RHYTHM_LANES : ['STEPS'];
-      const cur = S.playing ? (this._step || 0) % seq.length : -1;
-      seqRows = seq.lanes.map((lane, li) => ({
-        label: laneNames[li] || 'STEPS',
-        steps: lane.map((on, i) => {
-          const inLen = i < seq.length;
-          return {
-            tap: () => { nfm.toggleStep(drawer, li, i); this.setState({ tick: S.tick + 1 }); },
-            aria: (laneNames[li] || 'step') + ' ' + (i + 1), on: on ? 'true' : 'false',
-            gap: i % 4 === 3 && i < 15 ? '7px' : '0',
-            border: on ? acc + '88' : 'rgba(255,255,255,.09)',
-            bg: !inLen ? 'rgba(0,0,0,.45)' : on ? 'linear-gradient(180deg,' + acc + '66,' + acc + '26)' : 'linear-gradient(180deg,#14110e,#0a0806)',
-            glow: i === cur && inLen ? '0 0 10px ' + acc + '55, inset 0 1px 0 rgba(255,255,255,.1)' : 'inset 0 1px 0 rgba(255,255,255,.05)'
-          };
-        })
-      }));
-      lenOpts = [4, 8, 12, 16].map(n => ({
-        name: n + '', pick: () => { nfm.setSeqLength(drawer, n); this.setState({ tick: S.tick + 1 }); },
-        on: seq.length === n ? 'true' : 'false',
-        border: seq.length === n ? acc + '77' : 'rgba(255,255,255,.12)',
-        bg: seq.length === n ? 'rgba(212,164,55,.1)' : 'transparent',
-        color: seq.length === n ? acc : 'rgba(247,242,232,.45)'
-      }));
-    }
-    if (drawer === 'pads' && this._mod) {
-      pads = this._mod.PAD_DEFS.map((p, i) => ({
-        label: p.label, aria: 'Pad ' + p.label,
-        hit: () => this.hitPad(i),
-        ledRef: el => { this._pads[i] = el; }
-      }));
-    }
-    const xyDown = e => {
-      e.preventDefault();
-      const el = this._xy; if (!el) return;
-      const mv = ev => {
-        const r = el.getBoundingClientRect();
-        const x = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
-        const y = Math.max(0, Math.min(1, (ev.clientY - r.top) / r.height));
-        if (this._xyDot) { this._xyDot.style.left = (x * 100) + '%'; this._xyDot.style.top = (y * 100) + '%'; }
-        nfm && nfm.setXY(x, 1 - y);
-      };
-      mv(e);
-      const up = () => { removeEventListener('pointermove', mv); removeEventListener('pointerup', up); };
-      addEventListener('pointermove', mv); addEventListener('pointerup', up);
-    };
-    const pill = on => ({
-      border: on ? 'rgba(212,164,55,.65)' : 'rgba(247,242,232,.2)',
-      bg: on ? 'rgba(212,164,55,.12)' : 'rgba(10,8,6,.5)',
-      color: on ? '#e8c56a' : 'rgba(247,242,232,.6)'
-    });
-    const fp = pill(drawer === 'field'), pp = pill(drawer === 'pads');
+    const s = this.state, F = this.forms(), d = this.blend(s.dAngle), dColor = this.hexMix(d.A.accent, d.B.accent, d.fr), dwA = 1 - d.fr, dOn = s.on, beat = s.dMode === 'beat';
+    const desk = s.vw >= 1100 && s.vh >= 560, mob = !desk;
+    const mw = Math.min(s.vw - 32, 560), mPadPx = Math.max(16, Math.round((s.vw - 560) / 2));
+    const D = desk ? (beat ? 340 : 600) : Math.round(beat ? Math.min(mw * .62, 260) : Math.min(mw, 420)), ins = D * .13, Rr = D / 2 - ins;
+    const ks = desk ? (beat ? 68 : 110) : (beat ? Math.min(58, Math.floor((mw - 40) / 5)) : 84);
+    const kn = (k, label, lo, hi, fmt) => { const v = (s[k] - lo) / (hi - lo); return { label, val: fmt(s[k]), size: ks + 'px', rot: (-135 + v * 270) + 'deg', arc: 'conic-gradient(from -135deg, ' + dColor + ' 0 ' + (v * 270) + 'deg, rgba(247,242,232,.1) 0 270deg, rgba(0,0,0,0) 0)', down: e => this.knob(e, k, lo, hi) }; };
+    const pc = x => String(Math.round(x * 100)).padStart(2, '0');
+    const rgba = a => dColor.replace('rgb', 'rgba').replace(')', ',' + a + ')');
+    const laneDots = ['#f7f2e8', '#D4A437', '#53C7C0', '#B8A7D9', '#C9945C', '#D4B76A'];
+    const pat = s.pat || this.groove(), L = this.lanes();
+    const laneVals = l => { const muted = s.mutes[l]; return { name: L[l], dot: laneDots[l], muted, audition: () => this.E && this.E.hit(l),
+      mBorder: muted ? dColor : 'rgba(247,242,232,.16)', mBg: muted ? dColor : 'transparent', mInk: muted ? '#0a0806' : 'rgba(247,242,232,.55)',
+      mute: () => { const m = s.mutes.slice(); m[l] = !m[l]; this.update({ mutes: m }); }, lv: Math.round(s.laneLv[l] * 100) + '%', lvDown: e => this.laneDown(e, l) }; };
+    const stepBg = (v, i) => v === 2 ? dColor : v ? rgba(.5) : (i % 4 === 0 ? 'rgba(247,242,232,.08)' : 'rgba(247,242,232,.035)');
+    const sigSize = Math.round(Math.max(24, Math.min(44, D * .074)));
     return {
-      stageRef: el => { this._stage = el; }, fxRef: el => { this._fx = el; },
-      fieldRef: el => { this._field = el; },
-      consoleRef: el => { if (el && el !== this._console) { this._console = el; if (this._ro) { this._ro.disconnect(); this._ro.observe(el); } } },
-      fieldBot: S.consoleH + 'px',
-      patchNum: S.patch.num, patchName: S.patch.name,
-      riteDisp: S.narrow ? 'none' : 'flex',
-      riteRowDisp: S.narrow ? 'flex' : 'none',
-      conPadV: S.narrow ? '5px' : '8px',
-      divDisp: S.narrow ? 'none' : 'block',
-      bpColDisp: S.narrow ? 'none' : 'flex',
-      conGap: S.narrow ? '6px' : '9px',
-      faderH: S.narrow ? '42px' : '52px',
-      tBtn: S.narrow ? '38px' : '44px',
-      patchPrev: () => this.loadPatch(-1), patchNext: () => this.loadPatch(1),
-      bpm: S.bpm,
-      bpmDrag: this.bindDrag(() => (S.bpm - 90) / 60, v => { const b = Math.round(90 + v * 60); nfm && nfm.setBpm(b); this.setState({ bpm: b }); }, 'BPM', v => Math.round(90 + v * 60) + ''),
-      bpmWheel: e => { e.preventDefault(); const b = Math.max(90, Math.min(150, S.bpm + (e.deltaY < 0 ? 1 : -1))); nfm && nfm.setBpm(b); this.setState({ bpm: b }); },
-      bpmKey: e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); const b = Math.max(90, Math.min(150, S.bpm + (e.key === 'ArrowUp' ? 1 : -1))); nfm && nfm.setBpm(b); this.setState({ bpm: b }); } },
-      coreRef: el => { this._core = el; }, coreGlowRef: el => { this._coreGlow = el; },
-      coreTap: () => this.togglePlay(),
-      coreAria: S.playing ? 'Pause the ritual' : 'Begin the ritual',
-      coreTop: this.coreTopPct() + '%',
-      coreSize: S.narrow ? 'clamp(108px,30vw,134px)' : 'clamp(108px,22vh,164px)',
-      coreSpinDur: S.playing ? '9s' : '40s',
-      coreLabel: S.playing ? 'REST' : 'BEGIN',
-      maskViews, ledCells, chanViews,
-      transportTap: () => this.togglePlay(),
-      playGlyph: S.playing ? '■︎' : '▶︎',
-      playWord: S.playing ? 'REST' : 'AWAKEN',
-      eclPct: Math.round(S.eclipse * 100),
-      eclArc: this.arc(S.eclipse, '#e8c56a'), eclRot: -135 + S.eclipse * 270,
-      eclDown: this.bindDrag(() => this.state.eclipse, v => this.setEclipse(v), 'ECLIPSE', v => Math.round(v * 100) + '%'),
-      eclReset: () => this.setEclipse(0),
-      eclWheel: e => { e.preventDefault(); this.setEclipse(Math.max(0, Math.min(1, S.eclipse + (e.deltaY < 0 ? 0.04 : -0.04)))); },
-      eclKey: e => { if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); this.setEclipse(Math.max(0, Math.min(1, S.eclipse + (e.key === 'ArrowUp' ? 0.04 : -0.04)))); } },
-      fieldTap: () => this.setState({ drawer: drawer === 'field' ? null : 'field' }),
-      fieldOn: drawer === 'field' ? 'true' : 'false', fieldBorder: fp.border, fieldBg: fp.bg, fieldColor: fp.color,
-      padsTap: () => this.setState({ drawer: drawer === 'pads' ? null : 'pads' }),
-      padsOn: drawer === 'pads' ? 'true' : 'false', padsBorder: pp.border, padsBg: pp.bg, padsColor: pp.color,
-      hintText: S.drag ? S.drag.label + ' ' + S.drag.text : (S.playing ? 'TOUCH A GLOWING MASK TO ENTER ITS CHAMBER' : 'TOUCH THE GOLD CORE — THE RITUAL IS WAITING'),
-      hintColor: S.drag ? '#e8c56a' : 'rgba(247,242,232,.32)',
-      hintBot: (S.consoleH + 8) + 'px',
-      drawerOn: !!drawer,
-      dIsEngine: !!isEng, dIsPads: drawer === 'pads', dIsField: drawer === 'field',
-      dTitle: isEng ? drawer.toUpperCase() + ' — ITS CHAMBER' : drawer === 'pads' ? 'THE PADS — STRIKE FREELY' : 'THE FIELD — BALANCE THE ENERGIES',
-      dAccent: acc,
-      dSigilPath: isEng ? this.SIGILS[drawer] : '',
-      dSigilFill: isEng ? this.SIGIL_FILLS[drawer] : '',
-      dSigilDisp: isEng ? 'block' : 'none',
-      dSilence: () => { if (nfm && isEng) { nfm.setParam(drawer, 'mute', true); this.setState({ drawer: null, tick: S.tick + 1 }); } },
-      dClose: () => this.setState({ drawer: null }),
-      waveOpts, dKnobs, seqRows, lenOpts, pads,
-      xyRef: el => { this._xy = el; }, xyDotRef: el => { this._xyDot = el; }, xyDown,
-      ...this.tourVals(),
-      eclKnobRef: el => { this._eclKnob = el; },
-      padsBtnRef: el => { this._padsBtn = el; }
-    };
-  }
-  tourVals() {
-    const S = this.state;
-    const step = Math.max(0, S.tour);
-    let spot = { x: innerWidth / 2, y: innerHeight / 2, r: 90 };
-    if (S.tour >= 0) {
-      const tEls = [this._core, this._rings.solar && this._rings.solar.parentElement, this._eclKnob, this._padsBtn];
-      const el = tEls[S.tour];
-      if (el) { const r = el.getBoundingClientRect(); spot = { x: r.left + r.width / 2, y: r.top + r.height / 2, r: Math.max(r.width, r.height) / 2 + 12 }; }
-    }
-    const cardW = Math.min(340, innerWidth - 28);
-    const cardLeft = Math.max(14, Math.min(spot.x - cardW / 2, innerWidth - 14 - cardW));
-    const cardH = this._tourCard ? this._tourCard.offsetHeight : 230;
-    const spaceBelow = innerHeight - (spot.y + spot.r + 18);
-    const spaceAbove = spot.y - spot.r - 18;
-    let cardTop;
-    if (spaceBelow >= cardH + 14) cardTop = spot.y + spot.r + 18;
-    else if (spaceAbove >= cardH + 14) cardTop = spot.y - spot.r - 18 - cardH;
-    else cardTop = Math.max(14, Math.min(innerHeight - cardH - 14, spot.y - cardH / 2)); // no room either side: clamp on-screen
-    const g = this.TOUR[step].g;
-    return {
-      tourOn: S.tour >= 0,
-      tourOpen: () => this.setState({ tour: 0, drawer: null }),
-      tourCardRef: el => { if (el) { this._tourCard = el; if (!this._tourMeasured) { this._tourMeasured = true; requestAnimationFrame(() => this.forceUpdate()); } } },
-      spotX: spot.x.toFixed(0) + 'px', spotY: spot.y.toFixed(0) + 'px', spotD: (spot.r * 2).toFixed(0) + 'px',
-      tapDisp: g === 'tap' ? 'block' : 'none', dragDisp: g === 'drag' ? 'block' : 'none',
-      cardLeft: cardLeft.toFixed(0) + 'px', cardW: cardW + 'px',
-      cardTop: cardTop.toFixed(0) + 'px',
-      cardBottom: 'auto',
-      tourStepNum: (step + 1) + '',
-      tourTitle: this.TOUR[step].t,
-      tourBody: this.TOUR[step].b,
-      tourBtn: S.tour === 3 ? 'BEGIN' : 'NEXT',
-      tourDots: this.TOUR.map((_, i) => ({ bg: i === S.tour ? '#d4a437' : 'rgba(247,242,232,.18)' })),
-      tourNext: () => { if (S.tour >= 3) this.endTour(true); else this.setState({ tour: S.tour + 1 }); },
-      tourSkip: () => this.endTour(false)
+      mPad: mPadPx + 'px', mPadNeg: '-' + mPadPx + 'px',
+      desk, mob, dScale: Math.min(s.vw / 1480, s.vh / 860, 1.2).toFixed(4),
+      dCvRef: el => { this.dCv = el; }, mCvRef: el => { this.mCv = el; }, dPhRef: el => { this.ph = el; }, mOvPhRef: el => { this.ovPh = el; },
+      engageD: () => this.engage(), dDialDown: e => this.dDialDown(e), stopProp: e => e.stopPropagation(),
+      dLed: dOn ? dColor : 'rgba(247,242,232,.18)', dColor, dBtnBg: dOn ? 'rgba(247,242,232,.08)' : 'transparent',
+      dWord: dOn ? (beat ? 'STOP' : 'REST') : (beat ? 'PLAY' : 'LISTEN'),
+      dModes: [['drift', 'DRIFT'], ['beat', 'BEAT']].map(([id, label]) => ({ label, on: s.dMode === id, bg: s.dMode === id ? 'rgba(247,242,232,.12)' : 'transparent', ink: s.dMode === id ? '#f7f2e8' : 'rgba(247,242,232,.5)', pick: () => this.setMode(id) })),
+      dIsDrift: !beat, dIsBeat: beat,
+      dD: D + 'px', dInset: ins + 'px', dCvSize: (D * .64) + 'px', dCvPos: (D * .18) + 'px', dCore: Math.max(56, Math.round(D * .14)) + 'px',
+      dTicks: Array.from({ length: 60 }, (_, i) => ({ left: (D / 2 - .5) + 'px', origin: '0.5px ' + Rr + 'px', rot: (i * 6) + 'deg', h: i % 12 === 0 ? '14px' : '6px', c: i % 12 === 0 ? 'rgba(247,242,232,.5)' : 'rgba(247,242,232,.16)' })),
+      dSigils: F.map((f, k) => { const a = (k * 72 - 90) * Math.PI / 180, w = f.id === d.A.id ? dwA : f.id === d.B.id ? d.fr : 0, rr = Rr + ins * .62;
+        return { name: f.name, imgRef: f.sigRef, size: sigSize + 'px', nameDisp: D >= 420 ? 'block' : 'none', x: (D / 2 + rr * Math.cos(a)).toFixed(1) + 'px', y: (D / 2 + rr * Math.sin(a)).toFixed(1) + 'px', op: (.3 + .7 * w).toFixed(2), pick: () => this.update({ dAngle: this.nearestD(k * 72), dAnim: true }) }; }),
+      dRot: s.dAngle + 'deg', dTrans: s.dAnim ? 'transform 1.4s cubic-bezier(.3,.7,.2,1)' : 'none',
+      dRead: [{ f: d.A, w: dwA }, { f: d.B, w: d.fr }].sort((x, y) => y.w - x.w).map(r => ({ name: r.f.name, accent: r.f.accent, pct: Math.round(r.w * 100) + '%', w: (r.w * 100).toFixed(1) + '%' })),
+      dDom: (d.fr < .5 ? d.A : d.B).name,
+      dKnobs: beat ? [kn('dBpm', 'TEMPO', 90, 140, v => v + (desk ? ' BPM' : '')), kn('dSwing', 'SWING', 0, .3, v => pc(v / .3)), kn('dMix', 'MIX', 0, 1, v => desk ? (v < .5 ? 'BATH ' + pc(1 - v) : 'DRUM ' + pc(v)) : pc(v)), kn('dDepth', 'DEPTH', 0, 1, pc), kn('dSpace', 'SPACE', 0, 1, pc)]
+        : [kn('dDepth', 'DEPTH', 0, 1, pc), kn('dBreath', 'BREATH', 0, 1, pc), kn('dSpace', 'SPACE', 0, 1, pc)],
+      dRows: pat.map((row, l) => ({ ...laneVals(l), ink: s.mutes[l] ? 'rgba(247,242,232,.3)' : 'rgba(247,242,232,.7)', op: s.mutes[l] ? .35 : 1,
+        steps: row.map((v, i) => ({ on: !!v, aria: L[l] + ' step ' + (i + 1), ml: i && i % 4 === 0 ? '10px' : '0px', op: i < s.dLen ? 1 : .25, acc: v === 2 ? .7 : 0,
+          bg: stepBg(v, i), border: v ? dColor : 'rgba(247,242,232,.07)', glow: v === 2 ? '0 0 14px ' + rgba(.4) : 'none',
+          down: e => { e.preventDefault(); if (e.target.releasePointerCapture) try { e.target.releasePointerCapture(e.pointerId); } catch (x) {} const nv = (v + 1) % 3; this.painting = { v: nv }; this.paint(l, i, nv); },
+          enter: () => { if (this.painting && this.state.pat[l][i] !== this.painting.v) this.paint(l, i, this.painting.v); } })) })),
+      mLanes: L.map((name, l) => { const on = l === s.lane; return { name, dot: laneDots[l], on, border: on ? dColor : 'rgba(247,242,232,.14)', bg: on ? 'rgba(247,242,232,.1)' : 'transparent', ink: s.mutes[l] ? 'rgba(247,242,232,.35)' : (on ? '#f7f2e8' : 'rgba(247,242,232,.65)'), strike: s.mutes[l] ? 'line-through' : 'none', pick: () => this.setState({ lane: l }) }; }),
+      mLane: laneVals(s.lane),
+      mPads: pat[s.lane].map((v, i) => ({ on: !!v, num: String(i + 1).padStart(2, '0'), aria: L[s.lane] + ' step ' + (i + 1), acc: v === 2 ? .75 : 0, op: i < s.dLen ? 1 : .25,
+        bg: stepBg(v, i), border: v ? dColor : 'rgba(247,242,232,.09)', glow: v === 2 ? '0 0 18px ' + rgba(.4) : 'none', numInk: v ? 'rgba(10,8,6,.7)' : 'rgba(247,242,232,.35)',
+        ref: el => { this.padEls[i] = el; }, tap: () => this.paint(s.lane, i, (v + 1) % 3) })),
+      mOverview: pat.map((row, l) => ({ name: L[l], op: l === s.lane ? 1 : (s.mutes[l] ? .25 : .6), pick: () => this.setState({ lane: l }),
+        cells: row.map((v, i) => ({ bg: v === 2 ? dColor : v ? rgba(.55) : (i >= s.dLen ? 'rgba(247,242,232,.02)' : 'rgba(247,242,232,.07)') })) })),
+      mNow: beat ? (d.fr < .5 ? d.A : d.B).name + ' · ' + s.dKit.toUpperCase() : (dwA >= d.fr ? d.A.name : d.B.name),
+      mSub: beat ? s.dLen + ' STEPS · SWING ' + pc(s.dSwing / .3) : Math.round(Math.max(dwA, d.fr) * 100) + '% · ' + (dOn ? 'DRIFTING' : 'TAP TO LISTEN'),
+      dBpm: s.dBpm, bpmDown: () => this.update({ dBpm: Math.max(90, s.dBpm - 1) }), bpmUp: () => this.update({ dBpm: Math.min(140, s.dBpm + 1) }),
+      dKits: [['organic', 'ORGANIC'], ['deep', 'DEEP'], ['tech', 'TECH']].map(([id, label]) => ({ label, on: s.dKit === id, bg: s.dKit === id ? 'rgba(247,242,232,.12)' : 'transparent', ink: s.dKit === id ? '#f7f2e8' : 'rgba(247,242,232,.5)', pick: () => this.update({ dKit: id }) })),
+      dLens: [8, 12, 16].map(n => ({ label: String(n), on: s.dLen === n, bg: s.dLen === n ? 'rgba(247,242,232,.12)' : 'transparent', ink: s.dLen === n ? '#f7f2e8' : 'rgba(247,242,232,.5)', pick: () => this.update({ dLen: n }) })),
+      dVary: () => this.update({ pat: this.vary(), slotOn: -1 }),
+      dReset: () => this.update({ pat: this.groove(), slotOn: -1 }),
+      dClear: () => this.update({ pat: this.groove().map(r => r.map(() => 0)), slotOn: -1 }),
+      dSave: () => this.save(),
+      dSlots: s.slots.map((b, i) => ({ filled: !!b, top: b ? String(i + 1).padStart(2, '0') + ' · ' + b.form : String(i + 1).padStart(2, '0'), sub: b ? b.bpm + ' BPM · ' + (b.kit || 'organic').toUpperCase() : 'EMPTY · TAP TO SAVE', title: b ? 'Load beat' : 'Save here',
+        ink: b ? '#f7f2e8' : 'rgba(247,242,232,.35)', bstyle: b ? 'solid' : 'dashed', border: i === s.slotOn ? dColor : (b ? 'rgba(247,242,232,.16)' : 'rgba(247,242,232,.12)'), bg: i === s.slotOn ? 'rgba(247,242,232,.07)' : 'rgba(0,0,0,.25)',
+        click: () => b ? this.load(i) : this.saveTo(i), del: () => this.del(i) }))
     };
   }
 }
